@@ -9,27 +9,13 @@ namespace MazesAndMinotaurs.Test
 {
 	class Program
 	{
-		private class Terminal : ITerminal<char, ConsoleColor>
+		private class Terminal : AbstractTerminal<char, ConsoleColor>
 		{
-			public ConsoleColor Background { get; set; }
-
-			public ConsoleColor Foreground { get; set; }
-
 			public int OffsetX { get; set; }
 
 			public int OffsetY { get; set; }
 
-			public void Draw(int x, int y, char glyph)
-			{
-				Draw(x, y, glyph, Foreground, Background);
-			}
-
-			public void Draw(int x, int y, char glyph, ConsoleColor foreground)
-			{
-				Draw(x, y, glyph, foreground, Background);
-			}
-
-			public void Draw(int x, int y, char glyph, ConsoleColor foreground, ConsoleColor background)
+			public override void Draw(int x, int y, char glyph, ConsoleColor foreground, ConsoleColor background)
 			{
 				Console.SetCursorPosition(OffsetX + x, OffsetY + y);
 				Console.BackgroundColor = background;
@@ -43,23 +29,27 @@ namespace MazesAndMinotaurs.Test
 			private int _playerX = 1;
 			private int _playerY = 1;
 			private IEnumerable<Tuple<int, int>> _walls;
-			private ITerminal<char, ConsoleColor> _terminal;
+			private BufferTerminal<char, ConsoleColor> _terminal;
+			private HashSet<Tuple<int, int>> _knownPoints = new HashSet<Tuple<int, int>>();
 
 			public Game(IEnumerable<Tuple<int, int>> walls, ITerminal<char, ConsoleColor> terminal)
 			{
 				_walls = walls;
-				_terminal = terminal;
+				_terminal = new BufferTerminal<char, ConsoleColor>(terminal);
 				var position = Tuple.Create(1, 1);
+
 				if (_walls.Any(w => w.Equals(position)))
 				{
 					throw new ArgumentException(nameof(walls));
 				}
+
+				Visit();
 				Draw();
 			}
 
 			public void NotifyKeyPressed(ConsoleKey key)
 			{
-				switch(key)
+				switch (key)
 				{
 					case ConsoleKey.UpArrow:
 						TryChangePlayerPosition(_playerX, _playerY - 1);
@@ -78,8 +68,20 @@ namespace MazesAndMinotaurs.Test
 
 			private void Draw()
 			{
+				_terminal.FillRectangle(0, 0, 21, 21, '░', ConsoleColor.White, ConsoleColor.Black);
+				foreach (var point in _knownPoints)
+				{
+					if (_walls.Any(w => w.Equals(point)))
+					{
+						_terminal.Draw(point.Item1, point.Item2, '#', ConsoleColor.Black, ConsoleColor.White);
+					}
+					else
+					{
+						_terminal.Draw(point.Item1, point.Item2, ' ');
+					}
+				}
 				_terminal.Draw(_playerX, _playerY, '@', ConsoleColor.Red);
-				_terminal.DrawWalls(_walls, '#', ConsoleColor.Black, ConsoleColor.White);
+				_terminal.Flush();
 			}
 
 			private void TryChangePlayerPosition(int x, int y)
@@ -90,7 +92,19 @@ namespace MazesAndMinotaurs.Test
 					_terminal.Draw(_playerX, _playerY, ' ');
 					_playerX = x;
 					_playerY = y;
+					Visit();
 					Draw();
+				}
+			}
+
+			private void Visit()
+			{
+				for (var x = _playerX - 1; x <= _playerX + 1; x++)
+				{
+					for (var y = _playerY - 1; y <= _playerY + 1; y++)
+					{
+						_knownPoints.Add(Tuple.Create(x, y));
+					}
 				}
 			}
 		}
@@ -110,3 +124,4 @@ namespace MazesAndMinotaurs.Test
 		}
 	}
 }
+

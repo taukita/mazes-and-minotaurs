@@ -34,10 +34,22 @@ namespace MazesAndMinotaurs.Core
 		public static void DrawRectangle<TGlyph, TTerminalColor>(this ITerminal<TGlyph, TTerminalColor> terminal,
 			int left, int top, int width, int height, TGlyph glyph, TTerminalColor foreground, TTerminalColor background)
 		{
-			terminal.DrawLine(left, top, left + width, top, glyph, foreground, background);
-			terminal.DrawLine(left + width, top, left + width, top + height, glyph, foreground, background);
-			terminal.DrawLine(left + width, top + height, left, top + height, glyph, foreground, background);
-			terminal.DrawLine(left, top + height, left, top, glyph, foreground, background);
+			terminal.DrawLine(left, top, left + width - 1, top, glyph, foreground, background);
+			terminal.DrawLine(left + width - 1, top, left + width - 1, top + height - 1, glyph, foreground, background);
+			terminal.DrawLine(left + width - 1, top + height - 1, left, top + height - 1, glyph, foreground, background);
+			terminal.DrawLine(left, top + height - 1, left, top, glyph, foreground, background);
+		}
+
+		public static void FillRectangle<TGlyph, TTerminalColor>(this ITerminal<TGlyph, TTerminalColor> terminal,
+			int left, int top, int width, int height, TGlyph glyph, TTerminalColor foreground, TTerminalColor background)
+		{
+			for (var x = left; x < left + width; x++)
+			{
+				for (var y = top; y < top + height; y++)
+				{
+					terminal.Draw(x, y, glyph, foreground, background);
+				}
+			}
 		}
 
 		public static void DrawWalls<TGlyph, TTerminalColor>(this ITerminal<TGlyph, TTerminalColor> terminal,

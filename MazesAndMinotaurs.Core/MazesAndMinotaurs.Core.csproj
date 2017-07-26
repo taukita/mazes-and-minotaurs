@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractTerminal.cs" />
+    <Compile Include="BufferTerminal.cs" />
     <Compile Include="Generators.cs" />
     <Compile Include="IGenerator.cs" />
     <Compile Include="ITerminal.cs" />
