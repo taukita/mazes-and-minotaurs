@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazesAndMinotaurs.Core", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazesAndMinotaurs.Test", "MazesAndMinotaurs.Test\MazesAndMinotaurs.Test.csproj", "{713F5586-9C57-43B6-A42B-E34B891D5C25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazesAndMinotaurs.ConsoleTarget", "MazesAndMinotaurs.ConsoleTarget\MazesAndMinotaurs.ConsoleTarget.csproj", "{D3B0720E-32EA-40B5-A5AA-B60F26A10150}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{713F5586-9C57-43B6-A42B-E34B891D5C25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{713F5586-9C57-43B6-A42B-E34B891D5C25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{713F5586-9C57-43B6-A42B-E34B891D5C25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3B0720E-32EA-40B5-A5AA-B60F26A10150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3B0720E-32EA-40B5-A5AA-B60F26A10150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3B0720E-32EA-40B5-A5AA-B60F26A10150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3B0720E-32EA-40B5-A5AA-B60F26A10150}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

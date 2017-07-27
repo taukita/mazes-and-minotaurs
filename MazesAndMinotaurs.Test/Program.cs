@@ -1,4 +1,5 @@
-﻿using MazesAndMinotaurs.Core;
+﻿using MazesAndMinotaurs.ConsoleTarget;
+using MazesAndMinotaurs.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +10,6 @@ namespace MazesAndMinotaurs.Test
 {
 	class Program
 	{
-		private class Terminal : AbstractTerminal<char, ConsoleColor>
-		{
-			public int OffsetX { get; set; }
-
-			public int OffsetY { get; set; }
-
-			public override void Draw(int x, int y, char glyph, ConsoleColor foreground, ConsoleColor background)
-			{
-				Console.SetCursorPosition(OffsetX + x, OffsetY + y);
-				Console.BackgroundColor = background;
-				Console.ForegroundColor = foreground;
-				Console.Write(glyph);
-			}
-		}
-
 		private class Game
 		{
 			private int _playerX = 1;
@@ -113,7 +99,7 @@ namespace MazesAndMinotaurs.Test
 		{
 			Console.CursorVisible = false;
 
-			var t = new Terminal { OffsetX = 1, OffsetY = 1 };
+			var t = new ConsoleTerminal { OffsetX = 1, OffsetY = 1 };
 			var walls = Generators.RacketMazeGenerator.Generate(10, 10);
 			var game = new Game(walls, t);
 			ConsoleKey k;
