@@ -17,6 +17,11 @@ namespace MazesAndMinotaurs.Core
 			_terminal = terminal;
 		}
 
+		public override void Clear(int x, int y)
+		{
+			_new.Remove(Tuple.Create(x, y));
+		}
+
 		public override void Draw(int x, int y, TGlyph glyph, TTerminalColor foreground, TTerminalColor background)
 		{
 			_new[Tuple.Create(x, y)] = Tuple.Create(glyph, foreground, background);
@@ -24,6 +29,13 @@ namespace MazesAndMinotaurs.Core
 
 		public void Flush()
 		{
+			foreach (var pair in _old)
+			{
+				if (!_new.ContainsKey(pair.Key))
+				{
+					_terminal.Clear(pair.Key.Item1, pair.Key.Item2);
+				}
+			}
 			foreach (var pair in _new)
 			{
 				if (_old.ContainsKey(pair.Key) && _old[pair.Key].Equals(pair.Value))

@@ -42,8 +42,11 @@
   <ItemGroup>
     <Compile Include="ConsoleTerminal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ui\App.cs" />
     <Compile Include="Ui\BorderControl.cs" />
     <Compile Include="Ui\Control.cs" />
+    <Compile Include="Ui\KeyPressedResult.cs" />
+    <Compile Include="Ui\Menu.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MazesAndMinotaurs.Core\MazesAndMinotaurs.Core.csproj">

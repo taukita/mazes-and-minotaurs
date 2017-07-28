@@ -13,6 +13,14 @@ namespace MazesAndMinotaurs.ConsoleTarget
 
 		public int OffsetY { get; set; }
 
+		public override void Clear(int x, int y)
+		{
+			Console.SetCursorPosition(OffsetX + x, OffsetY + y);
+			Console.BackgroundColor = Background;
+			Console.ForegroundColor = Foreground;
+			Console.Write(' ');
+		}
+
 		public override void Draw(int x, int y, char glyph, ConsoleColor foreground, ConsoleColor background)
 		{
 			Console.SetCursorPosition(OffsetX + x, OffsetY + y);

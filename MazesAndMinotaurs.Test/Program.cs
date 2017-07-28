@@ -1,4 +1,5 @@
 ﻿using MazesAndMinotaurs.ConsoleTarget;
+using MazesAndMinotaurs.ConsoleTarget.Ui;
 using MazesAndMinotaurs.Core;
 using System;
 using System.Collections.Generic;
@@ -107,10 +108,82 @@ namespace MazesAndMinotaurs.Test
 			}
 		}
 
+		class TestContainerControl : Control
+		{
+			private Control _focused;
+
+			public List<Control> Controls { get; } = new List<Control>();
+
+			public override void Draw(ITerminal<char, ConsoleColor> terminal)
+			{
+				_focused.Draw(terminal);
+			}
+
+			public override void Focus()
+			{
+				base.Focus();
+				Controls[0].Focus();
+				_focused = Controls[0];
+			}
+
+			public override KeyPressedResult NotifyKeyPressed(ConsoleKey key)
+			{
+				var kpr = _focused.NotifyKeyPressed(key);
+				if (kpr == KeyPressedResult.Next || kpr == KeyPressedResult.Prev)
+				{
+					var index = Controls.IndexOf(_focused);
+					index += kpr == KeyPressedResult.Next ? 1 : -1;
+					if (index >= 0 && index < Controls.Count)
+					{
+						_focused = Controls[index];
+						_focused.Focus();
+					}					
+					return KeyPressedResult.DoNothing;
+				}
+
+				if (kpr == KeyPressedResult.Unfocus)
+				{
+					_focused = null;
+					IsFocused = false;
+					return KeyPressedResult.Unfocus;
+				}
+
+				return KeyPressedResult.DoNothing;
+			}
+		}
+
 		static void Main(string[] args)
 		{
 			Console.CursorVisible = false;
 
+			var menu1 = new Menu(new List<string> { "Следующее меню", "Ничего" });
+			menu1.Left = 1;
+			menu1.Top = 1;
+			menu1.Width = 50;
+			menu1.Height = 10;
+
+			menu1.OnSelect += (m, i) => i == "Следующее меню" ? KeyPressedResult.Next : KeyPressedResult.DoNothing;
+
+			var menu2 = new Menu(new List<string> { "Предыдущее меню", "Ничего", "Ничего" });
+			menu2.Left = 1;
+			menu2.Top = 1;
+			menu2.Width = 50;
+			menu2.Height = 10;
+
+			menu2.OnSelect += (m, i) => i == "Предыдущее меню" ? KeyPressedResult.Prev : KeyPressedResult.DoNothing;
+
+			var tcc = new TestContainerControl();
+			tcc.Controls.Add(menu1);
+			tcc.Controls.Add(menu2);
+
+			var app = new App(new Control[] {
+				tcc
+			});
+			app.Run();
+		}
+
+		static void RunGame()
+		{
 			var t = new ConsoleTerminal { OffsetX = 1, OffsetY = 1 };
 			var walls = Generators.RacketMazeGenerator.Generate(10, 10);
 			var game = new Game(walls, t);
@@ -119,6 +192,31 @@ namespace MazesAndMinotaurs.Test
 			{
 				game.NotifyKeyPressed(k);
 			}
+		}
+
+		static void RunTestApp()
+		{
+			var menu1 = new Menu(new List<string> { "item 1", "item 2" });
+			menu1.Left = 25;
+			menu1.Top = 1;
+			menu1.Width = 10;
+			menu1.Height = 10;
+
+			var menu2 = new Menu(new List<string> { "item 1", "item 2", "item 3" });
+			menu2.Left = 36;
+			menu2.Top = 1;
+			menu2.Width = 10;
+			menu2.Height = 10;
+
+			var app = new App(new Control[] {
+				new BorderControl { Left = 1, Top = 1, Width = 3, Height = 3 },
+				new BorderControl { Left = 1, Top = 5, Width = 3, Height = 3 },
+				new BorderControl { Left = 5, Top = 5, Width = 3, Height = 3 },
+				new BorderControl { Left = 5, Top = 1, Width = 3, Height = 3 },
+				menu1,
+				menu2
+			});
+			app.Run();
 		}
 	}
 }

@@ -9,26 +9,29 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 {
 	public class BorderControl : Control
 	{
-		public BorderControl(ITerminal<char, ConsoleColor> terminal) : base(terminal)
+		public BorderControl()
 		{
 			Glyph = '#';
 			Background = ConsoleColor.Black;
 			Foreground = ConsoleColor.White;
+
+			FocusedBackground = ConsoleColor.White;
+			FocusedForeground = ConsoleColor.Black;
 		}
 
 		public char Glyph { get; set; }
+
 		public ConsoleColor Background { get; set; }
 		public ConsoleColor Foreground { get; set; }
 
-		public override bool IsFocused => false;
+		public ConsoleColor FocusedBackground { get; set; }
+		public ConsoleColor FocusedForeground { get; set; }
 
-		public override void Draw()
+		public override void Draw(ITerminal<char, ConsoleColor> terminal)
 		{
-			Terminal.DrawRectangle(Left, Top, Width, Height, Glyph, Foreground, Background);
-		}
-
-		public override void Focus()
-		{
+			terminal.DrawRectangle(Left, Top, Width, Height, Glyph,
+				IsFocused ? FocusedForeground : Foreground,
+				IsFocused ? FocusedBackground : Background);
 		}
 	}
 }

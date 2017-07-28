@@ -12,6 +12,8 @@ namespace MazesAndMinotaurs.Core
 
 		public TTerminalColor Foreground { get; set; }
 
+		public abstract void Clear(int x, int y);
+
 		public void Draw(int x, int y, TGlyph glyph)
 		{
 			Draw(x, y, glyph, Foreground, Background);

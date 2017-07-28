@@ -9,20 +9,32 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 {
 	public abstract class Control
 	{
-		protected Control(ITerminal<char, ConsoleColor> terminal)
-		{
-			Terminal = terminal;
-		}
-
-		public ITerminal<char, ConsoleColor> Terminal { get; }
-
 		public int Left { get; set; }
 		public int Top { get; set; }
 		public int Width { get; set; }
 		public int Height { get; set; }
 
-		public abstract bool IsFocused { get; }
-		public abstract void Focus();
-		public abstract void Draw();
+		public bool IsFocused { get; protected set; }
+		public virtual void Focus()
+		{
+			IsFocused = true;
+		}
+		public abstract void Draw(ITerminal<char, ConsoleColor> terminal);
+		public virtual KeyPressedResult NotifyKeyPressed(ConsoleKey key)
+		{
+			if (key == ConsoleKey.Escape)
+			{
+				IsFocused = false;
+				return KeyPressedResult.Unfocus;
+			}
+
+			if (key == ConsoleKey.Tab)
+			{
+				IsFocused = false;
+				return KeyPressedResult.Next;
+			}
+
+			return KeyPressedResult.DoNothing;
+		}
 	}
 }
