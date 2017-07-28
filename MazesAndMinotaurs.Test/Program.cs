@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MazesAndMinotaurs.ConsoleTarget.Ui.Events;
 
 namespace MazesAndMinotaurs.Test
 {
@@ -48,26 +49,22 @@ namespace MazesAndMinotaurs.Test
 				terminal.Draw(_playerX, _playerY, '@', ConsoleColor.Red);
 			}
 
-			public override KeyPressedResult NotifyKeyPressed(ConsoleKey key)
+			protected override void KeyPressed(KeyPressedEventArgs args)
 			{
-				switch (key)
+				switch (args.Key)
 				{
 					case ConsoleKey.UpArrow:
 						TryChangePlayerPosition(_playerX, _playerY - 1);
-						return KeyPressedResult.DoNothing;
+						break;
 					case ConsoleKey.LeftArrow:
 						TryChangePlayerPosition(_playerX - 1, _playerY);
-						return KeyPressedResult.DoNothing;
+						break;
 					case ConsoleKey.DownArrow:
 						TryChangePlayerPosition(_playerX, _playerY + 1);
-						return KeyPressedResult.DoNothing;
+						break;
 					case ConsoleKey.RightArrow:
 						TryChangePlayerPosition(_playerX + 1, _playerY);
-						return KeyPressedResult.DoNothing;
-					case ConsoleKey.Escape:
-						return KeyPressedResult.Prev;
-					default:
-						return base.NotifyKeyPressed(key);
+						break;
 				}
 			}
 
@@ -113,20 +110,38 @@ namespace MazesAndMinotaurs.Test
 					switch (i)
 					{
 						case "Играть":
-							return KeyPressedResult.Next;
+							pages.Page = 1;
+							break;
 						case "Выйти":
-							return KeyPressedResult.Unfocus;
+							pages.IsFocused = false;
+							break;
 						case "Тестировать":
 							pages.Page = 2;
-							return KeyPressedResult.DoNothing;
-						default:
-							return KeyPressedResult.DoNothing;
+							break;
 					}
 				};
-			
+
+			var game = new GameControl(Generators.RacketMazeGenerator.Generate(10, 10));
+			game.OnKeyPressed += (g, a) =>
+				{
+					if (a.Key == ConsoleKey.Escape)
+					{
+						pages.Page = 0;
+					}
+				};
+
+			var canvas = CreateTestCanvas();
+			canvas.OnKeyPressed += (g, a) =>
+				{
+					if (a.Key == ConsoleKey.Escape)
+					{
+						pages.Page = 0;
+					}
+				};
+
 			pages.Controls.Add(mainMenu);
-			pages.Controls.Add(new GameControl(Generators.RacketMazeGenerator.Generate(10, 10)));
-			pages.Controls.Add(CreateTestCanvas());
+			pages.Controls.Add(game);
+			pages.Controls.Add(canvas);
 
 			var app = new App(pages);
 

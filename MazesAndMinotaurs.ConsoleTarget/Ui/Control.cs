@@ -1,9 +1,6 @@
-﻿using MazesAndMinotaurs.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using MazesAndMinotaurs.ConsoleTarget.Ui.Events;
+using MazesAndMinotaurs.Core;
 
 namespace MazesAndMinotaurs.ConsoleTarget.Ui
 {
@@ -11,6 +8,8 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 	{
 		public Action<Control> OnDraw;
 		public Action<Control> OnFocus;
+		public Action<Control, KeyPressedEventArgs> OnKeyPressed;
+
 		private bool _isFocused;
 
 		public int Left { get; set; }
@@ -18,7 +17,7 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 		public int Width { get; set; }
 		public int Height { get; set; }
 
-		public bool IsFocused
+		public virtual bool IsFocused
 		{
 			get
 			{
@@ -34,11 +33,6 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 			}
 		}
 
-		public virtual void Focus()
-		{
-			IsFocused = true;
-		}
-
 		public void Draw(ITerminal<char, ConsoleColor> terminal)
 		{
 			Drawing(terminal);
@@ -47,21 +41,19 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 
 		protected abstract void Drawing(ITerminal<char, ConsoleColor> terminal);
 
-		public virtual KeyPressedResult NotifyKeyPressed(ConsoleKey key)
+		public void NotifyKeyPressed(ConsoleKey key)
 		{
-			if (key == ConsoleKey.Escape)
+			var args = new KeyPressedEventArgs(key);
+			OnKeyPressed?.Invoke(this, args);
+			if (!args.Handled)
 			{
-				IsFocused = false;
-				return KeyPressedResult.Unfocus;
+				KeyPressed(args);
 			}
+		}
 
-			if (key == ConsoleKey.Tab)
-			{
-				IsFocused = false;
-				return KeyPressedResult.Next;
-			}
-
-			return KeyPressedResult.DoNothing;
+		protected virtual void KeyPressed(KeyPressedEventArgs args)
+		{
+			
 		}
 	}
 }

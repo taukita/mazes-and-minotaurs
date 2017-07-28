@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MazesAndMinotaurs.ConsoleTarget.Ui.Events;
 using MazesAndMinotaurs.Core;
 
 namespace MazesAndMinotaurs.ConsoleTarget.Ui
@@ -14,8 +15,8 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 		private int _selectedItemIndex;
 		private int? _unselectedItemIndex;
 
-		public event Func<MenuControl, string, KeyPressedResult> OnSelect;
-		public event Func<MenuControl, string, string, KeyPressedResult> OnSelectionChanged;
+		public event Action<MenuControl, string> OnSelect;
+		public event Action<MenuControl, string, string> OnSelectionChanged;
 
 		public MenuControl(params string[] items)
 		{
@@ -65,9 +66,9 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 			}			
 		}
 
-		public override KeyPressedResult NotifyKeyPressed(ConsoleKey key)
+		protected override void KeyPressed(KeyPressedEventArgs args)
 		{
-			switch (key)
+			switch (args.Key)
 			{
 				case ConsoleKey.UpArrow:
 					_unselectedItemIndex = _selectedItemIndex;
@@ -76,7 +77,8 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 					{
 						_selectedItemIndex = _items.Length - 1;
 					}
-					return OnSelectionChanged?.Invoke(this, _items[_unselectedItemIndex.Value], _items[_selectedItemIndex]) ?? KeyPressedResult.DoNothing;
+					OnSelectionChanged?.Invoke(this, _items[_unselectedItemIndex.Value], _items[_selectedItemIndex]);
+					break;
 				case ConsoleKey.DownArrow:
 					_unselectedItemIndex = _selectedItemIndex;
 					_selectedItemIndex++;
@@ -84,11 +86,11 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 					{
 						_selectedItemIndex = 0;
 					}
-					return OnSelectionChanged?.Invoke(this, _items[_unselectedItemIndex.Value], _items[_selectedItemIndex]) ?? KeyPressedResult.DoNothing;
+					OnSelectionChanged?.Invoke(this, _items[_unselectedItemIndex.Value], _items[_selectedItemIndex]);
+					break;
 				case ConsoleKey.Enter:
-					return OnSelect?.Invoke(this, _items[_selectedItemIndex]) ?? KeyPressedResult.DoNothing;
-				default:
-					return base.NotifyKeyPressed(key);
+					OnSelect?.Invoke(this, _items[_selectedItemIndex]);
+					break;
 			}
 		}
 	}

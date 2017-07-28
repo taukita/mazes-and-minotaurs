@@ -53,7 +53,7 @@
     <Compile Include="Ui\ContainerControl.cs" />
     <Compile Include="Ui\Control.cs" />
     <Compile Include="Ui\Controls.cs" />
-    <Compile Include="Ui\KeyPressedResult.cs" />
+    <Compile Include="Ui\Events\KeyPressedEventArgs.cs" />
     <Compile Include="Ui\MenuControl.cs" />
     <Compile Include="Ui\PagesContainerControl.cs" />
     <Compile Include="Ui\Tests\BorderControlTests.cs" />

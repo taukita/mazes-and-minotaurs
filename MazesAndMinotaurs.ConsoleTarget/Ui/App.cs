@@ -9,13 +9,13 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 {
 	public class App
 	{
-		private Control _rootControl;
+		private readonly Control _rootControl;
 		private readonly BufferTerminal<char, ConsoleColor> _terminal;
 
 		public App(Control rootControl)
 		{
 			_rootControl = rootControl;
-			_rootControl.Focus();
+			_rootControl.IsFocused = true;
 			_terminal = new BufferTerminal<char, ConsoleColor>(new ConsoleTerminal()) { Foreground = ConsoleColor.White, Background = ConsoleColor.Black };
 		}
 
@@ -23,14 +23,10 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 
 		public void Run()
 		{
-			while (_rootControl != null)
+			while (_rootControl.IsFocused)
 			{
 				Draw();
-				var kpr = _rootControl.NotifyKeyPressed(Console.ReadKey(true).Key);
-				if (kpr == KeyPressedResult.Unfocus)
-				{
-					_rootControl = null;
-				}
+				_rootControl.NotifyKeyPressed(Console.ReadKey(true).Key);
 			}
 		}
 

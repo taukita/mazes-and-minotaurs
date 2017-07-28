@@ -1,23 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MazesAndMinotaurs.ConsoleTarget.Ui.Events;
 using MazesAndMinotaurs.Core;
 
 namespace MazesAndMinotaurs.ConsoleTarget.Ui
 {
 	public class CanvasContainerControl : ContainerControl
 	{
-		private Control _focused;
-
-		public override void Focus()
-		{
-			base.Focus();
-			Controls[0].Focus();
-			_focused = Controls[0];
-		}
-
 		protected override void Drawing(ITerminal<char, ConsoleColor> terminal)
 		{
 			foreach (var control in Controls)
@@ -26,21 +14,23 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 			}
 		}
 
-		public override KeyPressedResult NotifyKeyPressed(ConsoleKey key)
+		protected override void KeyPressed(KeyPressedEventArgs args)
 		{
-			if (key == ConsoleKey.Tab)
+			if (args.Key == ConsoleKey.Tab)
 			{
-				var index = Controls.IndexOf(_focused);
+				var index = Controls.IndexOf(Focused);
 				index++;
 				if (index >= Controls.Count)
 				{
 					index = 0;
 				}
-				_focused = Controls[index];
-				_focused.Focus();
-				return KeyPressedResult.DoNothing;
+				Focused = Controls[index];
+				Focused.IsFocused = true;
 			}
-			return _focused.NotifyKeyPressed(key);
+			else
+			{
+				Focused.NotifyKeyPressed(args.Key);
+			}
 		}
 	}
 }
