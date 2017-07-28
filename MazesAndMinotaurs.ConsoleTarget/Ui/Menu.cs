@@ -21,8 +21,10 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 
 		public Menu(List<string> items)
 		{
-			_focusedBorder = new BorderControl { Foreground = ConsoleColor.Black, Background = ConsoleColor.White };
-			_unfocusedBorder = new BorderControl { Foreground = ConsoleColor.White, Background = ConsoleColor.Black };
+			_focusedBorder = new BorderControl { Foreground = ConsoleColor.White, Background = ConsoleColor.Black };
+			_focusedBorder.BorderTheme = BorderTheme.Box;
+			_unfocusedBorder = new BorderControl { Foreground = ConsoleColor.Black, Background = ConsoleColor.White };
+			_unfocusedBorder.BorderTheme = BorderTheme.Box;
 
 			_items = items;
 		}
