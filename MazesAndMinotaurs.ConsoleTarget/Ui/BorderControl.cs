@@ -29,7 +29,7 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 
 		public BorderTheme BorderTheme { get; set; }
 
-		public override void Draw(ITerminal<char, ConsoleColor> terminal)
+		protected override void Drawing(ITerminal<char, ConsoleColor> terminal)
 		{
 			var foreground = IsFocused ? FocusedForeground : Foreground;
 			var background = IsFocused ? FocusedBackground: Background;

@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,16 +49,24 @@
     <Compile Include="Ui\App.cs" />
     <Compile Include="Ui\BorderControl.cs" />
     <Compile Include="Ui\BorderTheme.cs" />
-    <Compile Include="Ui\Composite.cs" />
+    <Compile Include="Ui\ContainerControl.cs" />
     <Compile Include="Ui\Control.cs" />
     <Compile Include="Ui\KeyPressedResult.cs" />
-    <Compile Include="Ui\Menu.cs" />
+    <Compile Include="Ui\MenuControl.cs" />
+    <Compile Include="Ui\PagesContainer.cs" />
+    <Compile Include="Ui\Tests\BorderControlTests.cs" />
+    <Compile Include="Ui\Tests\DummyTerminal.cs" />
+    <Compile Include="Ui\Tests\PagesContainerTest.cs" />
+    <Compile Include="Ui\Tests\TestTerminal.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MazesAndMinotaurs.Core\MazesAndMinotaurs.Core.csproj">
       <Project>{3a64591c-07d9-4b58-bdaa-df6f112ae297}</Project>
       <Name>MazesAndMinotaurs.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

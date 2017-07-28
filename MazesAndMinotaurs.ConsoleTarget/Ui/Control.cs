@@ -9,6 +9,8 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 {
 	public abstract class Control
 	{
+		public Action<Control> OnDraw;
+
 		public int Left { get; set; }
 		public int Top { get; set; }
 		public int Width { get; set; }
@@ -19,7 +21,15 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 		{
 			IsFocused = true;
 		}
-		public abstract void Draw(ITerminal<char, ConsoleColor> terminal);
+
+		public void Draw(ITerminal<char, ConsoleColor> terminal)
+		{
+			Drawing(terminal);
+			OnDraw?.Invoke(this);
+		}
+
+		protected abstract void Drawing(ITerminal<char, ConsoleColor> terminal);
+
 		public virtual KeyPressedResult NotifyKeyPressed(ConsoleKey key)
 		{
 			if (key == ConsoleKey.Escape)

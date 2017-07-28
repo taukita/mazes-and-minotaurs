@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MazesAndMinotaurs.Core;
 
 namespace MazesAndMinotaurs.ConsoleTarget.Ui
 {
-	public class Menu : Control
+	public class MenuControl : Control
 	{
-		private BorderControl _focusedBorder;
-		private BorderControl _unfocusedBorder;
+		private readonly BorderControl _focusedBorder;
+		private readonly BorderControl _unfocusedBorder;
 
-		private List<string> _items;
+		private readonly string[] _items;
 		private int _selectedItemIndex;
 		private int? _unselectedItemIndex;
 
-		public event Func<Menu, string, KeyPressedResult> OnSelect;
-		public event Func<Menu, string, string, KeyPressedResult> OnSelectionChanged;
+		public event Func<MenuControl, string, KeyPressedResult> OnSelect;
+		public event Func<MenuControl, string, string, KeyPressedResult> OnSelectionChanged;
 
-		public Menu(List<string> items)
+		public MenuControl(params string[] items)
 		{
 			_focusedBorder = new BorderControl { Foreground = ConsoleColor.White, Background = ConsoleColor.Black };
 			_focusedBorder.BorderTheme = BorderTheme.Box;
@@ -29,7 +27,12 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 			_items = items;
 		}
 
-		public override void Draw(ITerminal<char, ConsoleColor> terminal)
+		public MenuControl(IEnumerable<string> items)
+			: this(items.ToArray())
+		{
+		}
+
+		protected override void Drawing(ITerminal<char, ConsoleColor> terminal)
 		{
 			var border = IsFocused ? _focusedBorder : _unfocusedBorder;
 			border.Left = Left;
@@ -71,13 +74,13 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 					_selectedItemIndex--;
 					if (_selectedItemIndex < 0)
 					{
-						_selectedItemIndex = _items.Count - 1;
+						_selectedItemIndex = _items.Length - 1;
 					}
 					return OnSelectionChanged?.Invoke(this, _items[_unselectedItemIndex.Value], _items[_selectedItemIndex]) ?? KeyPressedResult.DoNothing;
 				case ConsoleKey.DownArrow:
 					_unselectedItemIndex = _selectedItemIndex;
 					_selectedItemIndex++;
-					if (_selectedItemIndex >= _items.Count)
+					if (_selectedItemIndex >= _items.Length)
 					{
 						_selectedItemIndex = 0;
 					}

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MazesAndMinotaurs.ConsoleTarget.Ui
 {
-	public abstract class Composite : Control
+	public abstract class ContainerControl : Control
 	{
 		public List<Control> Controls { get; } = new List<Control>();
 	}
