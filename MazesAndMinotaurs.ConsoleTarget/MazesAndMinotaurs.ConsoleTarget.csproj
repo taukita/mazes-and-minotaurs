@@ -57,6 +57,7 @@
     <Compile Include="Ui\MenuControl.cs" />
     <Compile Include="Ui\PagesContainerControl.cs" />
     <Compile Include="Ui\Tests\BorderControlTests.cs" />
+    <Compile Include="Ui\Tests\CanvasContainerControlTest.cs" />
     <Compile Include="Ui\Tests\DummyTerminal.cs" />
     <Compile Include="Ui\Tests\PagesContainerControlTest.cs" />
     <Compile Include="Ui\Tests\TestTerminal.cs" />
