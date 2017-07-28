@@ -8,9 +8,9 @@ namespace MazesAndMinotaurs.Core
 {
 	public class BufferTerminal<TGlyph, TTerminalColor> : AbstractTerminal<TGlyph, TTerminalColor>
 	{
-		private Buffer _old = new Buffer();
+		private readonly ITerminal<TGlyph, TTerminalColor> _terminal;
 		private Buffer _new = new Buffer();
-		private ITerminal<TGlyph, TTerminalColor> _terminal;
+		private Buffer _old = new Buffer();
 
 		public BufferTerminal(ITerminal<TGlyph, TTerminalColor> terminal)
 		{
