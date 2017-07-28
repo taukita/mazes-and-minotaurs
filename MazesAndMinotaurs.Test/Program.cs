@@ -18,6 +18,8 @@ namespace MazesAndMinotaurs.Test
 			private BufferTerminal<char, ConsoleColor> _terminal;
 			private HashSet<Tuple<int, int>> _knownPoints = new HashSet<Tuple<int, int>>();
 
+			private Menu<string> _menu;
+
 			public Game(IEnumerable<Tuple<int, int>> walls, ITerminal<char, ConsoleColor> terminal)
 			{
 				_walls = walls;
@@ -28,6 +30,13 @@ namespace MazesAndMinotaurs.Test
 				{
 					throw new ArgumentException(nameof(walls));
 				}
+
+				_menu = new Menu<string>(new[] {"item 1", "item 2", "item 3"}, _terminal)
+					{
+						Left = 30,
+						Top = 0,
+						Width = 12
+					};
 
 				Visit();
 				Draw();
@@ -67,6 +76,9 @@ namespace MazesAndMinotaurs.Test
 					}
 				}
 				_terminal.Draw(_playerX, _playerY, '@', ConsoleColor.Red);
+
+				_menu.Draw();
+
 				_terminal.Flush();
 			}
 

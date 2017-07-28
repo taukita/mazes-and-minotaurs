@@ -31,6 +31,17 @@ namespace MazesAndMinotaurs.Core
 			}
 		}
 
+		public static void DrawString<TGlyph, TTerminalColor>(this ITerminal<TGlyph, TTerminalColor> terminal,
+			int x, int y, IEnumerable<TGlyph> @string, TTerminalColor foreground, TTerminalColor background)
+		{
+			var i = 0;
+			foreach (var glyph in @string)
+			{
+				terminal.Draw(x + i, y, glyph, foreground, background);
+				i++;
+			}
+		}
+
 		public static void DrawRectangle<TGlyph, TTerminalColor>(this ITerminal<TGlyph, TTerminalColor> terminal,
 			int left, int top, int width, int height, TGlyph glyph, TTerminalColor foreground, TTerminalColor background)
 		{
