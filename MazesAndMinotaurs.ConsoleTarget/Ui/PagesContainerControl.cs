@@ -4,9 +4,22 @@ using MazesAndMinotaurs.Core;
 
 namespace MazesAndMinotaurs.ConsoleTarget.Ui
 {
-	public class PagesContainer : ContainerControl
+	public class PagesContainerControl : ContainerControl
 	{
 		private Control _focused;
+
+		public int Page
+		{
+			get
+			{
+				return Controls.IndexOf(_focused);
+			}
+			set
+			{
+				Controls[value].Focus();
+				_focused = Controls[value];
+			}
+		}
 
 		public override void Focus()
 		{

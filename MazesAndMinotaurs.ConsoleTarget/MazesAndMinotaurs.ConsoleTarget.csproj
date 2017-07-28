@@ -49,14 +49,16 @@
     <Compile Include="Ui\App.cs" />
     <Compile Include="Ui\BorderControl.cs" />
     <Compile Include="Ui\BorderTheme.cs" />
+    <Compile Include="Ui\CanvasContainerControl.cs" />
     <Compile Include="Ui\ContainerControl.cs" />
     <Compile Include="Ui\Control.cs" />
+    <Compile Include="Ui\Controls.cs" />
     <Compile Include="Ui\KeyPressedResult.cs" />
     <Compile Include="Ui\MenuControl.cs" />
-    <Compile Include="Ui\PagesContainer.cs" />
+    <Compile Include="Ui\PagesContainerControl.cs" />
     <Compile Include="Ui\Tests\BorderControlTests.cs" />
     <Compile Include="Ui\Tests\DummyTerminal.cs" />
-    <Compile Include="Ui\Tests\PagesContainerTest.cs" />
+    <Compile Include="Ui\Tests\PagesContainerControlTest.cs" />
     <Compile Include="Ui\Tests\TestTerminal.cs" />
   </ItemGroup>
   <ItemGroup>

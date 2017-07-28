@@ -9,15 +9,13 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 {
 	public class App
 	{
-		private IEnumerable<Control> _controls;
-		private Control _focused;
-		private BufferTerminal<char, ConsoleColor> _terminal;
+		private Control _rootControl;
+		private readonly BufferTerminal<char, ConsoleColor> _terminal;
 
-		public App(IEnumerable<Control> controls)
+		public App(Control rootControl)
 		{
-			_controls = controls;
-			_focused = _controls.First();
-			_focused.Focus();
+			_rootControl = rootControl;
+			_rootControl.Focus();
 			_terminal = new BufferTerminal<char, ConsoleColor>(new ConsoleTerminal()) { Foreground = ConsoleColor.White, Background = ConsoleColor.Black };
 		}
 
@@ -25,36 +23,20 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 
 		public void Run()
 		{
-			while (_focused != null)
+			while (_rootControl != null)
 			{
 				Draw();
-				var kpr = _focused.NotifyKeyPressed(Console.ReadKey(true).Key);
-				switch(kpr)
+				var kpr = _rootControl.NotifyKeyPressed(Console.ReadKey(true).Key);
+				if (kpr == KeyPressedResult.Unfocus)
 				{
-					case KeyPressedResult.Next:
-						if (_focused == _controls.Last())
-						{
-							_focused = _controls.First();
-						}
-						else
-						{
-							_focused = _controls.SkipWhile(c => c != _focused).Skip(1).First();
-						}
-						_focused.Focus();
-						break;
-					case KeyPressedResult.Unfocus:
-						_focused = null;
-						break;
+					_rootControl = null;
 				}
 			}
 		}
 
 		protected void Draw()
 		{
-			foreach (var c in _controls)
-			{
-				c.Draw(_terminal);
-			}
+			_rootControl.Draw(_terminal);
 			_terminal.Flush();
 		}
 	}

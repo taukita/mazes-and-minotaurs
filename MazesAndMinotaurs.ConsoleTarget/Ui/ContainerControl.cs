@@ -8,6 +8,6 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 {
 	public abstract class ContainerControl : Control
 	{
-		public List<Control> Controls { get; } = new List<Control>();
+		public Controls Controls { get; } = new Controls();
 	}
 }

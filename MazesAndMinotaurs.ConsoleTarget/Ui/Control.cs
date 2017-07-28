@@ -10,13 +10,30 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 	public abstract class Control
 	{
 		public Action<Control> OnDraw;
+		public Action<Control> OnFocus;
+		private bool _isFocused;
 
 		public int Left { get; set; }
 		public int Top { get; set; }
 		public int Width { get; set; }
 		public int Height { get; set; }
 
-		public bool IsFocused { get; protected set; }
+		public bool IsFocused
+		{
+			get
+			{
+				return _isFocused;
+			}
+			set
+			{
+				_isFocused = value;
+				if (_isFocused)
+				{
+					OnFocus?.Invoke(this);
+				}
+			}
+		}
+
 		public virtual void Focus()
 		{
 			IsFocused = true;

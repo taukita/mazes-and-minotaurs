@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace MazesAndMinotaurs.ConsoleTarget.Ui.Tests
 {
 	[TestFixture]
-	internal class PagesContainerTest
+	internal class PagesContainerControlTest
 	{
 		[Test]
 		public void PagesContainerShouldDrawOnlyFocusedChild()
@@ -23,7 +23,7 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui.Tests
 			var menu2 = new MenuControl("item") {Width = 10, Height = 10};
 			menu2.OnDraw += control => menu2Painted = true;
 
-			var pages = new PagesContainer();
+			var pages = new PagesContainerControl();
 			pages.Controls.Add(menu1);
 			pages.Controls.Add(menu2);
 			pages.Focus();
