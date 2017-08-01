@@ -6,11 +6,8 @@ using MazesAndMinotaurs.Core;
 
 namespace MazesAndMinotaurs.ConsoleTarget.Ui
 {
-	public class MenuControl : Control
+	public class MenuControl : BorderControl
 	{
-		private readonly BorderControl _focusedBorder;
-		private readonly BorderControl _unfocusedBorder;
-
 		private readonly string[] _items;
 		private int _selectedItemIndex;
 		private int? _unselectedItemIndex;
@@ -20,11 +17,7 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 
 		public MenuControl(params string[] items)
 		{
-			_focusedBorder = new BorderControl { Foreground = ConsoleColor.White, Background = ConsoleColor.Black };
-			_focusedBorder.BorderTheme = BorderTheme.Box;
-			_unfocusedBorder = new BorderControl { Foreground = ConsoleColor.Black, Background = ConsoleColor.White };
-			_unfocusedBorder.BorderTheme = BorderTheme.Box;
-
+			BorderTheme = BorderTheme.Box;
 			_items = items;
 		}
 
@@ -35,14 +28,7 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 
 		protected override void Drawing(ITerminal<char, ConsoleColor> terminal)
 		{
-			var border = IsFocused ? _focusedBorder : _unfocusedBorder;
-			border.Left = Left;
-			border.Top = Top;
-			border.Width = Width;
-			border.Height = Height;
-
-			border.Draw(terminal);
-
+			base.Drawing(terminal);
 			int itemWidth = Width - 3;
 			int i = 0;
 			foreach (var item in _items)

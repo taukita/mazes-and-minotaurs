@@ -17,6 +17,9 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 		public int Width { get; set; }
 		public int Height { get; set; }
 
+		public BorderTheme BorderTheme { get; set; } = new BorderTheme('#');
+		public ColorTheme ColorTheme { get; set; } = ColorTheme.Create(ConsoleColor.Black, ConsoleColor.White);
+
 		public virtual bool IsFocused
 		{
 			get
@@ -49,6 +52,11 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 			{
 				KeyPressed(args);
 			}
+		}
+
+		protected T Focused<T> (T @object)
+		{
+			return @object is IFocusAwareObject<T> ? ((IFocusAwareObject<T>)@object).Focus(IsFocused) : @object;
 		}
 
 		protected virtual void KeyPressed(KeyPressedEventArgs args)
