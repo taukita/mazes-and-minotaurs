@@ -12,17 +12,19 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui.Tests
 		private readonly int _width;
 		private readonly int _height;
 		private readonly char[,] _chars;
+		private readonly char _empty;
 
-		public TestTerminal(int width, int height)
+		public TestTerminal(int width, int height, char empty = ' ')
 		{
 			_width = width;
 			_height = height;
 			_chars = new char[width, height];
+			_empty = empty;
 			for (var i = 0; i < width; i++)
 			{
 				for (var j = 0; j < height; j++)
 				{
-					_chars[i, j] = ' ';
+					_chars[i, j] = empty;
 				}
 			}
 		}
@@ -32,7 +34,7 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui.Tests
 
 		public void Clear(int x, int y)
 		{
-			_chars[x, y] = ' ';
+			_chars[x, y] = _empty;
 		}
 
 		public void Draw(int x, int y, char glyph)

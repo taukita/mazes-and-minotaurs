@@ -28,6 +28,39 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui.Tests
 # item3#
 ########";
 
+		private const string GridEtalon = @"┌────────┐┌────────┐##########
+│>item 1 ││>item 1 │#        #
+│ item 2 ││ item 2 │#        #
+│        ││ item 3 │#        #
+│        ││        │#        #
+│        ││        │#        #
+│        ││        │#        #
+│        ││        │#        #
+│        ││        │#        #
+└────────┘└────────┘##########
+##############################
+#        ##        ##        #
+#        ##        ##        #
+#        ##        ##        #
+#        ##        ##        #
+#        ##        ##        #
+#        ##        ##        #
+#        ##        ##        #
+#        ##        ##        #
+##############################";
+
+		private const string CanvasEtalon = @"..............................................
+.###.###.................┌────────┐.┌────────┐
+.#.#.#.#.................│>item 1.│.│>item 1.│
+.###.###.................│.item 2.│.│.item 2.│
+.........................│........│.│.item 3.│
+.###.###.................│........│.│........│
+.#.#.#.#.................│........│.│........│
+.###.###.................│........│.│........│
+.........................│........│.│........│
+.........................│........│.│........│
+.........................└────────┘.└────────┘";
+
 		[Test]
 		public void BorderDrawingShouldBeEqualToItsEtalon()
 		{
@@ -57,11 +90,82 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui.Tests
 			AssertEqual(control, BorderedMenuEtalon);
 		}
 
-		private void AssertEqual(Control control, string etalon)
+		[Test]
+		public void GridDrawingShouldBeEqualToItsEtalon()
 		{
-			var terminal = new TestTerminal(control.Width, control.Height);
+			var grid = new GridContainerControl();
+			grid.Width = 30;
+			grid.Height = 20;
+
+			grid.Columns.Add(10);
+			grid.Columns.Add(10);
+			grid.Columns.Add(10);
+
+			grid.Rows.Add(10);
+			grid.Rows.Add(10);
+
+			foreach (var control in TestControls())
+			{
+				grid.Controls.Add(control);
+			}
+
+			AssertEqual(grid, GridEtalon);
+		}
+
+		[Test]
+		public void CanvasDrawingShouldBeEqualToItsEtalon()
+		{
+			var canvas = new CanvasContainerControl();
+			canvas.Width = 46;
+			canvas.Height = 11;
+
+			foreach (var control in TestControls())
+			{
+				canvas.Controls.Add(control);
+			}
+
+			AssertEqual(canvas, CanvasEtalon, '.');
+		}
+
+		private void AssertEqual(Control control, string etalon, char empty = ' ')
+		{
+			var terminal = new TestTerminal(control.Width, control.Height, empty);
 			control.Draw(terminal);
 			Assert.AreEqual(etalon, terminal.ToString());
+		}
+
+		private static IEnumerable<Control> TestControls()
+		{
+			var colorTheme = ColorTheme.Create(ConsoleColor.Black, ConsoleColor.White, ConsoleColor.White, ConsoleColor.Black);
+
+			var menu1 = new BorderControl(new MenuControl("item 1", "item 2"))
+			{
+				Left = 25,
+				Top = 1,
+				Width = 10,
+				Height = 10,
+				BorderTheme = BorderTheme.Box,
+				ColorTheme = colorTheme
+			};
+
+			yield return menu1;
+
+			var menu2 = new BorderControl(new MenuControl("item 1", "item 2", "item 3"))
+			{
+				Left = 36,
+				Top = 1,
+				Width = 10,
+				Height = 10,
+				BorderTheme = BorderTheme.Box,
+				ColorTheme = colorTheme
+			};
+
+			yield return menu2;
+
+			yield return new BorderControl { Left = 1, Top = 1, Width = 3, Height = 3, ColorTheme = colorTheme };
+			yield return new BorderControl { Left = 1, Top = 5, Width = 3, Height = 3, ColorTheme = colorTheme };
+			yield return new BorderControl { Left = 5, Top = 5, Width = 3, Height = 3, ColorTheme = colorTheme };
+			yield return new BorderControl { Left = 5, Top = 1, Width = 3, Height = 3, ColorTheme = colorTheme };
 		}
 	}
 }
