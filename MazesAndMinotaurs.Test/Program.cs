@@ -95,12 +95,15 @@ namespace MazesAndMinotaurs.Test
 		{
 			Console.CursorVisible = false;
 
-			var mainMenu = new MenuControl(new List<string> {"Играть", "Тестировать", "Выйти"})
+			var mainMenu = new MenuControl(new List<string> { "Играть", "Тестировать", "Сетка", "Выйти" });
+
+			var border = new BorderControl(mainMenu)
 				{
 					Left = 1,
 					Top = 1,
 					Width = 50,
-					Height = 10
+					Height = 10,
+					BorderTheme = BorderTheme.Box
 				};
 
 			var pages = new PagesContainerControl();
@@ -117,6 +120,9 @@ namespace MazesAndMinotaurs.Test
 							break;
 						case "Тестировать":
 							pages.Page = 2;
+							break;
+						case "Сетка":
+							pages.Page = 3;
 							break;
 					}
 				};
@@ -139,9 +145,19 @@ namespace MazesAndMinotaurs.Test
 					}
 				};
 
-			pages.Controls.Add(mainMenu);
+			var grid = CreateTestGrid();
+			grid.OnKeyPressed += (g, a) =>
+				{
+					if (a.Key == ConsoleKey.Escape)
+					{
+						pages.Page = 0;
+					}
+				};
+
+			pages.Controls.Add(border);
 			pages.Controls.Add(game);
 			pages.Controls.Add(canvas);
+			pages.Controls.Add(grid);
 
 			var app = new App(pages);
 
@@ -150,35 +166,69 @@ namespace MazesAndMinotaurs.Test
 
 		private static Control CreateTestCanvas()
 		{
-			var colorTheme = ColorTheme.Create(ConsoleColor.Black, ConsoleColor.White, ConsoleColor.White, ConsoleColor.Black);
-
-			var menu1 = new MenuControl(new List<string> {"item 1", "item 2"})
-				{
-					Left = 25,
-					Top = 1,
-					Width = 10,
-					Height = 10,
-					ColorTheme = colorTheme
-				};
-
-			var menu2 = new MenuControl(new List<string> { "item 1", "item 2", "item 3" })
-				{
-					Left = 36,
-					Top = 1,
-					Width = 10,
-					Height = 10,
-					ColorTheme = colorTheme
-				};
-
 			var canvas = new CanvasContainerControl();			
-			canvas.Controls.Add(new BorderControl {Left = 1, Top = 1, Width = 3, Height = 3, ColorTheme = colorTheme});
-			canvas.Controls.Add(new BorderControl {Left = 1, Top = 5, Width = 3, Height = 3, ColorTheme = colorTheme });
-			canvas.Controls.Add(new BorderControl {Left = 5, Top = 5, Width = 3, Height = 3, ColorTheme = colorTheme });
-			canvas.Controls.Add(new BorderControl {Left = 5, Top = 1, Width = 3, Height = 3, ColorTheme = colorTheme });
-			canvas.Controls.Add(menu1);
-			canvas.Controls.Add(menu2);
+
+			foreach(var control in TestControls())
+			{
+				canvas.Controls.Add(control);
+			}
 
 			return canvas;
+		}
+
+		private static Control CreateTestGrid()
+		{
+			var grid = new GridContainerControl();
+			grid.Width = 30;
+			grid.Height = 20;
+
+			grid.Columns.Add(10);
+			grid.Columns.Add(10);
+			grid.Columns.Add(10);
+
+			grid.Rows.Add(10);
+			grid.Rows.Add(10);
+
+			foreach (var control in TestControls())
+			{
+				grid.Controls.Add(control);
+			}
+
+			return grid;
+		}
+
+		private static IEnumerable<Control> TestControls()
+		{
+			var colorTheme = ColorTheme.Create(ConsoleColor.Black, ConsoleColor.White, ConsoleColor.White, ConsoleColor.Black);
+
+			var menu1 = new BorderControl(new MenuControl(new List<string> { "item 1", "item 2" }))
+			{
+				Left = 25,
+				Top = 1,
+				Width = 10,
+				Height = 10,
+				BorderTheme = BorderTheme.Box,
+				ColorTheme = colorTheme
+			};
+
+			yield return menu1;
+
+			var menu2 = new BorderControl(new MenuControl(new List<string> { "item 1", "item 2", "item 3" }))
+			{
+				Left = 36,
+				Top = 1,
+				Width = 10,
+				Height = 10,
+				BorderTheme = BorderTheme.Box,
+				ColorTheme = colorTheme
+			};
+
+			yield return menu2;
+
+			yield return new BorderControl { Left = 1, Top = 1, Width = 3, Height = 3, ColorTheme = colorTheme };
+			yield return new BorderControl { Left = 1, Top = 5, Width = 3, Height = 3, ColorTheme = colorTheme };
+			yield return new BorderControl { Left = 5, Top = 5, Width = 3, Height = 3, ColorTheme = colorTheme };
+			yield return new BorderControl { Left = 5, Top = 1, Width = 3, Height = 3, ColorTheme = colorTheme };
 		}
 	}
 }

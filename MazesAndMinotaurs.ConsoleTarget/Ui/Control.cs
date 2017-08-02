@@ -17,7 +17,6 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 		public int Width { get; set; }
 		public int Height { get; set; }
 
-		public BorderTheme BorderTheme { get; set; } = new BorderTheme('#');
 		public ColorTheme ColorTheme { get; set; } = ColorTheme.Create(ConsoleColor.Black, ConsoleColor.White);
 
 		public virtual bool IsFocused

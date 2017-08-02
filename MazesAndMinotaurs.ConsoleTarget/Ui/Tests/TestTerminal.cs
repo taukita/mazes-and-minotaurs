@@ -59,7 +59,7 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui.Tests
 				{
 					sb.Append(_chars[x, y]);
 				}
-				if (y != _width - 1)
+				if (y != _height - 1)
 				{
 					sb.Append(Environment.NewLine);
 				}
