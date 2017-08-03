@@ -65,6 +65,7 @@
     <Compile Include="Ui\Tests\EtalonTests.cs" />
     <Compile Include="Ui\Tests\PagesContainerControlTest.cs" />
     <Compile Include="Ui\Tests\TestTerminal.cs" />
+    <Compile Include="Ui\TextControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MazesAndMinotaurs.Core\MazesAndMinotaurs.Core.csproj">

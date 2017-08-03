@@ -61,6 +61,18 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui.Tests
 .........................│........│.│........│
 .........................└────────┘.└────────┘";
 
+		private const string Text1 = @"abcde";
+
+		private const string TextEtalon1 = @"abc
+de.";
+
+		private const string Text2 = @"abcde
+abcde";
+
+		private const string TextEtalon2 = @"abc
+de.
+abc";
+
 		[Test]
 		public void BorderDrawingShouldBeEqualToItsEtalon()
 		{
@@ -125,6 +137,18 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui.Tests
 			}
 
 			AssertEqual(canvas, CanvasEtalon, '.');
+		}
+
+		[TestCase(3, 2, Text1, TextEtalon1)]
+		[TestCase(3, 3, Text2, TextEtalon2)]
+		public void TextDrawingShouldBeEqualToItsEtalon(int width, int height, string text, string etalon)
+		{
+			var textControl = new TextControl();
+			textControl.Width = width;
+			textControl.Height = height;
+			textControl.Text = text;
+
+			AssertEqual(textControl, etalon, '.');
 		}
 
 		private void AssertEqual(Control control, string etalon, char empty = ' ')
