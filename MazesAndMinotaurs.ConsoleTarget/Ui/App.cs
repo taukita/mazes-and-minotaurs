@@ -34,6 +34,7 @@ namespace MazesAndMinotaurs.ConsoleTarget.Ui
 		{
 			_rootControl.Draw(_terminal);
 			_terminal.Flush();
+			Console.SetCursorPosition(0, 0);
 		}
 	}
 }

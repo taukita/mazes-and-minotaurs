@@ -66,6 +66,8 @@
     <Compile Include="Ui\Tests\PagesContainerControlTest.cs" />
     <Compile Include="Ui\Tests\TestTerminal.cs" />
     <Compile Include="Ui\TextControl.cs" />
+    <Compile Include="Ui\WallsControl.cs" />
+    <Compile Include="Ui\WallsTheme.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MazesAndMinotaurs.Core\MazesAndMinotaurs.Core.csproj">

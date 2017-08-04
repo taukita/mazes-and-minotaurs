@@ -18,10 +18,13 @@ namespace MazesAndMinotaurs.Test
 			private int _playerY = 1;
 			private IEnumerable<Tuple<int, int>> _walls;
 			private HashSet<Tuple<int, int>> _knownPoints = new HashSet<Tuple<int, int>>();
+			private WallsControl _wallsControl;
 
 			public GameControl(IEnumerable<Tuple<int, int>> walls)
 			{
 				_walls = walls;
+				_wallsControl = new WallsControl(_walls);
+				_wallsControl.WallsTheme = WallsTheme.Box;
 				var position = Tuple.Create(1, 1);
 
 				if (_walls.Any(w => w.Equals(position)))
@@ -34,16 +37,16 @@ namespace MazesAndMinotaurs.Test
 
 			protected override void Drawing(ITerminal<char, ConsoleColor> terminal)
 			{
-				terminal.FillRectangle(0, 0, 21, 21, '░', ConsoleColor.White, ConsoleColor.Black);
-				foreach (var point in _knownPoints)
+				terminal.FillRectangle(0, 0, 21, 21, ' ', ConsoleColor.White, ConsoleColor.Black);
+				_wallsControl.Draw(terminal);
+				for (var x = 0; x < 21; x++)
 				{
-					if (_walls.Any(w => w.Equals(point)))
+					for (var y = 0; y < 21; y++)
 					{
-						terminal.Draw(point.Item1, point.Item2, '#', ConsoleColor.Black, ConsoleColor.White);
-					}
-					else
-					{
-						terminal.Draw(point.Item1, point.Item2, ' ');
+						if (!_knownPoints.Any(p => p.Equals(Tuple.Create(x, y))))
+						{
+							terminal.Draw(x, y, '░', ConsoleColor.White, ConsoleColor.Black);
+						}
 					}
 				}
 				terminal.Draw(_playerX, _playerY, '@', ConsoleColor.Red);
@@ -66,6 +69,15 @@ namespace MazesAndMinotaurs.Test
 						TryChangePlayerPosition(_playerX + 1, _playerY);
 						break;
 				}
+			}
+
+			private char GetGlyph(int x, int y)
+			{
+				bool up = _walls.Any(w => w.Equals(Tuple.Create(x, y - 1)));
+				bool left = _walls.Any(w => w.Equals(Tuple.Create(x - 1, y)));
+				bool down = _walls.Any(w => w.Equals(Tuple.Create(x, y + 1)));
+				bool right = _walls.Any(w => w.Equals(Tuple.Create(x + 1, y)));
+				return WallsTheme.Box[up, left, down, right];
 			}
 
 			private void TryChangePlayerPosition(int x, int y)
@@ -92,6 +104,25 @@ namespace MazesAndMinotaurs.Test
 		}
 
 		static void Main(string[] args)
+		{
+			Console.CursorVisible = false;
+
+			var viewer = new ItemsViewerControl();
+			viewer.Width = Console.WindowWidth;
+			viewer.Height = Console.WindowHeight;
+
+			viewer.AddItem("Сектоид", @"Маленький, трусливый, абсолютно голый.
+Подвергается постоянным унижениям мутонов. Не может постоять за себя, поэтому отправляется на самые зашкварные миссии.
+Псиотнические способности использует для того, чтоб узнать у начальства пароль к вай-фаю.");
+			viewer.AddItem("Флоатер", @"Житель степей родной планеты Эчпочман. Из-за своей тупости долгое время считался животным и не подлежал призыву.
+В армии мутоны ради смеха засунули ему в задницу двигатель от мобильного пылесоса. С тех пор флоатеры научились летать и полюбили самые дальние углы верхних этажей различных зданий.");
+
+			var app = new App(viewer);
+
+			app.Run();
+		}
+
+		static void Main1(string[] args)
 		{
 			Console.CursorVisible = false;
 

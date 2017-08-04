@@ -7,7 +7,7 @@ using MazesAndMinotaurs.Core;
 
 namespace MazesAndMinotaurs.ConsoleTarget.Ui
 {
-	internal class TextControl : Control
+	public class TextControl : Control
 	{
 		public string Text { get; set; }
 
