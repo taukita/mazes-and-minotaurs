@@ -55,6 +55,7 @@
     <Compile Include="Controls\Containers\Pages.cs" />
     <Compile Include="Controls\Menu.cs" />
     <Compile Include="Controls\Label.cs" />
+    <Compile Include="ControlUtils.cs" />
     <Compile Include="Events\KeyPressedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\EtalonTests.cs" />

@@ -9,19 +9,27 @@ namespace MazesAndMinotaurs.Ui
 {
 	public abstract class Control<TGlyph, TColor, TKey> : ICollectionItem<Control<TGlyph, TColor, TKey>>
 	{
-		protected readonly IKeyboardAdapter<TKey> KeyboardAdapter;
 		public Action<Control<TGlyph, TColor, TKey>> OnDraw;
 		public Action<Control<TGlyph, TColor, TKey>, PropertyChangedExtendedEventArgs<bool>> OnFocusChanged;
 		public Action<Control<TGlyph, TColor, TKey>, KeyPressedEventArgs<TKey>> OnKeyPressed;
 		private ObservableCollection<Control<TGlyph, TColor, TKey>> _collection;
 		private bool _isFocused;
-
-		protected Control(IKeyboardAdapter<TKey> keyboardAdapter)
-		{
-			KeyboardAdapter = keyboardAdapter;
-		}
+		private IKeyboardAdapter<TKey> _keyboardAdapter;
 
 		public ColorTheme<TColor> ColorTheme { get; set; }
+
+		public IKeyboardAdapter<TKey> KeyboardAdapter
+		{
+			get
+			{
+				return _keyboardAdapter ?? Parent?.KeyboardAdapter;
+			}
+			set
+			{
+				_keyboardAdapter = value;
+			}
+		}
+
 		public int Height { get; set; }
 
 		public bool IsFocused

@@ -9,7 +9,7 @@ namespace MazesAndMinotaurs.Ui.Controls.Containers
 	{
 		private readonly bool _overrideThemes;
 
-		public Border(Control<TGlyph, TColor, TKey> content = null, bool overrideThemes = true) : base(null)
+		public Border(Control<TGlyph, TColor, TKey> content = null, bool overrideThemes = true)
 		{
 			if (content != null)
 			{

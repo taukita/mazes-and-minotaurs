@@ -9,7 +9,7 @@ namespace MazesAndMinotaurs.Ui.Controls
 	{
 		protected Control<TGlyph, TColor, TKey> Focused;
 
-		protected Container(IKeyboardAdapter<TKey> keyboardAdapter) : base(keyboardAdapter)
+		protected Container()
 		{
 			Controls = new ControlsCollection<TGlyph, TColor, TKey>(this);
 		}

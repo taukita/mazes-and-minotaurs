@@ -11,10 +11,6 @@ namespace MazesAndMinotaurs.Ui.Controls.Containers
 {
 	public class Pages<TGlyph, TColor, TKey> : Container<TGlyph, TColor, TKey>
 	{
-		public Pages(IKeyboardAdapter<TKey> keyboardAdapter) : base(keyboardAdapter)
-		{
-		}
-
 		public int Page
 		{
 			get

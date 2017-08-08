@@ -18,8 +18,7 @@ namespace MazesAndMinotaurs.Ui.Controls
 		private TGlyph _ellipsisGlyph;
 		private TGlyph _selectionGlyph;
 
-		public Menu(IKeyboardAdapter<TKey> keyboardAdapter, TGlyph ellipsisGlyph, TGlyph selectionGlyph)
-			: base(keyboardAdapter)
+		public Menu(TGlyph ellipsisGlyph, TGlyph selectionGlyph)
 		{
 			_ellipsisGlyph = ellipsisGlyph;
 			_selectionGlyph = selectionGlyph;

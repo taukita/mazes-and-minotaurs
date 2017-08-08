@@ -15,7 +15,7 @@ namespace MazesAndMinotaurs.Ui.Tests
 		[Test]
 		public void BorderContentShouldBeFocusedAfterBorderFocused()
 		{
-			var menu = new Menu<char, object, TestKey>(new TestKeyboardAdapter(), '~', '>');
+			var menu = new Menu<char, object, TestKey>('~', '>');
 			var border = new Border<char, object, TestKey>(menu);
 			Assert.IsFalse(menu.IsFocused);
 			border.IsFocused = true;
@@ -27,7 +27,7 @@ namespace MazesAndMinotaurs.Ui.Tests
 		{
 			var border1 = new Border<char, object, TestKey>();
 			var border2 = new Border<char, object, TestKey>();
-			var pages = new Pages<char, object, TestKey>(new TestKeyboardAdapter());
+			var pages = new Pages<char, object, TestKey>();
 
 			pages.Controls.Add(border1);
 			pages.Controls.Add(border2);

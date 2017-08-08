@@ -11,10 +11,6 @@ namespace MazesAndMinotaurs.Ui.Controls.Containers
 		public List<int> Columns { get; } = new List<int>();
 		public List<int> Rows { get; } = new List<int>();
 
-		public Grid(IKeyboardAdapter<TKey> keyboardAdapter) : base(keyboardAdapter)
-		{
-		}
-
 		protected override void Drawing(ITerminal<TGlyph, TColor> terminal)
 		{
 			var allColumns = Columns.Sum();

@@ -37,7 +37,7 @@ abc";
 		[Test]
 		public void BorderlessMenuDrawingShouldBeEqualToItsEtalon()
 		{
-			var menu = new Menu<char, object, TestKey>(new TestKeyboardAdapter(), '~', '>');
+			var menu = new Menu<char, object, TestKey>('~', '>');
 			menu.ColorTheme = new ColorTheme<object>(null, null);
 			menu.Width = 6;
 			menu.Height = 3;
@@ -50,7 +50,7 @@ abc";
 		[Test]
 		public void BorderedMenuDrawingShouldBeEqualToItsEtalon()
 		{
-			var menu = new Menu<char, object, TestKey>(new TestKeyboardAdapter(), '~', '>');
+			var menu = new Menu<char, object, TestKey>('~', '>');
 			menu.AddItem("item1");
 			menu.AddItem("item2");
 			menu.AddItem("item3");
@@ -67,7 +67,7 @@ abc";
 		[TestCase(3, 3, Text2, LabelEtalon2)]
 		public void LabelDrawingShouldBeEqualToItsEtalon(int width, int height, string text, string etalon)
 		{
-			var label = new Label<char, object, TestKey>(null);
+			var label = new Label<char, object, TestKey>();
 			label.ColorTheme = new ColorTheme<object>(null, null);
 			label.Width = width;
 			label.Height = height;

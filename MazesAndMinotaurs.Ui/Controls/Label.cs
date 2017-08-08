@@ -7,10 +7,6 @@ namespace MazesAndMinotaurs.Ui.Controls
 {
 	public class Label<TGlyph, TColor, TKey> : Control<TGlyph, TColor, TKey>
 	{
-		public Label(IKeyboardAdapter<TKey> keyboardAdapter) : base(keyboardAdapter)
-		{
-		}
-
 		public IEnumerable<TGlyph> Delimiter { get; set; }
 		public IEnumerable<TGlyph> Text { get; set; }
 

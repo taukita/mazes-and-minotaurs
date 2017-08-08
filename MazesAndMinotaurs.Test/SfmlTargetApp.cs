@@ -36,6 +36,7 @@ namespace MazesAndMinotaurs.Test
 			var terminal = new SfmlTerminal(renderWindow, font, CharacterSize, glyphWidth, glyphHeight);
 			var control = CreateRootControl(renderWindow);
 			control.IsFocused = true;
+			control.KeyboardAdapter = KeyboardAdapter.Instance;
 
 			renderWindow.KeyPressed += (s, e) => control.NotifyKeyPressed(e.Code);
 
@@ -52,7 +53,7 @@ namespace MazesAndMinotaurs.Test
 
 		private static Control<char, Color, Keyboard.Key> CreatePage1(RenderWindow renderWindow)
 		{
-			var menu = new Menu<char, Color, Keyboard.Key>(KeyboardAdapter.Instance, '…', '>');
+			var menu = new Menu<char, Color, Keyboard.Key>('…', '>');
 			var page2Item = menu.AddItem("2nd page");
 			var page3Item = menu.AddItem("3rd page");
 			var page4Item = menu.AddItem("4th page");
@@ -62,15 +63,15 @@ namespace MazesAndMinotaurs.Test
 				{
 					if (i == page2Item)
 					{
-						((Pages<char, Color, Keyboard.Key>) m.Parent.Parent).Page = 1;
+						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(m).Page = 1;
 					}
 					else if (i == page3Item)
 					{
-						((Pages<char, Color, Keyboard.Key>) m.Parent.Parent).Page = 2;
+						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(m).Page = 2;
 					}
 					else if (i == page4Item)
 					{
-						((Pages<char, Color, Keyboard.Key>) m.Parent.Parent).Page = 3;
+						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(m).Page = 3;
 					}
 					else if (i == exitItem)
 					{
@@ -94,7 +95,7 @@ namespace MazesAndMinotaurs.Test
 
 		private static Control<char, Color, Keyboard.Key> CreatePage2(RenderWindow renderWindow)
 		{
-			var menu = new Menu<char, Color, Keyboard.Key>(KeyboardAdapter.Instance, '…', '>');
+			var menu = new Menu<char, Color, Keyboard.Key>('…', '>');
 			var page1Item = menu.AddItem("1st page");
 			var exitItem = menu.AddItem("Exit");
 
@@ -102,7 +103,7 @@ namespace MazesAndMinotaurs.Test
 				{
 					if (i == page1Item)
 					{
-						((Pages<char, Color, Keyboard.Key>) m.Parent.Parent).Page = 0;
+						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(m).Page = 0;
 					}
 					else if (i == exitItem)
 					{
@@ -127,7 +128,7 @@ namespace MazesAndMinotaurs.Test
 		// ReSharper disable once UnusedParameter.Local
 		private static Control<char, Color, Keyboard.Key> CreatePage3(RenderWindow renderWindow)
 		{
-			var label = new Label<char, Color, Keyboard.Key>(KeyboardAdapter.Instance)
+			var label = new Label<char, Color, Keyboard.Key>
 				{
 					Delimiter = Environment.NewLine,
 					Text = @"This is just Label.
@@ -137,7 +138,7 @@ Press escape to return to page #1."
 				{
 					if (args.Key == Keyboard.Key.Escape)
 					{
-						((Pages<char, Color, Keyboard.Key>) control.Parent.Parent).Page = 0;
+						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(control).Page = 0;
 					}
 				};
 
@@ -161,7 +162,7 @@ Press escape to return to page #1."
 			var borderTheme = new BorderTheme<char>('*', '-', '*', '|', '*', '-', '*', '|');
 			var colorTheme1 = new ColorTheme<Color>(Color.Black, Color.Transparent);
 			var colorTheme2 = new ColorTheme<Color>(Color.Black, Color.White);
-			var grid = new Grid<char, Color, Keyboard.Key>(KeyboardAdapter.Instance)
+			var grid = new Grid<char, Color, Keyboard.Key>
 				{
 					Left = 1,
 					Top = 1,
@@ -176,7 +177,7 @@ Press escape to return to page #1."
 				{
 					if (args.Key == Keyboard.Key.Escape)
 					{
-						((Pages<char, Color, Keyboard.Key>) control.Parent).Page = 0;
+						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(control).Page = 0;
 					}
 				};
 
@@ -192,7 +193,7 @@ Press escape to return to page #1."
 			border.OnFocusChanged += (s, a) => s.ColorTheme = a.NewValue ? colorTheme2 : colorTheme1;
 			grid.Controls.Add(border);
 
-			var label = new Label<char, Color, Keyboard.Key>(KeyboardAdapter.Instance)
+			var label = new Label<char, Color, Keyboard.Key>
 				{
 					Delimiter = Environment.NewLine,
 					Text = "Press escape to return to page #1."
@@ -207,7 +208,7 @@ Press escape to return to page #1."
 
 		private static Control<char, Color, Keyboard.Key> CreateRootControl(RenderWindow renderWindow)
 		{
-			var pages = new Pages<char, Color, Keyboard.Key>(KeyboardAdapter.Instance);
+			var pages = new Pages<char, Color, Keyboard.Key>();
 
 			pages.Controls.Add(CreatePage1(renderWindow));
 			pages.Controls.Add(CreatePage2(renderWindow));
