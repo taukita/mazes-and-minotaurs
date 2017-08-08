@@ -4,19 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{713F5586-9C57-43B6-A42B-E34B891D5C25}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{C69BF3FB-F6FB-4FE7-9F27-B124AB4D0308}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MazesAndMinotaurs.Test</RootNamespace>
-    <AssemblyName>MazesAndMinotaurs.Test</AssemblyName>
+    <RootNamespace>MazesAndMinotaurs.SfmlTarget</RootNamespace>
+    <AssemblyName>MazesAndMinotaurs.SfmlTarget</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -26,7 +24,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -61,32 +58,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleTargetApp.cs" />
-    <Compile Include="ItemsViewerControl.cs" />
-    <Compile Include="Menu.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SfmlTargetApp.cs" />
+    <Compile Include="SfmlTerminal.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="square.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MazesAndMinotaurs.ConsoleTarget\MazesAndMinotaurs.ConsoleTarget.csproj">
-      <Project>{d3b0720e-32ea-40b5-a5aa-b60f26a10150}</Project>
-      <Name>MazesAndMinotaurs.ConsoleTarget</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MazesAndMinotaurs.Core\MazesAndMinotaurs.Core.csproj">
       <Project>{3a64591c-07d9-4b58-bdaa-df6f112ae297}</Project>
       <Name>MazesAndMinotaurs.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MazesAndMinotaurs.SfmlTarget\MazesAndMinotaurs.SfmlTarget.csproj">
-      <Project>{C69BF3FB-F6FB-4FE7-9F27-B124AB4D0308}</Project>
-      <Name>MazesAndMinotaurs.SfmlTarget</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
