@@ -61,6 +61,7 @@
     <Compile Include="SmartCollection.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="TerminalExtensions.cs" />
+    <Compile Include="Tests\CoreExtensionsTests.cs" />
     <Compile Include="Tests\SmartCollectionTests.cs" />
   </ItemGroup>
   <ItemGroup>

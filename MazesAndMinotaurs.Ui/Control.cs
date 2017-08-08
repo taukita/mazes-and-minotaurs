@@ -1,36 +1,27 @@
-﻿using MazesAndMinotaurs.Core;
+﻿using System;
+using System.Collections.ObjectModel;
+using MazesAndMinotaurs.Core;
 using MazesAndMinotaurs.Ui.Adapters;
 using MazesAndMinotaurs.Ui.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
 
 namespace MazesAndMinotaurs.Ui
 {
 	public abstract class Control<TGlyph, TColor, TKey> : ICollectionItem<Control<TGlyph, TColor, TKey>>
 	{
+		protected readonly IKeyboardAdapter<TKey> KeyboardAdapter;
+		public Action<Control<TGlyph, TColor, TKey>> OnDraw;
+		public Action<Control<TGlyph, TColor, TKey>, PropertyChangedExtendedEventArgs<bool>> OnFocusChanged;
+		public Action<Control<TGlyph, TColor, TKey>, KeyPressedEventArgs<TKey>> OnKeyPressed;
 		private ObservableCollection<Control<TGlyph, TColor, TKey>> _collection;
 		private bool _isFocused;
-		protected readonly IKeyboardAdapter<TKey> KeyboardAdapter;
 
 		protected Control(IKeyboardAdapter<TKey> keyboardAdapter)
 		{
 			KeyboardAdapter = keyboardAdapter;
 		}
 
-		public Action<Control<TGlyph, TColor, TKey>> OnDraw;
-		public Action<Control<TGlyph, TColor, TKey>, KeyPressedEventArgs<TKey>> OnKeyPressed;
-		public Action<Control<TGlyph, TColor, TKey>, PropertyChangedExtendedEventArgs<bool>> OnFocusChanged;
-
-		public int Left { get; set; }
-		public int Top { get; set; }
-		public int Width { get; set; }
-		public int Height { get; set; }
-
 		public ColorTheme<TColor> ColorTheme { get; set; }
+		public int Height { get; set; }
 
 		public bool IsFocused
 		{
@@ -50,13 +41,10 @@ namespace MazesAndMinotaurs.Ui
 			}
 		}
 
-		public Control<TGlyph, TColor, TKey> Parent
-		{
-			get
-			{
-				return (Collection as ControlsCollection<TGlyph, TColor, TKey>)?.Owner;
-			}
-		}
+		public int Left { get; set; }
+		public Control<TGlyph, TColor, TKey> Parent => (Collection as ControlsCollection<TGlyph, TColor, TKey>)?.Owner;
+		public int Top { get; set; }
+		public int Width { get; set; }
 
 		public ObservableCollection<Control<TGlyph, TColor, TKey>> Collection
 		{
@@ -92,6 +80,10 @@ namespace MazesAndMinotaurs.Ui
 
 		public void NotifyKeyPressed(TKey key)
 		{
+			if (!IsFocused)
+			{
+				throw new InvalidOperationException("Not focused controls should not be notified about key pressed.");
+			}
 			var args = new KeyPressedEventArgs<TKey>(key);
 			OnKeyPressed?.Invoke(this, args);
 			if (!args.Handled)
@@ -102,14 +94,12 @@ namespace MazesAndMinotaurs.Ui
 
 		protected abstract void Drawing(ITerminal<TGlyph, TColor> terminal);
 
-		protected virtual void KeyPressed(KeyPressedEventArgs<TKey> args)
-		{
-
-		}
-
 		protected virtual void FocusChanged(PropertyChangedExtendedEventArgs<bool> args)
 		{
+		}
 
+		protected virtual void KeyPressed(KeyPressedEventArgs<TKey> args)
+		{
 		}
 	}
 }

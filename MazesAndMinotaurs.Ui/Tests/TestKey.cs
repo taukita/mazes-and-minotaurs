@@ -14,6 +14,7 @@ namespace MazesAndMinotaurs.Ui.Tests
 		Left,
 		Down,
 		Right,
-		Enter
+		Enter,
+		Tab
 	}
 }

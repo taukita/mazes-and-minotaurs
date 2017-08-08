@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MazesAndMinotaurs.Core;
 using MazesAndMinotaurs.Ui.Adapters;
+using MazesAndMinotaurs.Ui.Events;
 
 namespace MazesAndMinotaurs.Ui.Controls
 {
@@ -23,9 +24,22 @@ namespace MazesAndMinotaurs.Ui.Controls
 		{
 			if (args.NewValue && Controls.Any())
 			{
-				Focused = Controls.First();
-				Focused.IsFocused = true;
+				var first = Controls.First();
+				if (Focused != first)
+				{
+					if (Focused != null)
+					{
+						Focused.IsFocused = false;
+					}
+					Focused = first;
+					Focused.IsFocused = true;
+				}
 			}
+		}
+
+		protected override void KeyPressed(KeyPressedEventArgs<TKey> args)
+		{
+			Focused?.NotifyKeyPressed(args.Key);
 		}
 	}
 }

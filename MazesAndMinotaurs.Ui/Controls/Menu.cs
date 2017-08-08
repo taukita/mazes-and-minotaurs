@@ -64,7 +64,7 @@ namespace MazesAndMinotaurs.Ui.Controls
 		{
 			var key = args.Key;
 
-			if (KeyboardAdapter.isUp(key))
+			if (KeyboardAdapter.IsUp(key))
 			{
 				_unselectedItemIndex = _selectedItemIndex;
 				_selectedItemIndex--;
@@ -74,7 +74,7 @@ namespace MazesAndMinotaurs.Ui.Controls
 				}
 				OnSelectionChanged?.Invoke(this, _items[_unselectedItemIndex.Value], _items[_selectedItemIndex]);
 			}
-			else if (KeyboardAdapter.isDown(key))
+			else if (KeyboardAdapter.IsDown(key))
 			{
 				_unselectedItemIndex = _selectedItemIndex;
 				_selectedItemIndex++;
@@ -84,7 +84,7 @@ namespace MazesAndMinotaurs.Ui.Controls
 				}
 				OnSelectionChanged?.Invoke(this, _items[_unselectedItemIndex.Value], _items[_selectedItemIndex]);
 			}
-			else if (KeyboardAdapter.isEnter(key))
+			else if (KeyboardAdapter.IsEnter(key))
 			{
 				OnSelect?.Invoke(this, _items[_selectedItemIndex]);
 			}

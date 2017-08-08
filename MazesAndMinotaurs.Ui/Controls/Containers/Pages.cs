@@ -23,19 +23,15 @@ namespace MazesAndMinotaurs.Ui.Controls.Containers
 			}
 			set
 			{
-				Controls[value].IsFocused = true;
+				Focused.IsFocused = false;
 				Focused = Controls[value];
+				Focused.IsFocused = true;
 			}
 		}
 
 		protected override void Drawing(ITerminal<TGlyph, TColor> terminal)
 		{
 			Focused?.Draw(terminal);
-		}
-
-		protected override void KeyPressed(KeyPressedEventArgs<TKey> args)
-		{
-			Focused?.NotifyKeyPressed(args.Key);
 		}
 	}
 }
