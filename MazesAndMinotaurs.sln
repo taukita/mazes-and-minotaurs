@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazesAndMinotaurs.ConsoleTa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazesAndMinotaurs.SfmlTarget", "MazesAndMinotaurs.SfmlTarget\MazesAndMinotaurs.SfmlTarget.csproj", "{C69BF3FB-F6FB-4FE7-9F27-B124AB4D0308}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazesAndMinotaurs.Ui", "MazesAndMinotaurs.Ui\MazesAndMinotaurs.Ui.csproj", "{2E51B805-176F-406D-A584-72FB925CB402}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C69BF3FB-F6FB-4FE7-9F27-B124AB4D0308}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C69BF3FB-F6FB-4FE7-9F27-B124AB4D0308}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C69BF3FB-F6FB-4FE7-9F27-B124AB4D0308}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E51B805-176F-406D-A584-72FB925CB402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E51B805-176F-406D-A584-72FB925CB402}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E51B805-176F-406D-A584-72FB925CB402}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E51B805-176F-406D-A584-72FB925CB402}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

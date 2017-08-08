@@ -63,7 +63,6 @@
   <ItemGroup>
     <Compile Include="ConsoleTargetApp.cs" />
     <Compile Include="ItemsViewerControl.cs" />
-    <Compile Include="Menu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SfmlTargetApp.cs" />
@@ -87,6 +86,10 @@
     <ProjectReference Include="..\MazesAndMinotaurs.SfmlTarget\MazesAndMinotaurs.SfmlTarget.csproj">
       <Project>{C69BF3FB-F6FB-4FE7-9F27-B124AB4D0308}</Project>
       <Name>MazesAndMinotaurs.SfmlTarget</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MazesAndMinotaurs.Ui\MazesAndMinotaurs.Ui.csproj">
+      <Project>{2e51b805-176f-406d-a584-72fb925cb402}</Project>
+      <Name>MazesAndMinotaurs.Ui</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

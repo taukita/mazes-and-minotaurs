@@ -1,5 +1,8 @@
 ﻿using MazesAndMinotaurs.Core;
 using MazesAndMinotaurs.SfmlTarget;
+using MazesAndMinotaurs.Ui;
+using MazesAndMinotaurs.Ui.Adapters;
+using MazesAndMinotaurs.Ui.Controls;
 using SFML.Graphics;
 using SFML.Window;
 using System;
@@ -28,23 +31,70 @@ namespace MazesAndMinotaurs.Test
 			var lb = text.GetLocalBounds();
 			var glyphWidth = (uint)(lb.Left + lb.Width);
 			var glyphHeight = (uint)(lb.Top + lb.Height);
-
+		
 			var renderWindow = new RenderWindow(
 				new VideoMode(WIDTH_IN_GLYPHS * glyphWidth, HEIGHT_IN_GLYPHS * glyphHeight), "Test", Styles.Close | Styles.Titlebar);
 			renderWindow.Closed += (s, e) => renderWindow.Close();
 			var windowColor = new Color(0, 192, 255);
 
 			var terminal = new SfmlTerminal(renderWindow, font, CHARACTER_SIZE, glyphWidth, glyphHeight);
+			var control = CreateRootControl();
+
+			renderWindow.KeyPressed += (s, e) => control.NotifyKeyPressed(e.Code);
 
 			while (renderWindow.IsOpen)
 			{
 				renderWindow.DispatchEvents();
 				renderWindow.Clear(windowColor);
 
-				terminal.DrawRectangle(1, 1, WIDTH_IN_GLYPHS - 2, HEIGHT_IN_GLYPHS - 2, '#', Color.Black, Color.White);
-				terminal.DrawRectangle(2, 2, WIDTH_IN_GLYPHS - 4, HEIGHT_IN_GLYPHS - 4, '#', Color.Black, windowColor);
+				control.Draw(terminal);
 
 				renderWindow.Display();
+			}
+		}
+
+		private Control<char, Color, Keyboard.Key> CreateRootControl()
+		{
+			var menu = new Menu<char, Color, Keyboard.Key>(new KeyboardAdapter(), '…', '>');
+			menu.AddItem(new Menu<char, Color, Keyboard.Key>.MenuItem("New game"));
+			menu.AddItem(new Menu<char, Color, Keyboard.Key>.MenuItem("Load game"));
+			menu.AddItem(new Menu<char, Color, Keyboard.Key>.MenuItem("Exit"));
+
+			menu.Left = 1;
+			menu.Top = 1;
+			menu.Width = 20;
+			menu.Height = 10;
+
+			menu.ColorTheme = new ColorTheme<Color>(Color.Black, Color.White);
+
+			return menu;
+		}
+
+		private class KeyboardAdapter : IKeyboardAdapter<Keyboard.Key>
+		{
+			public bool isDown(Keyboard.Key key)
+			{
+				return key == Keyboard.Key.Down;
+			}
+
+			public bool isEnter(Keyboard.Key key)
+			{
+				return key == Keyboard.Key.Return;
+			}
+
+			public bool isLeft(Keyboard.Key key)
+			{
+				return key == Keyboard.Key.Left;
+			}
+
+			public bool isRight(Keyboard.Key key)
+			{
+				return key == Keyboard.Key.Right;
+			}
+
+			public bool isUp(Keyboard.Key key)
+			{
+				return key == Keyboard.Key.Up;
 			}
 		}
 	}
