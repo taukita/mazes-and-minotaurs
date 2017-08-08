@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using MazesAndMinotaurs.Core;
-using MazesAndMinotaurs.Ui.Adapters;
 using MazesAndMinotaurs.Ui.Events;
 
-namespace MazesAndMinotaurs.Ui.Controls
+namespace MazesAndMinotaurs.Ui.Controls.Containers
 {
-	public class Border<TGlyph, TColor, TKey> : Control<TGlyph, TColor, TKey>
+	public class Border<TGlyph, TColor, TKey> : Container<TGlyph, TColor, TKey>
 	{
-		private Control<TGlyph, TColor, TKey> _content;
 		private bool _overrideThemes;
 
 		public BorderTheme<TGlyph> BorderTheme { get; set; }
 
 		public Border(Control<TGlyph, TColor, TKey> content = null, bool overrideThemes = true) : base(null)
 		{
-			_content = content;
+			if (content != null)
+			{
+				Controls.Add(content);
+			}
 			_overrideThemes = overrideThemes;
 		}
 
@@ -26,33 +23,40 @@ namespace MazesAndMinotaurs.Ui.Controls
 		{
 			PrepareContent();
 			Drawing(terminal, Left, Top, Width, Height, BorderTheme, ColorTheme);
-			_content?.Draw(terminal);
+			if (Controls.Any())
+			{
+				Controls.First().Draw(terminal);
+			}
 		}
 
 		protected override void FocusChanged(PropertyChangedExtendedEventArgs<bool> args)
 		{
-			if (args.NewValue && _content != null)
+			if (args.NewValue && Controls.Any())
 			{
-				_content.IsFocused = true;
+				Controls.First().IsFocused = true;
 			}
 		}
 
 		protected override void KeyPressed(KeyPressedEventArgs<TKey> args)
 		{
-			_content?.NotifyKeyPressed(args.Key);
+			if (Controls.Any())
+			{
+				Controls.First().NotifyKeyPressed(args.Key);
+			}
 		}
 
 		private void PrepareContent()
 		{
-			if (_content != null)
+			if (Controls.Any())
 			{
-				_content.Left = Left + 1;
-				_content.Top = Top + 1;
-				_content.Width = Width - 2;
-				_content.Height = Height - 2;
+				var content = Controls.First();
+				content.Left = Left + 1;
+				content.Top = Top + 1;
+				content.Width = Width - 2;
+				content.Height = Height - 2;
 				if (_overrideThemes)
 				{
-					_content.ColorTheme = ColorTheme;
+					content.ColorTheme = ColorTheme;
 				}
 			}
 		}

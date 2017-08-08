@@ -3,6 +3,7 @@ using MazesAndMinotaurs.SfmlTarget;
 using MazesAndMinotaurs.Ui;
 using MazesAndMinotaurs.Ui.Adapters;
 using MazesAndMinotaurs.Ui.Controls;
+using MazesAndMinotaurs.Ui.Controls.Containers;
 using SFML.Graphics;
 using SFML.Window;
 using System;
@@ -39,6 +40,7 @@ namespace MazesAndMinotaurs.Test
 
 			var terminal = new SfmlTerminal(renderWindow, font, CHARACTER_SIZE, glyphWidth, glyphHeight);
 			var control = CreateRootControl(renderWindow);
+			control.IsFocused = true;
 
 			renderWindow.KeyPressed += (s, e) => control.NotifyKeyPressed(e.Code);
 
@@ -55,14 +57,64 @@ namespace MazesAndMinotaurs.Test
 
 		private Control<char, Color, Keyboard.Key> CreateRootControl(RenderWindow renderWindow)
 		{
-			var menu = new Menu<char, Color, Keyboard.Key>(new KeyboardAdapter(), '…', '>');
-			menu.AddItem("New game");
-			menu.AddItem("Load game");
+			var pages = new Pages<char, Color, Keyboard.Key>(KeyboardAdapter.Instance);
+
+			pages.Controls.Add(CreatePage1(renderWindow));
+			pages.Controls.Add(CreatePage2(renderWindow));
+			pages.Controls.Add(CreatePage2(renderWindow));
+
+			return pages;
+		}
+
+		private Control<char, Color, Keyboard.Key> CreatePage1(RenderWindow renderWindow)
+		{
+			var menu = new Menu<char, Color, Keyboard.Key>(KeyboardAdapter.Instance, '…', '>');
+			var page2Item = menu.AddItem("2nd page");
+			var page3Item = menu.AddItem("3rd page");
 			var exitItem = menu.AddItem("Exit");
 
 			menu.OnSelect += (m, i) =>
 			{
-				if (i == exitItem)
+				if (i == page2Item)
+				{
+					((Pages<char, Color, Keyboard.Key>)m.Parent.Parent).Page = 1;
+				}
+				else if (i == page3Item)
+				{
+					((Pages<char, Color, Keyboard.Key>)m.Parent.Parent).Page = 2;
+				}
+				else if (i == exitItem)
+				{
+					renderWindow.Close();
+				}
+			};
+
+			var border = new Border<char, Color, Keyboard.Key>(menu);
+
+			border.Left = 1;
+			border.Top = 1;
+			border.Width = 20;
+			border.Height = 10;
+
+			border.BorderTheme = new BorderTheme<char>('*');
+			border.ColorTheme = new ColorTheme<Color>(Color.Black, Color.White);
+
+			return border;
+		}
+
+		private Control<char, Color, Keyboard.Key> CreatePage2(RenderWindow renderWindow)
+		{
+			var menu = new Menu<char, Color, Keyboard.Key>(KeyboardAdapter.Instance, '…', '>');
+			var page1Item = menu.AddItem("1st page");
+			var exitItem = menu.AddItem("Exit");
+
+			menu.OnSelect += (m, i) =>
+			{
+				if (i == page1Item)
+				{
+					((Pages<char, Color, Keyboard.Key>)m.Parent.Parent).Page = 0;
+				}
+				else if (i == exitItem)
 				{
 					renderWindow.Close();
 				}
@@ -83,6 +135,8 @@ namespace MazesAndMinotaurs.Test
 
 		private class KeyboardAdapter : IKeyboardAdapter<Keyboard.Key>
 		{
+			public static readonly KeyboardAdapter Instance = new KeyboardAdapter();
+
 			public bool isDown(Keyboard.Key key)
 			{
 				return key == Keyboard.Key.Down;

@@ -48,7 +48,10 @@
     <Compile Include="BorderTheme.cs" />
     <Compile Include="ColorTheme.cs" />
     <Compile Include="Control.cs" />
-    <Compile Include="Controls\Border.cs" />
+    <Compile Include="ControlsCollection.cs" />
+    <Compile Include="Controls\Containers\Border.cs" />
+    <Compile Include="Controls\Container.cs" />
+    <Compile Include="Controls\Containers\Pages.cs" />
     <Compile Include="Controls\Menu.cs" />
     <Compile Include="Events\KeyPressedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

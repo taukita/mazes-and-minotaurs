@@ -9,11 +9,18 @@ using System.Threading.Tasks;
 
 namespace MazesAndMinotaurs.Core
 {
-	public sealed class SmartCollection<T> : ObservableCollection<T> where T : ICollectionItem<T>
+	public class SmartCollection<TItem, TOwner> : ObservableCollection<TItem> where TItem : ICollectionItem<TItem>
 	{
+		public SmartCollection(TOwner owner)
+		{
+			Owner = owner;
+		}
+
+		public TOwner Owner { get; }
+
 		protected override void ClearItems()
 		{
-			List<T> removed = new List<T>(this);
+			List<TItem> removed = new List<TItem>(this);
 			base.ClearItems();
 			foreach(var item in removed)
 			{
@@ -27,13 +34,13 @@ namespace MazesAndMinotaurs.Core
 			switch (e.Action)
 			{
 				case NotifyCollectionChangedAction.Add:
-					foreach (var item in e.NewItems.Cast<ICollectionItem<T>>())
+					foreach (var item in e.NewItems.Cast<ICollectionItem<TItem>>())
 					{
 						item.Collection = this;
 					}
 					break;
 				case NotifyCollectionChangedAction.Remove:
-					foreach (var item in e.OldItems.Cast<ICollectionItem<T>>())
+					foreach (var item in e.OldItems.Cast<ICollectionItem<TItem>>())
 					{
 						item.Collection = null;
 					}

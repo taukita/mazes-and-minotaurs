@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace MazesAndMinotaurs.Ui
 {
-	public abstract class Control<TGlyph, TColor, TKey>
+	public abstract class Control<TGlyph, TColor, TKey> : ICollectionItem<Control<TGlyph, TColor, TKey>>
 	{
+		private ObservableCollection<Control<TGlyph, TColor, TKey>> _collection;
 		private bool _isFocused;
 		protected readonly IKeyboardAdapter<TKey> KeyboardAdapter;
 
@@ -44,6 +46,40 @@ namespace MazesAndMinotaurs.Ui
 					_isFocused = value;
 					OnFocusChanged?.Invoke(this, args);
 					FocusChanged(args);
+				}
+			}
+		}
+
+		public Control<TGlyph, TColor, TKey> Parent
+		{
+			get
+			{
+				return (Collection as ControlsCollection<TGlyph, TColor, TKey>)?.Owner;
+			}
+		}
+
+		public ObservableCollection<Control<TGlyph, TColor, TKey>> Collection
+		{
+			get
+			{
+				return _collection;
+			}
+
+			set
+			{
+				if (_collection != value)
+				{
+					var collection = _collection;
+					_collection = null;
+					if (collection != null && collection.Count > 0)
+					{
+						collection.Remove(this);
+					}
+					_collection = value;
+					if (_collection != null && !_collection.Contains(this))
+					{
+						_collection.Add(this);
+					}
 				}
 			}
 		}

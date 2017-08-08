@@ -9,7 +9,7 @@ namespace MazesAndMinotaurs.Core.Tests
 		[Test]
 		public void OneItemOneCollectionAddTest()
 		{
-			var sc = new SmartCollection<TestItem>();
+			var sc = new SmartCollection<TestItem, object>(new object());
 			var si = new TestItem();
 
 			Assert.AreEqual(null, si.Collection);
@@ -23,7 +23,7 @@ namespace MazesAndMinotaurs.Core.Tests
 		[Test]
 		public void OneItemOneCollectionRemoveTest()
 		{
-			var sc = new SmartCollection<TestItem>();
+			var sc = new SmartCollection<TestItem, object>(new object());
 			var si = new TestItem();
 			Assert.AreEqual(null, si.Collection);
 			sc.Add(si);
@@ -38,7 +38,7 @@ namespace MazesAndMinotaurs.Core.Tests
 		[Test]
 		public void OneItemOneCollectionPropertyTest()
 		{
-			var sc = new SmartCollection<TestItem>();
+			var sc = new SmartCollection<TestItem, object>(new object());
 			var si = new TestItem();
 
 			Assert.AreEqual(null, si.Collection);
@@ -57,8 +57,8 @@ namespace MazesAndMinotaurs.Core.Tests
 		[Test]
 		public void OneItemTwoCollectionsAddTest()
 		{
-			var sc1 = new SmartCollection<TestItem>();
-			var sc2 = new SmartCollection<TestItem>();
+			var sc1 = new SmartCollection<TestItem, object>(new object());
+			var sc2 = new SmartCollection<TestItem, object>(new object());
 			var si = new TestItem();
 			sc1.Add(si);
 			sc2.Add(si);
@@ -71,8 +71,8 @@ namespace MazesAndMinotaurs.Core.Tests
 		[Test]
 		public void OneItemTwoCollectionsPropertyTest()
 		{
-			var sc1 = new SmartCollection<TestItem>();
-			var sc2 = new SmartCollection<TestItem>();
+			var sc1 = new SmartCollection<TestItem, object>(new object());
+			var sc2 = new SmartCollection<TestItem, object>(new object());
 			var si = new TestItem();
 			si.Collection = sc1;
 			si.Collection = sc2;
@@ -85,7 +85,7 @@ namespace MazesAndMinotaurs.Core.Tests
 		[Test]
 		public void ResetTest()
 		{
-			var sc = new SmartCollection<TestItem>();
+			var sc = new SmartCollection<TestItem, object>(new object());
 			var si1 = new TestItem();
 			var si2 = new TestItem();
 			var si3 = new TestItem();
@@ -129,9 +129,9 @@ namespace MazesAndMinotaurs.Core.Tests
 					{
 						var collection = _collection;
 						_collection = null;
-						if (collection.Count > 0)
+						if (collection != null && collection.Count > 0)
 						{
-							collection?.Remove(this);
+							collection.Remove(this);
 						}
 						_collection = value;
 						if (_collection != null && !_collection.Contains(this))
