@@ -28,9 +28,11 @@ namespace MazesAndMinotaurs.Ui.Controls
 		public event Action<Menu<TGlyph, TColor, TKey>, MenuItem> OnSelect;
 		public event Action<Menu<TGlyph, TColor, TKey>, MenuItem, MenuItem> OnSelectionChanged;
 
-		public void AddItem(MenuItem item)
+		public MenuItem AddItem(IEnumerable<TGlyph> glyphs)
 		{
+			var item = new MenuItem(glyphs);
 			_items.Add(item);
+			return item;
 		}
 
 		protected override void Drawing(ITerminal<TGlyph, TColor> terminal)

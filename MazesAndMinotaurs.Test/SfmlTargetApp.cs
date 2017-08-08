@@ -56,12 +56,9 @@ namespace MazesAndMinotaurs.Test
 		private Control<char, Color, Keyboard.Key> CreateRootControl(RenderWindow renderWindow)
 		{
 			var menu = new Menu<char, Color, Keyboard.Key>(new KeyboardAdapter(), '…', '>');
-			menu.AddItem(new Menu<char, Color, Keyboard.Key>.MenuItem("New game"));
-			menu.AddItem(new Menu<char, Color, Keyboard.Key>.MenuItem("Load game"));
-
-			var exitItem = new Menu<char, Color, Keyboard.Key>.MenuItem("Exit");
-
-			menu.AddItem(exitItem);
+			menu.AddItem("New game");
+			menu.AddItem("Load game");
+			var exitItem = menu.AddItem("Exit");
 
 			menu.OnSelect += (m, i) =>
 			{

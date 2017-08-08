@@ -28,9 +28,9 @@ namespace MazesAndMinotaurs.Ui.Tests
 			menu.ColorTheme = new ColorTheme<object>(null, null);
 			menu.Width = 6;
 			menu.Height = 3;
-			menu.AddItem(new Menu<char, object, TestKey>.MenuItem("item1"));
-			menu.AddItem(new Menu<char, object, TestKey>.MenuItem("item2"));
-			menu.AddItem(new Menu<char, object, TestKey>.MenuItem("item3"));
+			menu.AddItem("item1");
+			menu.AddItem("item2");
+			menu.AddItem("item3");
 			AssertEqual(menu, BorderlessMenuEtalon);
 		}
 
@@ -38,9 +38,9 @@ namespace MazesAndMinotaurs.Ui.Tests
 		public void BorderedMenuDrawingShouldBeEqualToItsEtalon()
 		{
 			var menu = new Menu<char, object, TestKey>(new TestKeyboardAdapter(), '~', '>');
-			menu.AddItem(new Menu<char, object, TestKey>.MenuItem("item1"));
-			menu.AddItem(new Menu<char, object, TestKey>.MenuItem("item2"));
-			menu.AddItem(new Menu<char, object, TestKey>.MenuItem("item3"));
+			menu.AddItem("item1");
+			menu.AddItem("item2");
+			menu.AddItem("item3");
 
 			var border = new Border<char, object, TestKey>(menu);
 			border.BorderTheme = new BorderTheme<char>('#');
