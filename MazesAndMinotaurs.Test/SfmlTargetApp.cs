@@ -15,9 +15,9 @@ namespace MazesAndMinotaurs.Test
 {
 	internal class SfmlTargetApp
 	{
-		private const int CHARACTER_SIZE = 12;
+		private const int CHARACTER_SIZE = 14;
 		private const int WIDTH_IN_GLYPHS = 80;
-		private const int HEIGHT_IN_GLYPHS = 60;
+		private const int HEIGHT_IN_GLYPHS = 30;
 
 		public void Run()
 		{
@@ -29,8 +29,8 @@ namespace MazesAndMinotaurs.Test
 				Font = font
 			};
 			var lb = text.GetLocalBounds();
-			var glyphWidth = (uint)(lb.Left + lb.Width);
-			var glyphHeight = (uint)(lb.Top + lb.Height);
+			var glyphWidth = (uint)(2 * lb.Left + lb.Width);
+			var glyphHeight = (uint)(2 * lb.Top + lb.Height);
 		
 			var renderWindow = new RenderWindow(
 				new VideoMode(WIDTH_IN_GLYPHS * glyphWidth, HEIGHT_IN_GLYPHS * glyphHeight), "Test", Styles.Close | Styles.Titlebar);
@@ -38,7 +38,7 @@ namespace MazesAndMinotaurs.Test
 			var windowColor = new Color(0, 192, 255);
 
 			var terminal = new SfmlTerminal(renderWindow, font, CHARACTER_SIZE, glyphWidth, glyphHeight);
-			var control = CreateRootControl();
+			var control = CreateRootControl(renderWindow);
 
 			renderWindow.KeyPressed += (s, e) => control.NotifyKeyPressed(e.Code);
 
@@ -53,21 +53,35 @@ namespace MazesAndMinotaurs.Test
 			}
 		}
 
-		private Control<char, Color, Keyboard.Key> CreateRootControl()
+		private Control<char, Color, Keyboard.Key> CreateRootControl(RenderWindow renderWindow)
 		{
 			var menu = new Menu<char, Color, Keyboard.Key>(new KeyboardAdapter(), '…', '>');
 			menu.AddItem(new Menu<char, Color, Keyboard.Key>.MenuItem("New game"));
 			menu.AddItem(new Menu<char, Color, Keyboard.Key>.MenuItem("Load game"));
-			menu.AddItem(new Menu<char, Color, Keyboard.Key>.MenuItem("Exit"));
 
-			menu.Left = 1;
-			menu.Top = 1;
-			menu.Width = 20;
-			menu.Height = 10;
+			var exitItem = new Menu<char, Color, Keyboard.Key>.MenuItem("Exit");
 
-			menu.ColorTheme = new ColorTheme<Color>(Color.Black, Color.White);
+			menu.AddItem(exitItem);
 
-			return menu;
+			menu.OnSelect += (m, i) =>
+			{
+				if (i == exitItem)
+				{
+					renderWindow.Close();
+				}
+			};
+
+			var border = new Border<char, Color, Keyboard.Key>(menu);
+
+			border.Left = 1;
+			border.Top = 1;
+			border.Width = 20;
+			border.Height = 10;
+
+			border.BorderTheme = new BorderTheme<char>('*');
+			border.ColorTheme = new ColorTheme<Color>(Color.Black, Color.White);
+
+			return border;
 		}
 
 		private class KeyboardAdapter : IKeyboardAdapter<Keyboard.Key>
