@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using MazesAndMinotaurs.Core;
 using MazesAndMinotaurs.Ui.Adapters;
 using MazesAndMinotaurs.Ui.Events;
@@ -22,18 +18,11 @@ namespace MazesAndMinotaurs.Ui.Controls
 
 		protected override void FocusChanged(PropertyChangedExtendedEventArgs<bool> args)
 		{
+			base.FocusChanged(args);
 			if (args.NewValue && Controls.Any())
 			{
-				var first = Controls.First();
-				if (Focused != first)
-				{
-					if (Focused != null)
-					{
-						Focused.IsFocused = false;
-					}
-					Focused = first;
-					Focused.IsFocused = true;
-				}
+				Focused = Controls.First();
+				Focused.IsFocused = true;
 			}
 		}
 

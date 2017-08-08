@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using MazesAndMinotaurs.Core;
 using MazesAndMinotaurs.Ui.Adapters;
 using MazesAndMinotaurs.Ui.Events;
@@ -96,6 +97,13 @@ namespace MazesAndMinotaurs.Ui
 
 		protected virtual void FocusChanged(PropertyChangedExtendedEventArgs<bool> args)
 		{
+			if (args.NewValue && Collection != null)
+			{
+				foreach (var control in Collection.Where(c => c != this))
+				{
+					control.IsFocused = false;
+				}
+			}
 		}
 
 		protected virtual void KeyPressed(KeyPressedEventArgs<TKey> args)
