@@ -38,7 +38,8 @@ namespace Sokoban
 			var renderWindow = new RenderWindow(
 				new VideoMode(WidthInGlyphs * glyphWidth, HeightInGlyphs * glyphHeight), "Sokoban", Styles.Close | Styles.Titlebar);
 			renderWindow.Closed += (s, e) => renderWindow.Close();
-			var windowColor = new Color(0, 192, 255);
+			//var windowColor = new Color(0, 192, 255);
+			var windowColor = Color.Black;
 
 			var terminal = new Terminal((int)glyphHeight, (int)glyphWidth, texture, renderWindow);
 			var root = CreateRoot();
@@ -61,6 +62,7 @@ namespace Sokoban
 		{
 			var pages = new Pages();
 			pages.Controls.Add(CreateMainMenu());
+			pages.Controls.Add(CreateGame());
 			pages.KeyboardAdapter = SfmlKeyboardAdapter.Instance;
 			return pages;
 		}
@@ -68,12 +70,16 @@ namespace Sokoban
 		private static Control CreateMainMenu()
 		{
 			var menu = new Menu(EllipsisGlyph, SelectionGlyph);
-			menu.AddItem(FromString("New game"));
+			var newGameItem = menu.AddItem(FromString("New game"));
 			menu.AddItem(FromString("Load game"));
 			var exitItem = menu.AddItem(FromString("Exit game"));
 			menu.OnSelect += (s, item) =>
 			{
-				if (item == exitItem)
+				if (item == newGameItem)
+				{
+					ControlUtils.FindParent<Pages>(s).Page = 1;
+				}
+				else if (item == exitItem)
 				{
 					ControlUtils.FindParent<Pages>(s).IsFocused = false;
 				}
@@ -92,6 +98,14 @@ namespace Sokoban
 			border.Title = FromString("Main menu");
 
 			return border;
+		}
+
+		private static Control CreateGame()
+		{
+			var game = new GameControl();
+			game.Left = 1;
+			game.Top = 1;
+			return game;
 		}
 
 		private static IEnumerable<Glyph> FromString(string @string)
