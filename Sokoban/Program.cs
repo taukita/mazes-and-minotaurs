@@ -105,6 +105,16 @@ namespace Sokoban
 			var game = new GameControl();
 			game.Left = 1;
 			game.Top = 1;
+
+			game.Level = Level.FromString(@"
+#######
+#t.c..#
+#.#.#.#
+#..@..#
+#.#.#.#
+#t.c..#
+#######");
+
 			return game;
 		}
 

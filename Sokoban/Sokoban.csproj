@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="GameControl.cs" />
     <Compile Include="Glyph.cs" />
+    <Compile Include="Level.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Terminal.cs" />

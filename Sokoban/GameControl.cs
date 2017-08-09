@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using static SFML.Window.Keyboard;
 using MazesAndMinotaurs.Core;
+using MazesAndMinotaurs.Ui.Events;
+using SFML.Window;
 
 namespace Sokoban
 {
@@ -28,57 +30,15 @@ namespace Sokoban
 		private static readonly Color PlayerForeground = new Color(255, 102, 102);
 		private static readonly Color PlayerBackground = Color.Black;
 
-		private IEnumerable<Tuple<int, int>> _crates;
-		private IEnumerable<Tuple<int, int>> _targets;
-		private IEnumerable<Tuple<int, int>> _walls;
-		private int _playerX;
-		private int _playerY;
-
-		public GameControl()
-		{
-			_crates = new List<Tuple<int, int>>
-			{
-				Tuple.Create(3, 1),
-				Tuple.Create(3, 5),
-			};
-			_targets = new HashSet<Tuple<int, int>>
-			{
-				Tuple.Create(1, 1),
-				Tuple.Create(1, 5),
-			};
-			var walls = new HashSet<Tuple<int, int>>();
-			foreach (var wall in Enumerable.Range(0, 7).Select(n => Tuple.Create(0, n)))
-			{
-				walls.Add(wall);
-			}
-			foreach (var wall in Enumerable.Range(0, 7).Select(n => Tuple.Create(6, n)))
-			{
-				walls.Add(wall);
-			}
-			foreach (var wall in Enumerable.Range(0, 7).Select(n => Tuple.Create(n, 0)))
-			{
-				walls.Add(wall);
-			}
-			foreach (var wall in Enumerable.Range(0, 7).Select(n => Tuple.Create(n, 6)))
-			{
-				walls.Add(wall);
-			}
-			_walls = walls;
-			walls.Add(Tuple.Create(2, 2));
-			walls.Add(Tuple.Create(2, 4));
-			walls.Add(Tuple.Create(4, 2));
-			walls.Add(Tuple.Create(4, 4));
-			_playerX = 3;
-			_playerY = 3;			
-		}
+		public Level Level { get; set; }
 
 		protected override void Drawing(ITerminal<Glyph, Color> terminal)
 		{
 			terminal = new TerminalWithOffset(terminal, Left, Top);
-			terminal.DrawWalls(_crates, CrateGlyph, CrateForeground, CrateBackground);
-			terminal.DrawWalls(_targets, TargetGlyph, TargetForeground, TargetBackground);
-			terminal.DrawWalls(_walls, WallGlyph, WallForeground, WallBackground);
-			terminal.Draw(_playerX, _playerY, PlayerGlyph, PlayerForeground, PlayerBackground);
+			terminal.DrawWalls(Level.Crates.Select(c => Tuple.Create(c.X, c.Y)), CrateGlyph, CrateForeground, CrateBackground);
+			terminal.DrawWalls(Level.Targets, TargetGlyph, TargetForeground, TargetBackground);
+			terminal.DrawWalls(Level.Walls, WallGlyph, WallForeground, WallBackground);
+			terminal.Draw(Level.PlayerX, Level.PlayerY, PlayerGlyph, PlayerForeground, PlayerBackground);
 		}
 	}
 }
