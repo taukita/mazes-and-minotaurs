@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazesAndMinotaurs.SfmlTarge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazesAndMinotaurs.Ui", "MazesAndMinotaurs.Ui\MazesAndMinotaurs.Ui.csproj", "{2E51B805-176F-406D-A584-72FB925CB402}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokoban", "Sokoban\Sokoban.csproj", "{8C71C2D6-7BFE-460C-851B-38D07497B8BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{2E51B805-176F-406D-A584-72FB925CB402}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E51B805-176F-406D-A584-72FB925CB402}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E51B805-176F-406D-A584-72FB925CB402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C71C2D6-7BFE-460C-851B-38D07497B8BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C71C2D6-7BFE-460C-851B-38D07497B8BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C71C2D6-7BFE-460C-851B-38D07497B8BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C71C2D6-7BFE-460C-851B-38D07497B8BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
