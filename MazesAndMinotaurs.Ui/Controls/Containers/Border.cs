@@ -37,11 +37,11 @@ namespace MazesAndMinotaurs.Ui.Controls.Containers
 			}
 		}
 
-		private static void Drawing(ITerminal<TGlyph, TColor> terminal, int left, int top, int width, int height,
+		private void Drawing(ITerminal<TGlyph, TColor> terminal, int left, int top, int width, int height,
 			BorderTheme<TGlyph> borderTheme, ColorTheme<TColor> colorTheme)
 		{
 			terminal.Draw(left, top, borderTheme.TopLeft, colorTheme.Foreground, colorTheme.Background);
-			terminal.DrawLine(left + 1, top, left + width - 2, top, borderTheme.Top, colorTheme.Foreground, colorTheme.Background);
+			terminal.DrawLine(left + 1 + (Title == null ? 0 : Title.Count()), top, left + width - 2, top, borderTheme.Top, colorTheme.Foreground, colorTheme.Background);
 
 			terminal.Draw(left + width - 1, top, borderTheme.TopRight, colorTheme.Foreground, colorTheme.Background);
 			terminal.DrawLine(left + width - 1, top + 1, left + width - 1, top + height - 2, borderTheme.Right,

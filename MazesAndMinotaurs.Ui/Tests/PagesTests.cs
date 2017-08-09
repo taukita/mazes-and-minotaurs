@@ -20,8 +20,10 @@ namespace MazesAndMinotaurs.Ui.Tests
 
 			var pages = new Pages<char, object, TestKey> {KeyboardAdapter = new TestKeyboardAdapter()};
 
-			var menu1 = new Menu<char, object, TestKey>('~', '>')
+			var menu1 = new Menu<char, object, TestKey>
 				{
+					EllipsisGlyph = '~',
+					SelectionGlyph = '>',
 					ColorTheme = new ColorTheme<object>(null, null),
 					Width = 10,
 					Height = 10
@@ -29,8 +31,10 @@ namespace MazesAndMinotaurs.Ui.Tests
 			menu1.OnSelect += (m, s) => pages.Page = 1;
 			menu1.OnDraw += control => menu1Painted = true;
 
-			var menu2 = new Menu<char, object, TestKey>('~', '>')
+			var menu2 = new Menu<char, object, TestKey>
 				{
+					EllipsisGlyph = '~',
+					SelectionGlyph = '>',
 					ColorTheme = new ColorTheme<object>(null, null),
 					Width = 10,
 					Height = 10

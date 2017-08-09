@@ -1,11 +1,13 @@
 ﻿using System;
 using MazesAndMinotaurs.SfmlTarget;
-using MazesAndMinotaurs.Ui;
-using MazesAndMinotaurs.Ui.Adapters;
-using MazesAndMinotaurs.Ui.Controls;
-using MazesAndMinotaurs.Ui.Controls.Containers;
+using MazesAndMinotaurs.SfmlTarget.Ui;
 using SFML.Graphics;
 using SFML.Window;
+using Control =
+	MazesAndMinotaurs.Ui.Control<MazesAndMinotaurs.SfmlTarget.Ui.SfmlGlyph, SFML.Graphics.Color, SFML.Window.Keyboard.Key>;
+using ControlUtils =
+	MazesAndMinotaurs.Ui.ControlUtils<MazesAndMinotaurs.SfmlTarget.Ui.SfmlGlyph, SFML.Graphics.Color, SFML.Window.Keyboard.Key>;
+using MazesAndMinotaurs.Ui;
 
 namespace MazesAndMinotaurs.Test
 {
@@ -36,7 +38,7 @@ namespace MazesAndMinotaurs.Test
 			var terminal = new SfmlTerminal(renderWindow, font, CharacterSize, glyphWidth, glyphHeight);
 			var control = CreateRootControl(renderWindow);
 			control.IsFocused = true;
-			control.KeyboardAdapter = KeyboardAdapter.Instance;
+			control.KeyboardAdapter = SfmlKeyboardAdapter.Instance;
 
 			renderWindow.KeyPressed += (s, e) => control.NotifyKeyPressed(e.Code);
 
@@ -51,9 +53,9 @@ namespace MazesAndMinotaurs.Test
 			}
 		}
 
-		private static Control<char, Color, Keyboard.Key> CreatePage1(RenderWindow renderWindow)
+		private static Control CreatePage1(RenderWindow renderWindow)
 		{
-			var menu = new Menu<char, Color, Keyboard.Key>('…', '>');
+			var menu = new Menu();
 			var page2Item = menu.AddItem("2nd page");
 			var page3Item = menu.AddItem("3rd page");
 			var page4Item = menu.AddItem("4th page");
@@ -63,15 +65,15 @@ namespace MazesAndMinotaurs.Test
 				{
 					if (i == page2Item)
 					{
-						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(m).Page = 1;
+						ControlUtils.FindParent<Pages>(m).Page = 1;
 					}
 					else if (i == page3Item)
 					{
-						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(m).Page = 2;
+						ControlUtils.FindParent<Pages>(m).Page = 2;
 					}
 					else if (i == page4Item)
 					{
-						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(m).Page = 3;
+						ControlUtils.FindParent<Pages>(m).Page = 3;
 					}
 					else if (i == exitItem)
 					{
@@ -79,23 +81,21 @@ namespace MazesAndMinotaurs.Test
 					}
 				};
 
-			var border = new Border<char, Color, Keyboard.Key>(menu)
+			var border = new Border
 				{
 					Left = 1,
 					Top = 1,
 					Width = 20,
 					Height = 10,
-					BorderTheme = new BorderTheme<char>('*', '-', '*', '|', '*', '-', '*', '|'),
-					ColorTheme = new ColorTheme<Color>(Color.Black, Color.White),
-					Title = "Page 1",
-					Ellipsis = '…'
+					Title = SfmlGlyph.FromString("Page 1"),
 				};
+			border.Controls.Add(menu);
 			return border;
 		}
 
-		private static Control<char, Color, Keyboard.Key> CreatePage2(RenderWindow renderWindow)
+		private static Control CreatePage2(RenderWindow renderWindow)
 		{
-			var menu = new Menu<char, Color, Keyboard.Key>('…', '>');
+			var menu = new Menu();
 			var page1Item = menu.AddItem("1st page");
 			var exitItem = menu.AddItem("Exit");
 
@@ -103,7 +103,7 @@ namespace MazesAndMinotaurs.Test
 				{
 					if (i == page1Item)
 					{
-						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(m).Page = 0;
+						ControlUtils.FindParent<Pages>(m).Page = 0;
 					}
 					else if (i == exitItem)
 					{
@@ -111,64 +111,58 @@ namespace MazesAndMinotaurs.Test
 					}
 				};
 
-			var border = new Border<char, Color, Keyboard.Key>(menu)
+			var border = new Border
 				{
 					Left = 1,
 					Top = 1,
 					Width = 20,
 					Height = 10,
-					BorderTheme = new BorderTheme<char>('*', '-', '*', '|', '*', '-', '*', '|'),
-					ColorTheme = new ColorTheme<Color>(Color.Black, Color.White),
-					Title = "Page 2",
-					Ellipsis = '…'
+					Title = SfmlGlyph.FromString("Page 2"),
 				};
+			border.Controls.Add(menu);
 			return border;
 		}
 
 		// ReSharper disable once UnusedParameter.Local
-		private static Control<char, Color, Keyboard.Key> CreatePage3(RenderWindow renderWindow)
+		private static Control CreatePage3(RenderWindow renderWindow)
 		{
-			var label = new Label<char, Color, Keyboard.Key>
+			var label = new Label
 				{
-					Delimiter = Environment.NewLine,
-					Text = @"This is just Label.
-Press escape to return to page #1."
+					Text = SfmlGlyph.FromString(@"This is just Label.
+Press escape to return to page #1.")
 				};
 			label.OnKeyPressed += (control, args) =>
 				{
 					if (args.Key == Keyboard.Key.Escape)
 					{
-						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(control).Page = 0;
+						ControlUtils.FindParent<Pages>(control).Page = 0;
 					}
 				};
 
-			var border = new Border<char, Color, Keyboard.Key>(label)
+			var border = new Border
 				{
 					Left = 1,
 					Top = 1,
 					Width = 20,
 					Height = 10,
-					BorderTheme = new BorderTheme<char>('*', '-', '*', '|', '*', '-', '*', '|'),
-					ColorTheme = new ColorTheme<Color>(Color.Black, Color.White),
-					Title = "Page 3",
-					Ellipsis = '…'
+					Title = SfmlGlyph.FromString("Page 3"),
 				};
+			border.Controls.Add(label);
 			return border;
 		}
 
 		// ReSharper disable once UnusedParameter.Local
-		private static Control<char, Color, Keyboard.Key> CreatePage4(RenderWindow renderWindow)
+		private static Control CreatePage4(RenderWindow renderWindow)
 		{
-			var borderTheme = new BorderTheme<char>('*', '-', '*', '|', '*', '-', '*', '|');
 			var colorTheme1 = new ColorTheme<Color>(Color.Black, Color.Transparent);
 			var colorTheme2 = new ColorTheme<Color>(Color.Black, Color.White);
-			var grid = new Grid<char, Color, Keyboard.Key>
-				{
-					Left = 1,
-					Top = 1,
-					Width = 30,
-					Height = 20
-				};
+			var grid = new Grid
+			{
+				Left = 1,
+				Top = 1,
+				Width = 30,
+				Height = 20
+			};
 			grid.Columns.Add(1);
 			grid.Columns.Add(2);
 			grid.Rows.Add(1);
@@ -177,38 +171,38 @@ Press escape to return to page #1."
 				{
 					if (args.Key == Keyboard.Key.Escape)
 					{
-						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(control).Page = 0;
+						ControlUtils.FindParent<Pages>(control).Page = 0;
 					}
 				};
 
-			var border = new Border<char, Color, Keyboard.Key> {BorderTheme = borderTheme, ColorTheme = colorTheme1};
+			var border = new Border { ColorTheme = colorTheme1 };
 			border.OnFocusChanged += (s, a) => s.ColorTheme = a.NewValue ? colorTheme2 : colorTheme1;
 			grid.Controls.Add(border);
 
-			border = new Border<char, Color, Keyboard.Key> {BorderTheme = borderTheme, ColorTheme = colorTheme1};
+			border = new Border { ColorTheme = colorTheme1 };
 			border.OnFocusChanged += (s, a) => s.ColorTheme = a.NewValue ? colorTheme2 : colorTheme1;
 			grid.Controls.Add(border);
 
-			border = new Border<char, Color, Keyboard.Key> {BorderTheme = borderTheme, ColorTheme = colorTheme1};
+			border = new Border { ColorTheme = colorTheme1 };
 			border.OnFocusChanged += (s, a) => s.ColorTheme = a.NewValue ? colorTheme2 : colorTheme1;
 			grid.Controls.Add(border);
 
-			var label = new Label<char, Color, Keyboard.Key>
-				{
-					Delimiter = Environment.NewLine,
-					Text = "Press escape to return to page #1."
-				};
+			var label = new Label
+			{
+				Text = SfmlGlyph.FromString("Press escape to return to page #1.")
+			};
 
-			border = new Border<char, Color, Keyboard.Key>(label) {BorderTheme = borderTheme, ColorTheme = colorTheme1};
+			border = new Border { ColorTheme = colorTheme1 };
+			border.Controls.Add(label);
 			border.OnFocusChanged += (s, a) => s.ColorTheme = a.NewValue ? colorTheme2 : colorTheme1;
 			grid.Controls.Add(border);
 
 			return grid;
 		}
 
-		private static Control<char, Color, Keyboard.Key> CreateRootControl(RenderWindow renderWindow)
+		private static Control CreateRootControl(RenderWindow renderWindow)
 		{
-			var pages = new Pages<char, Color, Keyboard.Key>();
+			var pages = new Pages();
 
 			pages.Controls.Add(CreatePage1(renderWindow));
 			pages.Controls.Add(CreatePage2(renderWindow));
@@ -216,41 +210,6 @@ Press escape to return to page #1."
 			pages.Controls.Add(CreatePage4(renderWindow));
 
 			return pages;
-		}
-
-		private class KeyboardAdapter : IKeyboardAdapter<Keyboard.Key>
-		{
-			public static readonly KeyboardAdapter Instance = new KeyboardAdapter();
-
-			public bool IsDown(Keyboard.Key key)
-			{
-				return key == Keyboard.Key.Down;
-			}
-
-			public bool IsEnter(Keyboard.Key key)
-			{
-				return key == Keyboard.Key.Return;
-			}
-
-			public bool IsTab(Keyboard.Key key)
-			{
-				return key == Keyboard.Key.Tab;
-			}
-
-			public bool IsLeft(Keyboard.Key key)
-			{
-				return key == Keyboard.Key.Left;
-			}
-
-			public bool IsRight(Keyboard.Key key)
-			{
-				return key == Keyboard.Key.Right;
-			}
-
-			public bool IsUp(Keyboard.Key key)
-			{
-				return key == Keyboard.Key.Up;
-			}
 		}
 	}
 }

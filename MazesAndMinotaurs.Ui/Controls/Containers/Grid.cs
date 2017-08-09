@@ -42,14 +42,8 @@ namespace MazesAndMinotaurs.Ui.Controls.Containers
 		{
 			if (KeyboardAdapter.IsTab(args.Key))
 			{
-				var index = Controls.IndexOf(Focused);
-				index++;
-				if (index >= Controls.Count)
-				{
-					index = 0;
-				}
-				Focused.IsFocused = false;
-				Focused = Controls[index];
+				var index = Controls.IndexOf(Focused) + 1;
+				Focused = Controls[index%Controls.Count];
 				Focused.IsFocused = true;
 			}
 			else

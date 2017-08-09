@@ -28,7 +28,11 @@ abcde";
 		[Test]
 		public void BorderedMenuDrawingShouldBeEqualToItsEtalon()
 		{
-			var menu = new Menu<char, object, TestKey>('~', '>');
+			var menu = new Menu<char, object, TestKey>
+			{
+				EllipsisGlyph = '~',
+				SelectionGlyph = '>'
+			};
 			menu.AddItem("item1");
 			menu.AddItem("item2");
 			menu.AddItem("item3");
@@ -46,8 +50,10 @@ abcde";
 		[Test]
 		public void BorderlessMenuDrawingShouldBeEqualToItsEtalon()
 		{
-			var menu = new Menu<char, object, TestKey>('~', '>')
+			var menu = new Menu<char, object, TestKey>
 				{
+					EllipsisGlyph = '~',
+					SelectionGlyph = '>',
 					ColorTheme = new ColorTheme<object>(null, null),
 					Width = 6,
 					Height = 3

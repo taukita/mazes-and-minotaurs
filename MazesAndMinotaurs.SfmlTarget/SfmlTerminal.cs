@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using MazesAndMinotaurs.Core;
 using SFML.System;
+using MazesAndMinotaurs.SfmlTarget.Ui;
+using MazesAndMinotaurs.SfmlTarget.Ui.Glyphs;
 
 namespace MazesAndMinotaurs.SfmlTarget
 {
-	public class SfmlTerminal : AbstractTerminal<char, Color>
+	public class SfmlTerminal : AbstractTerminal<SfmlGlyph, Color>
 	{
 		private RenderWindow _window;
 
@@ -37,7 +39,7 @@ namespace MazesAndMinotaurs.SfmlTarget
 			
 		}
 
-		public override void Draw(int x, int y, char glyph, Color foreground, Color background)
+		public override void Draw(int x, int y, SfmlGlyph glyph, Color foreground, Color background)
 		{
 			var position = new Vector2f(x * _glyphWidth, y * _glyphHeight);
 			_shape.Position = position;
@@ -51,9 +53,14 @@ namespace MazesAndMinotaurs.SfmlTarget
 			_window.Draw(text);
 		}
 
-		private Text GetCached(char ch)
+		private Text GetCached(SfmlGlyph glyph)
 		{
-			if (!_cache.ContainsKey(ch))
+			var ch = (glyph as CharGlyph)?.Char;
+			if (!ch.HasValue)
+			{
+				return null;
+			}
+			if (!_cache.ContainsKey(ch.Value))
 			{
 				var text = new Text
 				{
@@ -61,9 +68,9 @@ namespace MazesAndMinotaurs.SfmlTarget
 					DisplayedString = ch.ToString(),
 					Font = _font
 				};
-				_cache[ch] = text;
+				_cache[ch.Value] = text;
 			}
-			return _cache[ch];
+			return _cache[ch.Value];
 		}
 	}
 }

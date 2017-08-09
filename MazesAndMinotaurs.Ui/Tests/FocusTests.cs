@@ -11,7 +11,11 @@ namespace MazesAndMinotaurs.Ui.Tests
 		[Test]
 		public void BorderContentShouldBeFocusedAfterBorderFocused()
 		{
-			var menu = new Menu<char, object, TestKey>('~', '>');
+			var menu = new Menu<char, object, TestKey>
+			{
+				EllipsisGlyph = '~',
+				SelectionGlyph = '>'
+			};
 			var border = new Border<char, object, TestKey>(menu);
 			Assert.IsFalse(menu.IsFocused);
 			border.IsFocused = true;

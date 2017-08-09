@@ -51,6 +51,7 @@
     <Compile Include="ControlsCollection.cs" />
     <Compile Include="Controls\Containers\Border.cs" />
     <Compile Include="Controls\Container.cs" />
+    <Compile Include="Controls\Containers\Canvas.cs" />
     <Compile Include="Controls\Containers\Grid.cs" />
     <Compile Include="Controls\Containers\Pages.cs" />
     <Compile Include="Controls\Menu.cs" />
