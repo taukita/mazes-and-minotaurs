@@ -1,18 +1,14 @@
-﻿using MazesAndMinotaurs.Ui;
+﻿using System;
+using MazesAndMinotaurs.Ui;
 using SFML.Graphics;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static SFML.Window.Keyboard;
 using MazesAndMinotaurs.Core;
 using MazesAndMinotaurs.Ui.Events;
-using SFML.Window;
 
 namespace Sokoban
 {
-	internal class GameControl : Control<Glyph, Color, Key>
+	internal class SfmlSokoban : Control<Glyph, Color, Key>
 	{
 		private static readonly Glyph CrateGlyph = new Glyph(15, 15);
 		private static readonly Color CrateForeground = new Color(158, 134, 100);
@@ -30,15 +26,49 @@ namespace Sokoban
 		private static readonly Color PlayerForeground = new Color(255, 102, 102);
 		private static readonly Color PlayerBackground = Color.Black;
 
+		public event Action<SfmlSokoban> OnLevelCompleted;
+
 		public Level Level { get; set; }
 
 		protected override void Drawing(ITerminal<Glyph, Color> terminal)
 		{
 			terminal = new TerminalWithOffset(terminal, Left, Top);
-			terminal.DrawWalls(Level.Crates.Select(c => Tuple.Create(c.X, c.Y)), CrateGlyph, CrateForeground, CrateBackground);
 			terminal.DrawWalls(Level.Targets, TargetGlyph, TargetForeground, TargetBackground);
+			foreach (var crate in Level.Crates)
+			{
+				var over = Level.Targets.Any(t => t.Item1 == crate.X && t.Item2 == crate.Y);
+				terminal.Draw(crate.X, crate.Y, CrateGlyph, over ? TargetForeground : CrateForeground, CrateBackground);
+
+			}
 			terminal.DrawWalls(Level.Walls, WallGlyph, WallForeground, WallBackground);
 			terminal.Draw(Level.PlayerX, Level.PlayerY, PlayerGlyph, PlayerForeground, PlayerBackground);
+		}
+
+		protected override void KeyPressed(KeyPressedEventArgs<Key> args)
+		{
+			var moved = false;
+
+			if (KeyboardAdapter.IsUp(args.Key))
+			{
+				moved = Level.TryMoveUp();
+			}
+			else if (KeyboardAdapter.IsLeft(args.Key))
+			{
+				moved = Level.TryMoveLeft();
+			}
+			else if (KeyboardAdapter.IsDown(args.Key))
+			{
+				moved = Level.TryMoveDown();
+			}
+			else if (KeyboardAdapter.IsRight(args.Key))
+			{
+				moved = Level.TryMoveRight();
+			}
+
+			if (moved && Level.IsCompleted)
+			{
+				OnLevelCompleted?.Invoke(this);
+			}
 		}
 	}
 }

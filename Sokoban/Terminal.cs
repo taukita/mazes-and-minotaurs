@@ -1,21 +1,16 @@
 ﻿using MazesAndMinotaurs.Core;
 using SFML.Graphics;
 using SFML.System;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sokoban
 {
 	internal class Terminal : AbstractTerminal<Glyph, Color>
 	{
-		private int _glyphHeight;
-		private int _glyphWidth;		
-		private Texture _texture;
-		private RenderWindow _window;
-		private RectangleShape _shape;
+		private readonly int _glyphHeight;
+		private readonly int _glyphWidth;		
+		private readonly Texture _texture;
+		private readonly RenderWindow _window;
+		private readonly RectangleShape _shape;
 
 		public Terminal(int glyphHeight, int glyphWidth, Texture texture, RenderWindow window)
 		{
@@ -32,9 +27,12 @@ namespace Sokoban
 
 		public override void Draw(int x, int y, Glyph glyph, Color foreground, Color background)
 		{
-			var sprite = new Sprite(_texture, new IntRect(glyph.Item1 * _glyphWidth, glyph.Item2 * _glyphHeight, _glyphWidth, _glyphHeight));
-			sprite.Color = foreground;
-			sprite.Position = new Vector2f(x * _glyphWidth, y * _glyphHeight);
+			var sprite = new Sprite(_texture,
+				new IntRect(glyph.Item1 * _glyphWidth, glyph.Item2 * _glyphHeight, _glyphWidth, _glyphHeight))
+			{
+				Color = foreground,
+				Position = new Vector2f(x * _glyphWidth, y * _glyphHeight)
+			};
 			_shape.FillColor = background;
 			_shape.Position = sprite.Position;
 			_window.Draw(_shape);

@@ -61,7 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameControl.cs" />
+    <Compile Include="SfmlSokoban.cs" />
     <Compile Include="Glyph.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Program.cs" />
