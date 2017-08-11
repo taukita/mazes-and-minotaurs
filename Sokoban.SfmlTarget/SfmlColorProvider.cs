@@ -9,7 +9,7 @@ namespace Sokoban.SfmlTarget
 		public SfmlColorProvider()
 		{
 			MainMenuColorTheme = new ColorTheme<Color>(Color.White, new Color(128, 102, 64));
-			SokobanLabelColorTheme = new ColorTheme<Color>(Color.Red, Color.Black);
+			SokobanLabelColorTheme = new ColorTheme<Color>(Color.Red, Color.Transparent);
 
 			CrateForeground = new Color(158, 134, 100);
 			CrateBackground = Color.Black;

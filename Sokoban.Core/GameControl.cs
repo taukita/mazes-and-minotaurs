@@ -11,6 +11,7 @@ namespace Sokoban.Core
 		private readonly int _heightInGlyphs;
 		private readonly int _widthInGlyphs;
 		private LevelControl<TGlyph, TColor, TKey> _levelControl;
+		private readonly LevelProvider _levelProvider = new LevelProvider();
 
 		public GameControl(IGlyphProvider<TGlyph> glyphProvider, IColorProvider<TColor> colorProvider, int heightInGlyphs,
 			int widthInGlyphs)
@@ -99,14 +100,7 @@ namespace Sokoban.Core
 
 		private void NewGame()
 		{
-			_levelControl.Level = Level.FromString(@"
-#######
-#t.c..#
-#.#.#.#
-#..@..#
-#.#.#.#
-#t.c..#
-#######");
+			_levelControl.Level = _levelProvider.GetLevel(0);
 			Page = 1;
 		}
 	}

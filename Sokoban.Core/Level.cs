@@ -6,13 +6,14 @@ namespace Sokoban.Core
 {
 	internal class Level
 	{
-		public int Height { get; private set; }
-		public int Width { get; private set; }
+		public int Height { get; set; }
+		public int Width { get; set; }
 		public HashSet<Tuple<int, int>> Targets { get; } = new HashSet<Tuple<int, int>>();
 		public HashSet<Tuple<int, int>> Walls { get; } = new HashSet<Tuple<int, int>>();
 		public List<Crate> Crates { get; } = new List<Crate>();
-		public int PlayerX { get; private set; }
-		public int PlayerY { get; private set; }
+		public int PlayerX { get; set; }
+		public int PlayerY { get; set; }
+		public int Index { get; set; }
 
 		public bool IsCompleted
 		{
