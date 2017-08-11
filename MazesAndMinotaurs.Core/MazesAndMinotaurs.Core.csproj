@@ -49,6 +49,7 @@
     <Compile Include="CoreExtensions.cs" />
     <Compile Include="Generators.cs" />
     <Compile Include="ICollectionItem.cs" />
+    <Compile Include="IColorAwareGlyph.cs" />
     <Compile Include="IGenerator.cs" />
     <Compile Include="INotifyPropertyChangedExtended.cs" />
     <Compile Include="ITerminal.cs" />

@@ -37,7 +37,7 @@ namespace MazesAndMinotaurs.SfmlTarget
 			
 		}
 
-		public override void Draw(int x, int y, char glyph, Color foreground, Color background)
+		protected override void Drawing(int x, int y, char glyph, Color foreground, Color background)
 		{
 			var position = new Vector2f(x * _glyphWidth, y * _glyphHeight);
 			_shape.Position = position;

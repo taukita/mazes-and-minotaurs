@@ -22,7 +22,7 @@ namespace MazesAndMinotaurs.Core
 			_new.Remove(Tuple.Create(x, y));
 		}
 
-		public override void Draw(int x, int y, TGlyph glyph, TTerminalColor foreground, TTerminalColor background)
+		protected override void Drawing(int x, int y, TGlyph glyph, TTerminalColor foreground, TTerminalColor background)
 		{
 			_new[Tuple.Create(x, y)] = Tuple.Create(glyph, foreground, background);
 		}

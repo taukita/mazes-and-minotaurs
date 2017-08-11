@@ -24,6 +24,19 @@ namespace MazesAndMinotaurs.Core
 			Draw(x, y, glyph, foreground, Background);
 		}
 
-		public abstract void Draw(int x, int y, TGlyph glyph, TTerminalColor foreground, TTerminalColor background);
+		public void Draw(int x, int y, TGlyph glyph, TTerminalColor foreground, TTerminalColor background)
+		{
+			var colorAwareGlyph = glyph as IColorAwareGlyph<TTerminalColor>;
+			if (colorAwareGlyph == null)
+			{
+				Drawing(x, y, glyph, foreground, background);
+			}
+			else
+			{
+				Drawing(x, y, glyph, colorAwareGlyph.Foreground, colorAwareGlyph.Background);
+			}
+		}
+
+		protected abstract void Drawing(int x, int y, TGlyph glyph, TTerminalColor foreground, TTerminalColor background);
 	}
 }

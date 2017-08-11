@@ -21,7 +21,7 @@ namespace MazesAndMinotaurs.ConsoleTarget
 			Console.Write(' ');
 		}
 
-		public override void Draw(int x, int y, char glyph, ConsoleColor foreground, ConsoleColor background)
+		protected override void Drawing(int x, int y, char glyph, ConsoleColor foreground, ConsoleColor background)
 		{
 			Console.SetCursorPosition(OffsetX + x, OffsetY + y);
 			Console.BackgroundColor = background;

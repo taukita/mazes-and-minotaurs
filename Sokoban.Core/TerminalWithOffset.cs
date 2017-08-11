@@ -20,7 +20,7 @@ namespace Sokoban.Core
 			_terminal.Clear(x + _offsetX, y + _offsetY);
 		}
 
-		public override void Draw(int x, int y, TGlyph glyph, TColor foreground, TColor background)
+		protected override void Drawing(int x, int y, TGlyph glyph, TColor foreground, TColor background)
 		{
 			_terminal.Draw(x + _offsetX, y + _offsetY, glyph, foreground, background);
 		}

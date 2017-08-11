@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MazesAndMinotaurs.Ui;
+using SFML.Graphics;
 using Sokoban.Core;
 
 namespace Sokoban.SfmlTarget
@@ -15,7 +16,7 @@ namespace Sokoban.SfmlTarget
 			WallGlyph = new Glyph(8, 0);
 			PlayerGlyph = new Glyph(2, 0);
 			EllipsisGlyph = new Glyph(14, 7);
-			SelectionGlyph = new Glyph(14, 3);
+			SelectionGlyph = new ColorAwareGlyph(14, 3, Color.White, Color.Black);
 			Delimiter = new[] {new Glyph(-1, -1)};
 			MainMenuBorderTheme = new BorderTheme<Glyph>(
 				new Glyph(9, 12), new Glyph(13, 12), new Glyph(11, 11), new Glyph(10, 11),

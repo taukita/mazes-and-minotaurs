@@ -25,7 +25,7 @@ namespace Sokoban.SfmlTarget
 		{
 		}
 
-		public override void Draw(int x, int y, Glyph glyph, Color foreground, Color background)
+		protected override void Drawing(int x, int y, Glyph glyph, Color foreground, Color background)
 		{
 			var sprite = new Sprite(_texture,
 				new IntRect(glyph.Item1 * _glyphWidth, glyph.Item2 * _glyphHeight, _glyphWidth, _glyphHeight))

@@ -1,4 +1,5 @@
-﻿using MazesAndMinotaurs.SfmlTarget;
+﻿using System;
+using MazesAndMinotaurs.SfmlTarget;
 using MazesAndMinotaurs.Ui;
 using SFML.Graphics;
 using SFML.Window;
