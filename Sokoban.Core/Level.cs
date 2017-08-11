@@ -14,6 +14,17 @@ namespace Sokoban.Core
 		public int PlayerX { get; private set; }
 		public int PlayerY { get; private set; }
 
+		public bool IsCompleted
+		{
+			get
+			{
+				var matrix = new bool[Width, Height];
+				foreach (var target in Targets)
+					matrix[target.Item1, target.Item2] = true;
+				return Crates.All(crate => matrix[crate.X, crate.Y]);
+			}
+		}
+
 		public static Level FromString(string @string)
 		{
 			var level = new Level();
@@ -62,19 +73,6 @@ namespace Sokoban.Core
 			return level;
 		}
 
-		public bool IsCompleted
-		{
-			get
-			{
-				var matrix = new bool[Width, Height];
-				foreach (var target in Targets)
-				{
-					matrix[target.Item1, target.Item2] = true;
-				}
-				return Crates.All(crate => matrix[crate.X, crate.Y]);
-			}
-		}
-
 		public bool TryMoveUp()
 		{
 			return TryMove(0, -1);
@@ -99,26 +97,18 @@ namespace Sokoban.Core
 		{
 			//preconditions
 			if (dx * dy != 0)
-			{
 				throw new InvalidOperationException("Only horizontal or vertical movement allowed.");
-			}
 			if (dx < -1 || dx > 1)
-			{
 				throw new ArgumentException(nameof(dx));
-			}
 			if (dy < -1 || dy > 1)
-			{
 				throw new ArgumentException(nameof(dy));
-			}
 
 			var x = PlayerX + dx;
 			var y = PlayerY + dy;
 
 			//Wall
 			if (Walls.Any(wall => wall.Item1 == x && wall.Item2 == y))
-			{
 				return false;
-			}
 
 			//Crate
 			var crate = Crates.FirstOrDefault(c => c.X == x && c.Y == y);
@@ -127,9 +117,7 @@ namespace Sokoban.Core
 				var x0 = x + dx;
 				var y0 = y + dy;
 				if (Walls.Any(wall => wall.Item1 == x0 && wall.Item2 == y0) || Crates.Any(c => c.X == x0 && c.Y == y0))
-				{
 					return false;
-				}
 				crate.X += dx;
 				crate.Y += dy;
 			}
@@ -142,9 +130,7 @@ namespace Sokoban.Core
 		private void Validate()
 		{
 			if (Targets.Count < Crates.Count)
-			{
 				throw new InvalidOperationException("There must be target for every crate.");
-			}
 		}
 
 		public class Crate

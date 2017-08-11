@@ -4,9 +4,9 @@ namespace Sokoban.Core
 {
 	internal class TerminalWithOffset<TGlyph, TColor> : AbstractTerminal<TGlyph, TColor>
 	{
-		private readonly ITerminal<TGlyph, TColor> _terminal;
 		private readonly int _offsetX;
 		private readonly int _offsetY;
+		private readonly ITerminal<TGlyph, TColor> _terminal;
 
 		public TerminalWithOffset(ITerminal<TGlyph, TColor> terminal, int offsetX, int offsetY)
 		{
