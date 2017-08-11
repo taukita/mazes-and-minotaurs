@@ -4,7 +4,7 @@ using Sokoban.Core;
 
 namespace Sokoban.SfmlTarget
 {
-	internal class SfmlColorProvider:IColorProvider<Color>
+	internal class SfmlColorProvider : IColorProvider<Color>
 	{
 		public SfmlColorProvider()
 		{

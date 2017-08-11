@@ -31,7 +31,7 @@ namespace Sokoban.SfmlTarget
 			renderWindow.Closed += (s, e) => renderWindow.Close();
 			var windowColor = Color.Black;
 
-			var terminal = new Terminal((int)glyphHeight, (int)glyphWidth, texture, renderWindow);
+			var terminal = new Terminal((int) glyphHeight, (int) glyphWidth, texture, renderWindow);
 			var root = CreateRoot();
 			root.IsFocused = true;
 
@@ -50,7 +50,9 @@ namespace Sokoban.SfmlTarget
 
 		private static Control CreateRoot()
 		{
-			Control root = new GameControl<Glyph, Color, Keyboard.Key>(GlyphProvider, ColorProvider, (int)HeightInGlyphs, (int)WidthInGlyphs);
+			Control root =
+				new GameControl<Glyph, Color, Keyboard.Key>(GlyphProvider, ColorProvider, (int) HeightInGlyphs,
+					(int) WidthInGlyphs);
 			root.KeyboardAdapter = SfmlKeyboardAdapter.Instance;
 			return root;
 		}

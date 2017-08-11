@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D3B0720E-32EA-40B5-A5AA-B60F26A10150}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{7642BDC8-E28B-4DB6-80BC-B79A0AF49843}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MazesAndMinotaurs.ConsoleTarget</RootNamespace>
-    <AssemblyName>MazesAndMinotaurs.ConsoleTarget</AssemblyName>
+    <RootNamespace>Sokoban.ConsoleTarget</RootNamespace>
+    <AssemblyName>Sokoban.ConsoleTarget</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,33 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleTerminal.cs" />
-    <Compile Include="KeyboardAdapter.cs" />
+    <Compile Include="ConsoleColorProvider.cs" />
+    <Compile Include="ConsoleGlyphProvider.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Ui\App.cs" />
-    <Compile Include="Ui\BorderControl.cs" />
-    <Compile Include="Ui\BorderTheme.cs" />
-    <Compile Include="Ui\CanvasContainerControl.cs" />
-    <Compile Include="Ui\ColorTheme.cs" />
-    <Compile Include="Ui\ContainerControl.cs" />
-    <Compile Include="Ui\Control.cs" />
-    <Compile Include="Ui\Controls.cs" />
-    <Compile Include="Ui\Events\KeyPressedEventArgs.cs" />
-    <Compile Include="Ui\GridContainerControl.cs" />
-    <Compile Include="Ui\IFocusAwareObject.cs" />
-    <Compile Include="Ui\MenuControl.cs" />
-    <Compile Include="Ui\PagesContainerControl.cs" />
-    <Compile Include="Ui\Tests\BorderControlTests.cs" />
-    <Compile Include="Ui\Tests\CanvasContainerControlTest.cs" />
-    <Compile Include="Ui\Tests\DummyTerminal.cs" />
-    <Compile Include="Ui\Tests\EtalonTests.cs" />
-    <Compile Include="Ui\Tests\PagesContainerControlTest.cs" />
-    <Compile Include="Ui\Tests\TestTerminal.cs" />
-    <Compile Include="Ui\TextControl.cs" />
-    <Compile Include="Ui\WallsControl.cs" />
-    <Compile Include="Ui\WallsTheme.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MazesAndMinotaurs.ConsoleTarget\MazesAndMinotaurs.ConsoleTarget.csproj">
+      <Project>{d3b0720e-32ea-40b5-a5aa-b60f26a10150}</Project>
+      <Name>MazesAndMinotaurs.ConsoleTarget</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MazesAndMinotaurs.Core\MazesAndMinotaurs.Core.csproj">
       <Project>{3a64591c-07d9-4b58-bdaa-df6f112ae297}</Project>
       <Name>MazesAndMinotaurs.Core</Name>
@@ -79,12 +64,10 @@
       <Project>{2e51b805-176f-406d-a584-72fb925cb402}</Project>
       <Name>MazesAndMinotaurs.Ui</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+    <ProjectReference Include="..\Sokoban.Core\Sokoban.Core.csproj">
+      <Project>{a40270a1-9471-4ff9-9b25-5bc8810696e1}</Project>
+      <Name>Sokoban.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

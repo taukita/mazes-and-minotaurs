@@ -7,10 +7,10 @@ namespace Sokoban.SfmlTarget
 	internal class Terminal : AbstractTerminal<Glyph, Color>
 	{
 		private readonly int _glyphHeight;
-		private readonly int _glyphWidth;		
+		private readonly int _glyphWidth;
+		private readonly RectangleShape _shape;
 		private readonly Texture _texture;
 		private readonly RenderWindow _window;
-		private readonly RectangleShape _shape;
 
 		public Terminal(int glyphHeight, int glyphWidth, Texture texture, RenderWindow window)
 		{

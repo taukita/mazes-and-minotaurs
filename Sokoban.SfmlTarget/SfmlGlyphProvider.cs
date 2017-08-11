@@ -39,50 +39,30 @@ namespace Sokoban.SfmlTarget
 		private static int GetX(char @char)
 		{
 			if (@char == ' ')
-			{
 				return 0;
-			}
 			if (@char >= 'A' && @char <= 'O')
-			{
 				return 1 + @char - 'A';
-			}
 			if (@char >= 'P' && @char <= 'Z')
-			{
 				return @char - 'P';
-			}
 			if (@char >= 'a' && @char <= 'o')
-			{
 				return 1 + @char - 'a';
-			}
 			if (@char >= 'p' && @char <= 'z')
-			{
 				return @char - 'p';
-			}
 			throw new ArgumentOutOfRangeException(nameof(@char));
 		}
 
 		private static int GetY(char @char)
 		{
 			if (@char == ' ')
-			{
 				return 0;
-			}
 			if (@char >= 'A' && @char <= 'O')
-			{
 				return 4;
-			}
 			if (@char >= 'P' && @char <= 'Z')
-			{
 				return 5;
-			}
 			if (@char >= 'a' && @char <= 'o')
-			{
 				return 6;
-			}
 			if (@char >= 'p' && @char <= 'z')
-			{
 				return 7;
-			}
 			throw new ArgumentOutOfRangeException(nameof(@char));
 		}
 	}
