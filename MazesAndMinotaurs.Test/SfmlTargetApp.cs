@@ -52,7 +52,11 @@ namespace MazesAndMinotaurs.Test
 
 		private static Control<char, Color, Keyboard.Key> CreatePage1(RenderWindow renderWindow)
 		{
-			var menu = new Menu<char, Color, Keyboard.Key>('…', '>');
+			var menu = new Menu<char, Color, Keyboard.Key>
+				{
+					EllipsisGlyph = '…',
+					SelectionGlyph = '>'
+				};
 			var page2Item = menu.AddItem("2nd page");
 			var page3Item = menu.AddItem("3rd page");
 			var page4Item = menu.AddItem("4th page");
@@ -95,7 +99,11 @@ namespace MazesAndMinotaurs.Test
 
 		private static Control<char, Color, Keyboard.Key> CreatePage2(RenderWindow renderWindow)
 		{
-			var menu = new Menu<char, Color, Keyboard.Key>('…', '>');
+			var menu = new Menu<char, Color, Keyboard.Key>
+				{
+					EllipsisGlyph = '…',
+					SelectionGlyph = '>'
+				};
 			var page1Item = menu.AddItem("1st page");
 			var exitItem = menu.AddItem("Exit");
 

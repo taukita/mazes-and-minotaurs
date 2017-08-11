@@ -65,6 +65,7 @@
     <Compile Include="Tests\PagesTests.cs" />
     <Compile Include="Tests\TestKey.cs" />
     <Compile Include="Tests\TestKeyboardAdapter.cs" />
+    <Compile Include="Tests\TestsBase.cs" />
     <Compile Include="Tests\TestTerminal.cs" />
   </ItemGroup>
   <ItemGroup>

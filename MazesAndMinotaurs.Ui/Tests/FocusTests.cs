@@ -12,7 +12,7 @@ namespace MazesAndMinotaurs.Ui.Tests
 		[Test]
 		public void BorderContentShouldBeFocusedAfterBorderFocused()
 		{
-			var menu = new Menu<char, object, TestKey>('~', '>');
+			var menu = new Menu<char, object, TestKey>();
 			var border = new Border<char, object, TestKey>();
 			border.Controls.Add(menu);
 			Assert.IsFalse(menu.IsFocused);
@@ -98,8 +98,8 @@ namespace MazesAndMinotaurs.Ui.Tests
 		[TestCase(typeof(Panel<char, object, TestKey>))]
 		public void ChildrenShouldBeUnfocusedAfterContainerUnfocused(Type containerType)
 		{
-			var menu1 = new Menu<char, object, TestKey>('~', '>');
-			var menu2 = new Menu<char, object, TestKey>('~', '>');
+			var menu1 = new Menu<char, object, TestKey>();
+			var menu2 = new Menu<char, object, TestKey>();
 			var container = (Container<char, object, TestKey>)Activator.CreateInstance(containerType);
 			container.Controls.Add(menu1);
 			container.Controls.Add(menu2);

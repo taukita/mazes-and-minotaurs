@@ -33,7 +33,11 @@ namespace Sokoban.Core
 
 		private Control<TGlyph, TColor, TKey> CreateMainMenu()
 		{
-			var menu = new Menu<TGlyph, TColor, TKey>(_glyphProvider.EllipsisGlyph, _glyphProvider.SelectionGlyph);
+			var menu = new Menu<TGlyph, TColor, TKey>
+				{
+					EllipsisGlyph = _glyphProvider.EllipsisGlyph,
+					SelectionGlyph = _glyphProvider.SelectionGlyph
+				};
 			var newGameItem = menu.AddItem(_glyphProvider.FromString("New game"));
 			menu.AddItem(_glyphProvider.FromString("Load game"));
 			var exitItem = menu.AddItem(_glyphProvider.FromString("Exit game"));
@@ -134,7 +138,11 @@ namespace Sokoban.Core
 
 		private Control<TGlyph, TColor, TKey> CreateLocalMenu()
 		{
-			var menu = new Menu<TGlyph, TColor, TKey>(_glyphProvider.EllipsisGlyph, _glyphProvider.SelectionGlyph);
+			var menu = new Menu<TGlyph, TColor, TKey>
+				{
+					EllipsisGlyph = _glyphProvider.EllipsisGlyph,
+					SelectionGlyph = _glyphProvider.SelectionGlyph
+				};
 			var continueItem = menu.AddItem(_glyphProvider.FromString("Continue"));
 			var restartItem = menu.AddItem(_glyphProvider.FromString("Restart"));
 			menu.AddItem(_glyphProvider.FromString("Save game"));

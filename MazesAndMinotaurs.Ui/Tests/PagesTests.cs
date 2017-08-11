@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace MazesAndMinotaurs.Ui.Tests
 {
 	[TestFixture]
-	internal class PagesTests
+	internal class PagesTests : TestsBase
 	{
 		[Test]
 		public void PagesContainerShouldDrawOnlyFocusedChild()
@@ -20,22 +20,11 @@ namespace MazesAndMinotaurs.Ui.Tests
 
 			var pages = new Pages<char, object, TestKey> {KeyboardAdapter = new TestKeyboardAdapter()};
 
-			var menu1 = new Menu<char, object, TestKey>('~', '>')
-				{
-					ColorTheme = new ColorTheme<object>(null, null),
-					Width = 10,
-					Height = 10
-				};
+			var menu1 = Menu(10, 10);
 			menu1.OnSelect += (m, s) => pages.Page = 1;
 			menu1.OnDraw += control => menu1Painted = true;
 
-			var menu2 = new Menu<char, object, TestKey>('~', '>')
-				{
-					ColorTheme = new ColorTheme<object>(null, null),
-					Width = 10,
-					Height = 10
-				};
-
+			var menu2 = Menu(10, 10);
 			menu2.OnDraw += control => menu2Painted = true;
 
 			pages.Controls.Add(menu1);

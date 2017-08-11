@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MazesAndMinotaurs.Core;
-using MazesAndMinotaurs.Ui.Adapters;
 using MazesAndMinotaurs.Ui.Events;
 
 namespace MazesAndMinotaurs.Ui.Controls
@@ -15,17 +11,11 @@ namespace MazesAndMinotaurs.Ui.Controls
 		private int _selectedItemIndex;
 		private int? _unselectedItemIndex;
 
-		private TGlyph _ellipsisGlyph;
-		private TGlyph _selectionGlyph;
-
-		public Menu(TGlyph ellipsisGlyph, TGlyph selectionGlyph)
-		{
-			_ellipsisGlyph = ellipsisGlyph;
-			_selectionGlyph = selectionGlyph;
-		}
-
 		public event Action<Menu<TGlyph, TColor, TKey>, MenuItem> OnSelect;
 		public event Action<Menu<TGlyph, TColor, TKey>, MenuItem, MenuItem> OnSelectionChanged;
+
+		public TGlyph EllipsisGlyph { get; set; }
+		public TGlyph SelectionGlyph { get; set; }
 
 		public MenuItem AddItem(IEnumerable<TGlyph> glyphs)
 		{
@@ -44,7 +34,7 @@ namespace MazesAndMinotaurs.Ui.Controls
 				{
 					throw new Exception();
 				}
-				terminal.DrawString(Left + 1, Top + i, item.Glyphs.Fit(itemWidth, _ellipsisGlyph),
+				terminal.DrawString(Left + 1, Top + i, item.Glyphs.Fit(itemWidth, EllipsisGlyph),
 					ColorTheme.Foreground, ColorTheme.Background);
 				if (_unselectedItemIndex.HasValue && item == _items[_unselectedItemIndex.Value])
 				{
@@ -53,7 +43,7 @@ namespace MazesAndMinotaurs.Ui.Controls
 				}
 				if (i == _selectedItemIndex)
 				{
-					terminal.Draw(Left, Top + i, _selectionGlyph, ColorTheme.Foreground, ColorTheme.Background);
+					terminal.Draw(Left, Top + i, SelectionGlyph, ColorTheme.Foreground, ColorTheme.Background);
 				}
 				i++;
 			}

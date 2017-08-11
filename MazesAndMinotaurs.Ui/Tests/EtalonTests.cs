@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace MazesAndMinotaurs.Ui.Tests
 {
 	[TestFixture]
-	internal class EtalonTests
+	internal class EtalonTests : TestsBase
 	{
 		private const string BorderedMenuEtalon = @"########
 #>item1#
@@ -57,7 +57,7 @@ abcde";
 		[Test]
 		public void BorderedMenuDrawingShouldBeEqualToItsEtalon()
 		{
-			var menu = new Menu<char, object, TestKey>('~', '>');
+			var menu = Menu();
 			menu.AddItem("item1");
 			menu.AddItem("item2");
 			menu.AddItem("item3");
@@ -71,12 +71,7 @@ abcde";
 		[Test]
 		public void BorderlessMenuDrawingShouldBeEqualToItsEtalon()
 		{
-			var menu = new Menu<char, object, TestKey>('~', '>')
-				{
-					ColorTheme = new ColorTheme<object>(null, null),
-					Width = 6,
-					Height = 3
-				};
+			var menu = Menu(6, 3);
 			menu.AddItem("item1");
 			menu.AddItem("item2");
 			menu.AddItem("item3");
