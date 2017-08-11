@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MazesAndMinotaurs.Ui;
+﻿using MazesAndMinotaurs.Ui;
 
-namespace Sokoban
+namespace Sokoban.Core
 {
 	public interface IColorProvider<T>
 	{

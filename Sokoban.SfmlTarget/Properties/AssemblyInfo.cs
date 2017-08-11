@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("Sokoban")]
+[assembly: AssemblyTitle("Sokoban.SfmlTarget")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Sokoban")]
+[assembly: AssemblyProduct("Sokoban.SfmlTarget")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("8c71c2d6-7bfe-460c-851b-38d07497b8bb")]
+[assembly: Guid("9fce3ed5-d95b-4e51-b96d-73649a1c1b2e")]
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //

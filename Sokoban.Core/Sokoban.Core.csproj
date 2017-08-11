@@ -4,16 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8C71C2D6-7BFE-460C-851B-38D07497B8BB}</ProjectGuid>
+    <ProjectGuid>{A40270A1-9471-4FF9-9B25-5BC8810696E1}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sokoban</RootNamespace>
-    <AssemblyName>Sokoban</AssemblyName>
+    <RootNamespace>Sokoban.Core</RootNamespace>
+    <AssemblyName>Sokoban.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,22 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="sfmlnet-audio-2, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Graphnode.SFML.Net.2.4\lib\sfmlnet-audio-2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="sfmlnet-graphics-2, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Graphnode.SFML.Net.2.4\lib\sfmlnet-graphics-2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="sfmlnet-system-2, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Graphnode.SFML.Net.2.4\lib\sfmlnet-system-2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="sfmlnet-window-2, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Graphnode.SFML.Net.2.4\lib\sfmlnet-window-2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -64,33 +46,19 @@
     <Compile Include="GameControl.cs" />
     <Compile Include="IColorProvider.cs" />
     <Compile Include="IGlyphProvider.cs" />
-    <Compile Include="SfmlColorProvider.cs" />
-    <Compile Include="SfmlGlyphProvider.cs" />
-    <Compile Include="LevelControl.cs" />
-    <Compile Include="Glyph.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="LevelControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Terminal.cs" />
     <Compile Include="TerminalWithOffset.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="cp437_16x16.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MazesAndMinotaurs.Core\MazesAndMinotaurs.Core.csproj">
       <Project>{3a64591c-07d9-4b58-bdaa-df6f112ae297}</Project>
       <Name>MazesAndMinotaurs.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MazesAndMinotaurs.SfmlTarget\MazesAndMinotaurs.SfmlTarget.csproj">
-      <Project>{c69bf3fb-f6fb-4fe7-9f27-b124ab4d0308}</Project>
-      <Name>MazesAndMinotaurs.SfmlTarget</Name>
     </ProjectReference>
     <ProjectReference Include="..\MazesAndMinotaurs.Ui\MazesAndMinotaurs.Ui.csproj">
       <Project>{2e51b805-176f-406d-a584-72fb925cb402}</Project>
@@ -98,13 +66,6 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Graphnode.SFML.Net.2.4\build\Graphnode.SFML.Net.targets" Condition="Exists('..\packages\Graphnode.SFML.Net.2.4\build\Graphnode.SFML.Net.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Graphnode.SFML.Net.2.4\build\Graphnode.SFML.Net.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Graphnode.SFML.Net.2.4\build\Graphnode.SFML.Net.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

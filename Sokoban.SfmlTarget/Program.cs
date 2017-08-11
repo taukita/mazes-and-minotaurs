@@ -1,9 +1,10 @@
-﻿using SFML.Graphics;
-using SFML.Window;
+﻿using MazesAndMinotaurs.SfmlTarget;
 using MazesAndMinotaurs.Ui;
-using MazesAndMinotaurs.SfmlTarget;
+using SFML.Graphics;
+using SFML.Window;
+using Sokoban.Core;
 
-namespace Sokoban
+namespace Sokoban.SfmlTarget
 {
 	using Control = Control<Glyph, Color, Keyboard.Key>;
 

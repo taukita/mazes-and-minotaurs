@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MazesAndMinotaurs.Ui;
+﻿using MazesAndMinotaurs.Ui;
 using SFML.Graphics;
+using Sokoban.Core;
 
-namespace Sokoban
+namespace Sokoban.SfmlTarget
 {
 	internal class SfmlColorProvider:IColorProvider<Color>
 	{

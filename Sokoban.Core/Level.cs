@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sokoban
+namespace Sokoban.Core
 {
 	internal class Level
 	{

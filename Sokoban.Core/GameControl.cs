@@ -2,7 +2,7 @@
 using MazesAndMinotaurs.Ui.Controls;
 using MazesAndMinotaurs.Ui.Controls.Containers;
 
-namespace Sokoban
+namespace Sokoban.Core
 {
 	public class GameControl<TGlyph, TColor, TKey> : Pages<TGlyph, TColor, TKey>
 	{

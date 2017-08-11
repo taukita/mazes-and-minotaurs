@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sokoban
+namespace Sokoban.SfmlTarget
 {
 	internal class Glyph : Tuple<int, int>
 	{

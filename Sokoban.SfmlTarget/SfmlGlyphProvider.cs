@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MazesAndMinotaurs.Ui;
+using Sokoban.Core;
 
-namespace Sokoban
+namespace Sokoban.SfmlTarget
 {
 	internal class SfmlGlyphProvider : IGlyphProvider<Glyph>
 	{

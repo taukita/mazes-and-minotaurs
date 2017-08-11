@@ -4,7 +4,7 @@ using MazesAndMinotaurs.Core;
 using MazesAndMinotaurs.Ui;
 using MazesAndMinotaurs.Ui.Events;
 
-namespace Sokoban
+namespace Sokoban.Core
 {
 	internal class LevelControl<TGlyph, TColor, TKey> : Control<TGlyph, TColor, TKey>
 	{

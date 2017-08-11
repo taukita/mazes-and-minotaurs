@@ -1,6 +1,6 @@
 ﻿using MazesAndMinotaurs.Core;
 
-namespace Sokoban
+namespace Sokoban.Core
 {
 	internal class TerminalWithOffset<TGlyph, TColor> : AbstractTerminal<TGlyph, TColor>
 	{

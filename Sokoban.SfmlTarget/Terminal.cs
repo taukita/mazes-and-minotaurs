@@ -2,7 +2,7 @@
 using SFML.Graphics;
 using SFML.System;
 
-namespace Sokoban
+namespace Sokoban.SfmlTarget
 {
 	internal class Terminal : AbstractTerminal<Glyph, Color>
 	{
