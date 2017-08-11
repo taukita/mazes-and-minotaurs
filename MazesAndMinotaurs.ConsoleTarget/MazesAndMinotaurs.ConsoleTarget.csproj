@@ -47,28 +47,6 @@
     <Compile Include="ConsoleTerminal.cs" />
     <Compile Include="KeyboardAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Ui\App.cs" />
-    <Compile Include="Ui\BorderControl.cs" />
-    <Compile Include="Ui\BorderTheme.cs" />
-    <Compile Include="Ui\CanvasContainerControl.cs" />
-    <Compile Include="Ui\ColorTheme.cs" />
-    <Compile Include="Ui\ContainerControl.cs" />
-    <Compile Include="Ui\Control.cs" />
-    <Compile Include="Ui\Controls.cs" />
-    <Compile Include="Ui\Events\KeyPressedEventArgs.cs" />
-    <Compile Include="Ui\GridContainerControl.cs" />
-    <Compile Include="Ui\IFocusAwareObject.cs" />
-    <Compile Include="Ui\MenuControl.cs" />
-    <Compile Include="Ui\PagesContainerControl.cs" />
-    <Compile Include="Ui\Tests\BorderControlTests.cs" />
-    <Compile Include="Ui\Tests\CanvasContainerControlTest.cs" />
-    <Compile Include="Ui\Tests\DummyTerminal.cs" />
-    <Compile Include="Ui\Tests\EtalonTests.cs" />
-    <Compile Include="Ui\Tests\PagesContainerControlTest.cs" />
-    <Compile Include="Ui\Tests\TestTerminal.cs" />
-    <Compile Include="Ui\TextControl.cs" />
-    <Compile Include="Ui\WallsControl.cs" />
-    <Compile Include="Ui\WallsTheme.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MazesAndMinotaurs.Core\MazesAndMinotaurs.Core.csproj">
