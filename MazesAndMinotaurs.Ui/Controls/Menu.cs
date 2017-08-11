@@ -59,6 +59,14 @@ namespace MazesAndMinotaurs.Ui.Controls
 			}
 		}
 
+		protected override void FocusChanged(PropertyChangedExtendedEventArgs<bool> args)
+		{
+			if (args.NewValue)
+			{
+				_selectedItemIndex = 0;
+			}
+		}
+
 		protected override void KeyPressed(KeyPressedEventArgs<TKey> args)
 		{
 			var key = args.Key;

@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Resources\Original.slc" />
     <None Include="Resources\Zone_26.slc" />
   </ItemGroup>
   <ItemGroup>

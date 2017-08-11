@@ -15,6 +15,7 @@ namespace MazesAndMinotaurs.Ui.Tests
 		Down,
 		Right,
 		Enter,
-		Tab
+		Tab,
+		Escape
 	}
 }

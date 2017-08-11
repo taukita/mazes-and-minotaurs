@@ -14,5 +14,6 @@ namespace MazesAndMinotaurs.Ui.Adapters
 		bool IsRight(TKey key);
 		bool IsEnter(TKey key);
 		bool IsTab(TKey key);
+		bool IsEscape(TKey key);
 	}
 }

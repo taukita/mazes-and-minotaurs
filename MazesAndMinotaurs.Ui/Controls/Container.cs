@@ -62,6 +62,13 @@ namespace MazesAndMinotaurs.Ui.Controls
 			{
 				Controls.First().IsFocused = true;
 			}
+			else if (!args.NewValue)
+			{
+				foreach (var control in Controls)
+				{
+					control.IsFocused = false;
+				}
+			}
 		}
 
 		protected override void KeyPressed(KeyPressedEventArgs<TKey> args)

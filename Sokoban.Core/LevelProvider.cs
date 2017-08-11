@@ -11,10 +11,29 @@ namespace Sokoban.Core
 	{
 		private readonly XDocument _data;
 
+		public static Level TestLevel
+		{
+			get
+			{
+				const string data = @"
+#######
+#.-$--#
+#-#-#-#
+#--@--#
+#-#-#-#
+#.-$--#
+#######";
+				return GetLevel(data.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries));
+			}
+		}
+
 		public LevelProvider()
 		{
-			_data = XDocument.Parse(Encoding.UTF8.GetString(Resources.Zone_26));
+			_data = XDocument.Parse(Encoding.UTF8.GetString(Resources.Original));
+			Count = _data.Root?.Element("LevelCollection")?.Elements("Level").Count() ?? 0;
 		}
+
+		public int Count { get; }
 
 		public Level GetLevel(int index)
 		{
@@ -26,7 +45,7 @@ namespace Sokoban.Core
 			return level;
 		}
 
-		internal Level GetLevel(IEnumerable<string> lines)
+		internal static Level GetLevel(IEnumerable<string> lines)
 		{
 			var level = new Level();
 

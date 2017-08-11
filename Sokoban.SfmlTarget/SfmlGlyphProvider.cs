@@ -41,6 +41,10 @@ namespace Sokoban.SfmlTarget
 		{
 			if (@char == ' ')
 				return 0;
+			if (@char == ',')
+				return 12;
+			if (@char == '!')
+				return 1;
 			if (@char >= 'A' && @char <= 'O')
 				return 1 + @char - 'A';
 			if (@char >= 'P' && @char <= 'Z')
@@ -56,6 +60,8 @@ namespace Sokoban.SfmlTarget
 		{
 			if (@char == ' ')
 				return 0;
+			if (@char == '!' || @char == ',')
+				return 2;
 			if (@char >= 'A' && @char <= 'O')
 				return 4;
 			if (@char >= 'P' && @char <= 'Z')

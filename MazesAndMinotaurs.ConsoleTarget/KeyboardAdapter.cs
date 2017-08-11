@@ -38,5 +38,10 @@ namespace MazesAndMinotaurs.ConsoleTarget
 		{
 			return key == ConsoleKey.Tab;
 		}
+
+		public bool IsEscape(ConsoleKey key)
+		{
+			return key == ConsoleKey.Escape;
+		}
 	}
 }
