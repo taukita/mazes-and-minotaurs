@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MazesAndMinotaurs.Ui.Controls;
 using MazesAndMinotaurs.Ui.Controls.Containers;
 using NUnit.Framework;
@@ -12,7 +13,8 @@ namespace MazesAndMinotaurs.Ui.Tests
 		public void BorderContentShouldBeFocusedAfterBorderFocused()
 		{
 			var menu = new Menu<char, object, TestKey>('~', '>');
-			var border = new Border<char, object, TestKey>(menu);
+			var border = new Border<char, object, TestKey>();
+			border.Controls.Add(menu);
 			Assert.IsFalse(menu.IsFocused);
 			border.IsFocused = true;
 			Assert.IsTrue(menu.IsFocused);
@@ -85,6 +87,23 @@ namespace MazesAndMinotaurs.Ui.Tests
 				}
 				grid.NotifyKeyPressed(TestKey.Tab);
 			}
+		}
+
+		[TestCase(typeof(Border<char, object, TestKey>))]
+		[TestCase(typeof(Grid<char, object, TestKey>))]
+		[TestCase(typeof(Pages<char, object, TestKey>))]
+		[TestCase(typeof(Panel<char, object, TestKey>))]
+		public void ChildrenShouldBeUnfocusedAfterContainerUnfocused(Type containerType)
+		{
+			var menu1 = new Menu<char, object, TestKey>('~', '>');
+			var menu2 = new Menu<char, object, TestKey>('~', '>');
+			var container = (Container<char, object, TestKey>)Activator.CreateInstance(containerType);
+			container.Controls.Add(menu1);
+			container.Controls.Add(menu2);
+			container.IsFocused = true;
+			menu2.IsFocused = true;
+			container.IsFocused = false;
+			Assert.IsFalse(menu2.IsFocused);
 		}
 	}
 }

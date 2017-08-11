@@ -78,7 +78,7 @@ namespace MazesAndMinotaurs.Test
 					}
 				};
 
-			var border = new Border<char, Color, Keyboard.Key>(menu)
+			var border = new Border<char, Color, Keyboard.Key>
 				{
 					Left = 1,
 					Top = 1,
@@ -89,6 +89,7 @@ namespace MazesAndMinotaurs.Test
 					Title = "Page 1",
 					Ellipsis = '…'
 				};
+			border.Controls.Add(menu);
 			return border;
 		}
 
@@ -110,7 +111,7 @@ namespace MazesAndMinotaurs.Test
 					}
 				};
 
-			var border = new Border<char, Color, Keyboard.Key>(menu)
+			var border = new Border<char, Color, Keyboard.Key>
 				{
 					Left = 1,
 					Top = 1,
@@ -121,6 +122,7 @@ namespace MazesAndMinotaurs.Test
 					Title = "Page 2",
 					Ellipsis = '…'
 				};
+			border.Controls.Add(menu);
 			return border;
 		}
 
@@ -141,7 +143,7 @@ Press escape to return to page #1."
 					}
 				};
 
-			var border = new Border<char, Color, Keyboard.Key>(label)
+			var border = new Border<char, Color, Keyboard.Key>
 				{
 					Left = 1,
 					Top = 1,
@@ -152,6 +154,7 @@ Press escape to return to page #1."
 					Title = "Page 3",
 					Ellipsis = '…'
 				};
+			border.Controls.Add(label);
 			return border;
 		}
 
@@ -198,7 +201,8 @@ Press escape to return to page #1."
 					Text = "Press escape to return to page #1."
 				};
 
-			border = new Border<char, Color, Keyboard.Key>(label) {BorderTheme = borderTheme, ColorTheme = colorTheme1};
+			border = new Border<char, Color, Keyboard.Key> {BorderTheme = borderTheme, ColorTheme = colorTheme1};
+			border.Controls.Add(label);
 			border.OnFocusChanged += (s, a) => s.ColorTheme = a.NewValue ? colorTheme2 : colorTheme1;
 			grid.Controls.Add(border);
 

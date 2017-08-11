@@ -7,20 +7,11 @@ namespace MazesAndMinotaurs.Ui.Controls.Containers
 {
 	public class Border<TGlyph, TColor, TKey> : Container<TGlyph, TColor, TKey>
 	{
-		private readonly bool _overrideThemes;
-
-		public Border(Control<TGlyph, TColor, TKey> content = null, bool overrideThemes = true)
-		{
-			if (content != null)
-			{
-				Controls.Add(content);
-			}
-			_overrideThemes = overrideThemes;
-		}
-
 		public BorderTheme<TGlyph> BorderTheme { get; set; }
 		public TGlyph Ellipsis { get; set; }
 		public IEnumerable<TGlyph> Title { get; set; }
+
+		public bool OverrideThemes { get; set; } = true;
 
 		protected override void Drawing(ITerminal<TGlyph, TColor> terminal)
 		{
@@ -66,7 +57,7 @@ namespace MazesAndMinotaurs.Ui.Controls.Containers
 				content.Top = Top + 1;
 				content.Width = Width - 2;
 				content.Height = Height - 2;
-				if (_overrideThemes)
+				if (OverrideThemes)
 				{
 					content.ColorTheme = ColorTheme;
 				}

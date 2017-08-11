@@ -51,13 +51,14 @@ abcde";
 			menu.AddItem("item2");
 			menu.AddItem("item3");
 
-			var border = new Border<char, object, TestKey>(menu)
+			var border = new Border<char, object, TestKey>
 				{
 					BorderTheme = new BorderTheme<char>('#'),
 					ColorTheme = new ColorTheme<object>(null, null),
 					Width = 8,
 					Height = 5
 				};
+			border.Controls.Add(menu);
 			AssertEqual(border, BorderedMenuEtalon);
 		}
 
