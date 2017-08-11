@@ -61,7 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SfmlSokoban.cs" />
+    <Compile Include="GameControl.cs" />
+    <Compile Include="IColorProvider.cs" />
+    <Compile Include="IGlyphProvider.cs" />
+    <Compile Include="SfmlColorProvider.cs" />
+    <Compile Include="SfmlGlyphProvider.cs" />
+    <Compile Include="LevelControl.cs" />
     <Compile Include="Glyph.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Program.cs" />

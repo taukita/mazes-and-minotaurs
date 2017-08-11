@@ -45,7 +45,10 @@ namespace MazesAndMinotaurs.Ui
 					var args = new PropertyChangedExtendedEventArgs<bool>(nameof(IsFocused), _isFocused, value);
 					_isFocused = value;
 					OnFocusChanged?.Invoke(this, args);
-					FocusChanged(args);
+					if (!args.Handled)
+					{
+						FocusChanged(args);
+					}
 				}
 			}
 		}

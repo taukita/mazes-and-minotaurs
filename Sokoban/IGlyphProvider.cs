@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MazesAndMinotaurs.Ui;
+
+namespace Sokoban
+{
+	public interface IGlyphProvider<T>
+	{
+		T CrateGlyph { get; }
+		T TargetGlyph { get; }
+		T WallGlyph { get; }
+		T PlayerGlyph { get; }
+		T EllipsisGlyph { get; }
+		T SelectionGlyph { get; }
+		ICollection<T> Delimiter { get; }
+		BorderTheme<T> MainMenuBorderTheme { get; }
+		IEnumerable<T> FromString(string @string);
+	}
+}

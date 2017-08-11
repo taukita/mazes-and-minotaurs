@@ -1,30 +1,19 @@
 ﻿using SFML.Graphics;
 using SFML.Window;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using MazesAndMinotaurs.Ui;
-using MazesAndMinotaurs.Ui.Controls;
-using MazesAndMinotaurs.Ui.Controls.Containers;
 using MazesAndMinotaurs.SfmlTarget;
 
 namespace Sokoban
-{	
-	using Border = Border<Glyph, Color, Keyboard.Key>;
+{
 	using Control = Control<Glyph, Color, Keyboard.Key>;
-	using Menu = Menu<Glyph, Color, Keyboard.Key>;
-	using Pages = Pages<Glyph, Color, Keyboard.Key>;
 
 	internal class Program
 	{
-		private static SfmlSokoban _game;
-		private static Pages _pages;
-
 		private const uint HeightInGlyphs = 40;
 		private const uint WidthInGlyphs = 60;
 
-		private static readonly Glyph EllipsisGlyph = new Glyph(14, 7);
-		private static readonly Glyph SelectionGlyph = new Glyph(14, 3);
+		private static readonly IGlyphProvider<Glyph> GlyphProvider = new SfmlGlyphProvider();
+		private static readonly IColorProvider<Color> ColorProvider = new SfmlColorProvider();
 
 		// ReSharper disable once UnusedParameter.Local
 		private static void Main(string[] args)
@@ -60,127 +49,9 @@ namespace Sokoban
 
 		private static Control CreateRoot()
 		{
-			_pages = new Pages();
-			_pages.Controls.Add(CreateMainMenu());
-			_pages.Controls.Add(CreateGame());
-			_pages.KeyboardAdapter = SfmlKeyboardAdapter.Instance;
-			return _pages;
-		}
-
-		private static Control CreateMainMenu()
-		{
-			var menu = new Menu(EllipsisGlyph, SelectionGlyph);
-			var newGameItem = menu.AddItem(FromString("New game"));
-			menu.AddItem(FromString("Load game"));
-			var exitItem = menu.AddItem(FromString("Exit game"));
-			menu.OnSelect += (s, item) =>
-			{
-				if (item == newGameItem)
-				{
-					NewGame();
-				}
-				else if (item == exitItem)
-				{
-					_pages.IsFocused = false;
-				}
-			};
-
-			var border = new Border();
-			border.Controls.Add(menu);
-			border.BorderTheme = new BorderTheme<Glyph>(
-				new Glyph(9, 12), new Glyph(13, 12), new Glyph(11, 11), new Glyph(10, 11),
-				new Glyph(12, 11), new Glyph(13, 12), new Glyph(8, 12), new Glyph(10, 11));
-			border.ColorTheme = new ColorTheme<Color>(Color.White, new Color(128, 102, 64));
-			border.Left = 1;
-			border.Top = 1;
-			border.Width = 20;
-			border.Height = 10;
-			border.Title = FromString("Main menu");
-
-			return border;
-		}
-
-		private static Control CreateGame()
-		{
-			_game = new SfmlSokoban
-			{
-				Left = 1,
-				Top = 1
-			};
-			_game.OnLevelCompleted += s =>
-			{
-				_pages.Page = 0;
-			};
-
-			return _game;
-		}
-
-		private static IEnumerable<Glyph> FromString(string @string)
-		{
-			return @string.Select(@char => new Glyph(GetX(@char), GetY(@char)));
-		}
-
-		private static int GetX(char @char)
-		{
-			if (@char == ' ')
-			{
-				return 0;
-			}
-			if (@char >= 'A' && @char <= 'O')
-			{
-				return 1 + @char - 'A';
-			}
-			if (@char >= 'P' && @char <= 'Z')
-			{
-				return @char - 'P';
-			}
-			if (@char >= 'a' && @char <= 'o')
-			{
-				return 1 + @char - 'a';
-			}
-			if (@char >= 'p' && @char <= 'z')
-			{
-				return @char - 'p';
-			}
-			throw new ArgumentOutOfRangeException(nameof(@char));
-		}
-
-		private static int GetY(char @char)
-		{
-			if (@char == ' ')
-			{
-				return 0;
-			}
-			if (@char >= 'A' && @char <= 'O')
-			{
-				return 4;
-			}
-			if (@char >= 'P' && @char <= 'Z')
-			{
-				return 5;
-			}
-			if (@char >= 'a' && @char <= 'o')
-			{
-				return 6;
-			}
-			if (@char >= 'p' && @char <= 'z')
-			{
-				return 7;
-			}
-			throw new ArgumentOutOfRangeException(nameof(@char));
-		}
-
-		private static void NewGame()
-		{
-			_game.Level = Level.FromString(@"
-#######
-#t.c..#
-#.#.#.#
-#..@..#
-#.#.#.#
-#t.c..#
-#######");
-			_pages.Page = 1;
+			Control root = new GameControl<Glyph, Color, Keyboard.Key>(GlyphProvider, ColorProvider, (int)HeightInGlyphs, (int)WidthInGlyphs);
+			root.KeyboardAdapter = SfmlKeyboardAdapter.Instance;
+			return root;
 		}
 	}
 }

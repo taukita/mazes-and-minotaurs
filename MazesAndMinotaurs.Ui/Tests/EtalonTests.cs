@@ -25,6 +25,24 @@ abc";
 		private const string Text2 = @"abcde
 abcde";
 
+		private const string VerticalPanelEtalon1 = @"..###..
+..#.#..
+..###..
+.*****.
+.*...*.
+.*...*.
+.*****.
+..###..
+..#.#..
+..###..";
+
+		private const string VerticalPanelEtalon2 = @".....
+.###.
+.#.#.
+.#.#.
+.###.
+.....";
+
 		[Test]
 		public void BorderedMenuDrawingShouldBeEqualToItsEtalon()
 		{
@@ -72,6 +90,57 @@ abcde";
 				};
 
 			AssertEqual(label, etalon, '.');
+		}
+
+		[Test]
+		public void VerticalPanelDrawingShouldBeEqualToItsEtalon()
+		{
+			var panel = new Panel<char, object, TestKey>
+			{
+				Height = 10,
+				Vertical = true,
+				Width = 7
+			};
+			var border = new Border<char, object, TestKey>
+			{
+				BorderTheme = new BorderTheme<char>('#'),
+				ColorTheme = new ColorTheme<object>(null, null),
+				Height = 3,
+				Width = 3
+			};
+			panel.Controls.Add(border);
+			border = new Border<char, object, TestKey>
+			{
+				BorderTheme = new BorderTheme<char>('*'),
+				ColorTheme = new ColorTheme<object>(null, null),
+				Height = 4,
+				Width = 5
+			};
+			panel.Controls.Add(border);
+			border = new Border<char, object, TestKey>
+			{
+				BorderTheme = new BorderTheme<char>('#'),
+				ColorTheme = new ColorTheme<object>(null, null),
+				Height = 3,
+				Width = 3
+			};
+			panel.Controls.Add(border);
+
+			AssertEqual(panel, VerticalPanelEtalon1, '.');
+
+			panel.Controls.Clear();
+			panel.Height = 6;
+			panel.Width = 5;
+			border = new Border<char, object, TestKey>
+			{
+				BorderTheme = new BorderTheme<char>('#'),
+				ColorTheme = new ColorTheme<object>(null, null),
+				Height = 4,
+				Width = 3
+			};
+			panel.Controls.Add(border);
+
+			AssertEqual(panel, VerticalPanelEtalon2, '.');
 		}
 
 		private static void AssertEqual(Control<char, object, TestKey> control, string etalon, char empty = ' ')

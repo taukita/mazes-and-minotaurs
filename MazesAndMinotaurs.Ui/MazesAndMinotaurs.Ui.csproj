@@ -53,6 +53,7 @@
     <Compile Include="Controls\Container.cs" />
     <Compile Include="Controls\Containers\Grid.cs" />
     <Compile Include="Controls\Containers\Pages.cs" />
+    <Compile Include="Controls\Containers\Panel.cs" />
     <Compile Include="Controls\Menu.cs" />
     <Compile Include="Controls\Label.cs" />
     <Compile Include="ControlUtils.cs" />
