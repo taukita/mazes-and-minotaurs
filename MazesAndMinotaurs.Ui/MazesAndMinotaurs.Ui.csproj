@@ -51,6 +51,7 @@
     <Compile Include="ControlsCollection.cs" />
     <Compile Include="Controls\Containers\Border.cs" />
     <Compile Include="Controls\Container.cs" />
+    <Compile Include="Controls\Containers\Canvas.cs" />
     <Compile Include="Controls\Containers\Grid.cs" />
     <Compile Include="Controls\Containers\Pages.cs" />
     <Compile Include="Controls\Containers\Panel.cs" />
@@ -77,6 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="roadmap.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

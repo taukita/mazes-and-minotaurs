@@ -66,30 +66,33 @@ namespace MazesAndMinotaurs.Ui.Tests
 			Assert.AreEqual(0, pages.Page);
 		}
 
-		[Test]
-		public void TabInGridShouldMoveFocusToNextChild()
+		[TestCase(typeof(Canvas<char, object, TestKey>))]
+		[TestCase(typeof(Grid<char, object, TestKey>))]
+		public void TabInSomeContainersShouldMoveFocusToNextChild(Type containerType)
 		{
-			var grid = new Grid<char, object, TestKey> {KeyboardAdapter = new TestKeyboardAdapter()};
-			grid.Controls.Add(new Border<char, object, TestKey>());
-			grid.Controls.Add(new Border<char, object, TestKey>());
-			grid.Controls.Add(new Border<char, object, TestKey>());
-			grid.Controls.Add(new Border<char, object, TestKey>());
-			grid.IsFocused = true;
+			var container = (Container<char, object, TestKey>)Activator.CreateInstance(containerType);
+			container.KeyboardAdapter = new TestKeyboardAdapter();
+			container.Controls.Add(new Border<char, object, TestKey>());
+			container.Controls.Add(new Border<char, object, TestKey>());
+			container.Controls.Add(new Border<char, object, TestKey>());
+			container.Controls.Add(new Border<char, object, TestKey>());
+			container.IsFocused = true;
 
-			for (var i = 0; i <= grid.Controls.Count; i++)
+			for (var i = 0; i <= container.Controls.Count; i++)
 			{
-				Assert.IsTrue(grid.IsFocused);
-				var focused = grid.Controls[i%grid.Controls.Count];
+				Assert.IsTrue(container.IsFocused);
+				var focused = container.Controls[i%container.Controls.Count];
 				Assert.IsTrue(focused.IsFocused);
-				foreach (var control in grid.Controls.Where(c => c != focused))
+				foreach (var control in container.Controls.Where(c => c != focused))
 				{
 					Assert.IsFalse(control.IsFocused);
 				}
-				grid.NotifyKeyPressed(TestKey.Tab);
+				container.NotifyKeyPressed(TestKey.Tab);
 			}
 		}
 
 		[TestCase(typeof(Border<char, object, TestKey>))]
+		[TestCase(typeof(Canvas<char, object, TestKey>))]
 		[TestCase(typeof(Grid<char, object, TestKey>))]
 		[TestCase(typeof(Pages<char, object, TestKey>))]
 		[TestCase(typeof(Panel<char, object, TestKey>))]

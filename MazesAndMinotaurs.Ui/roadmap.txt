@@ -1,0 +1,2 @@
+﻿1. Mouse support
+2. Menu with confirmation

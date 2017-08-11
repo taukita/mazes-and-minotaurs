@@ -43,6 +43,17 @@ abcde";
 .###.
 .....";
 
+		private const string CanvasEtalon = @"..........
+.###......
+.#.#......
+.###......
+..........
+.test.....
+......###.
+......#.#.
+.**...###.
+.**.......";
+
 		[Test]
 		public void BorderedMenuDrawingShouldBeEqualToItsEtalon()
 		{
@@ -51,14 +62,9 @@ abcde";
 			menu.AddItem("item2");
 			menu.AddItem("item3");
 
-			var border = new Border<char, object, TestKey>
-				{
-					BorderTheme = new BorderTheme<char>('#'),
-					ColorTheme = new ColorTheme<object>(null, null),
-					Width = 8,
-					Height = 5
-				};
+			var border = Border('#', 8, 5);
 			border.Controls.Add(menu);
+
 			AssertEqual(border, BorderedMenuEtalon);
 		}
 
@@ -81,16 +87,7 @@ abcde";
 		[TestCase(3, 3, Text2, LabelEtalon2)]
 		public void LabelDrawingShouldBeEqualToItsEtalon(int width, int height, string text, string etalon)
 		{
-			var label = new Label<char, object, TestKey>
-				{
-					ColorTheme = new ColorTheme<object>(null, null),
-					Width = width,
-					Height = height,
-					Delimiter = Environment.NewLine,
-					Text = text
-				};
-
-			AssertEqual(label, etalon, '.');
+			AssertEqual(Label(text, width, height), etalon, '.');
 		}
 
 		[Test]
@@ -102,29 +99,11 @@ abcde";
 				Vertical = true,
 				Width = 7
 			};
-			var border = new Border<char, object, TestKey>
-			{
-				BorderTheme = new BorderTheme<char>('#'),
-				ColorTheme = new ColorTheme<object>(null, null),
-				Height = 3,
-				Width = 3
-			};
+			var border = Border('#', 3, 3);
 			panel.Controls.Add(border);
-			border = new Border<char, object, TestKey>
-			{
-				BorderTheme = new BorderTheme<char>('*'),
-				ColorTheme = new ColorTheme<object>(null, null),
-				Height = 4,
-				Width = 5
-			};
+			border = Border('*', 5, 4);
 			panel.Controls.Add(border);
-			border = new Border<char, object, TestKey>
-			{
-				BorderTheme = new BorderTheme<char>('#'),
-				ColorTheme = new ColorTheme<object>(null, null),
-				Height = 3,
-				Width = 3
-			};
+			border = Border('#', 3, 3);
 			panel.Controls.Add(border);
 
 			AssertEqual(panel, VerticalPanelEtalon1, '.');
@@ -132,16 +111,52 @@ abcde";
 			panel.Controls.Clear();
 			panel.Height = 6;
 			panel.Width = 5;
-			border = new Border<char, object, TestKey>
-			{
-				BorderTheme = new BorderTheme<char>('#'),
-				ColorTheme = new ColorTheme<object>(null, null),
-				Height = 4,
-				Width = 3
-			};
+			border = Border('#', 3, 4);
 			panel.Controls.Add(border);
 
 			AssertEqual(panel, VerticalPanelEtalon2, '.');
+		}
+
+		[Test]
+		public void CanvasDrawingShouldBeEqualToItsEtalon()
+		{
+			var canvas = new Canvas<char, object, TestKey> {Width = 10, Height = 10};
+
+			canvas.Controls.Add(Border('#', 3, 3, 1, 1));
+			canvas.Controls.Add(Border('#', 3, 3, 6, 6));
+			canvas.Controls.Add(Border('*', 2, 2, 1, 8));
+			canvas.Controls.Add(Label("test", 4, 1, 1, 5));
+
+			AssertEqual(canvas, CanvasEtalon, '.');
+		}
+
+		private static Border<char, object, TestKey> Border(char theme, int width, int height, int left = 0, int top = 0)
+		{
+			var border = new Border<char, object, TestKey>
+			{
+				BorderTheme = new BorderTheme<char>(theme),
+				ColorTheme = new ColorTheme<object>(null, null),
+				Height = height,
+				Width = width,
+				Left = left,
+				Top = top
+			};
+			return border;
+		}
+
+		private static Label<char, object, TestKey> Label(string text, int width, int height, int left = 0, int top = 0)
+		{
+			var label = new Label<char, object, TestKey>
+			{
+				ColorTheme = new ColorTheme<object>(null, null),
+				Width = width,
+				Height = height,
+				Left = left,
+				Top = top,
+				Delimiter = Environment.NewLine,
+				Text = text
+			};
+			return label;
 		}
 
 		private static void AssertEqual(Control<char, object, TestKey> control, string etalon, char empty = ' ')
