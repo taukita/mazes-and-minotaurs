@@ -9,9 +9,9 @@ using MazesAndMinotaurs.Ui.Events;
 
 namespace MazesAndMinotaurs.Ui.Controls.Containers
 {
-	public class Pages<TGlyph, TColor, TKey> : Container<TGlyph, TColor, TKey>
+	public class Pages<TGlyph, TColor, TInput> : Container<TGlyph, TColor, TInput>
 	{
-		public event Action<Pages<TGlyph, TColor, TKey>, PropertyChangedExtendedEventArgs<int>> OnPageChanged;
+		public event Action<Pages<TGlyph, TColor, TInput>, PropertyChangedExtendedEventArgs<int>> OnPageChanged;
 
 		public int Page
 		{

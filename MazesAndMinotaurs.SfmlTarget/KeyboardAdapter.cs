@@ -7,44 +7,44 @@ namespace MazesAndMinotaurs.SfmlTarget
 	{
 		public static readonly SfmlKeyboardAdapter Instance = new SfmlKeyboardAdapter();
 
-		public bool IsDown(Keyboard.Key key)
+		public bool IsDown(Keyboard.Key input)
 		{
-			return key == Keyboard.Key.Down;
+			return input == Keyboard.Key.Down;
 		}
 
-		public bool IsEnter(Keyboard.Key key)
+		public bool IsEnter(Keyboard.Key input)
 		{
-			return key == Keyboard.Key.Return;
+			return input == Keyboard.Key.Return;
 		}
 
-		public bool IsTab(Keyboard.Key key)
+		public bool IsTab(Keyboard.Key input)
 		{
-			return key == Keyboard.Key.Tab;
+			return input == Keyboard.Key.Tab;
 		}
 
-		public bool IsEscape(Keyboard.Key key)
+		public bool IsEscape(Keyboard.Key input)
 		{
-			return key == Keyboard.Key.Escape;
+			return input == Keyboard.Key.Escape;
 		}
 
-		public bool IsBackspace(Keyboard.Key key)
+		public bool IsBackspace(Keyboard.Key input)
 		{
-			return key == Keyboard.Key.BackSpace;
+			return input == Keyboard.Key.BackSpace;
 		}
 
-		public bool IsLeft(Keyboard.Key key)
+		public bool IsLeft(Keyboard.Key input)
 		{
-			return key == Keyboard.Key.Left;
+			return input == Keyboard.Key.Left;
 		}
 
-		public bool IsRight(Keyboard.Key key)
+		public bool IsRight(Keyboard.Key input)
 		{
-			return key == Keyboard.Key.Right;
+			return input == Keyboard.Key.Right;
 		}
 
-		public bool IsUp(Keyboard.Key key)
+		public bool IsUp(Keyboard.Key input)
 		{
-			return key == Keyboard.Key.Up;
+			return input == Keyboard.Key.Up;
 		}
 	}
 }

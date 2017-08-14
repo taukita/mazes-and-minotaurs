@@ -7,13 +7,13 @@ using MazesAndMinotaurs.Ui.Events;
 
 namespace MazesAndMinotaurs.Ui.Controls
 {
-	public abstract class Container<TGlyph, TColor, TKey> : Control<TGlyph, TColor, TKey>
+	public abstract class Container<TGlyph, TColor, TInput> : Control<TGlyph, TColor, TInput>
 	{
-		protected Control<TGlyph, TColor, TKey> Focused;
+		protected Control<TGlyph, TColor, TInput> Focused;
 
 		protected Container()
 		{
-			Controls = new ControlsCollection<TGlyph, TColor, TKey>(this);
+			Controls = new ControlsCollection<TGlyph, TColor, TInput>(this);
 			Controls.CollectionChanged += ControlsOnCollectionChanged;
 		}
 
@@ -22,13 +22,13 @@ namespace MazesAndMinotaurs.Ui.Controls
 			switch (e.Action)
 			{
 				case NotifyCollectionChangedAction.Add:
-					foreach (var control in e.NewItems.Cast<Control<TGlyph, TColor, TKey>>())
+					foreach (var control in e.NewItems.Cast<Control<TGlyph, TColor, TInput>>())
 					{
 						control.OnFocusChanged += OnControlFocusChanged;
 					}
 					break;
 				case NotifyCollectionChangedAction.Remove:
-					foreach (var control in e.OldItems.Cast<Control<TGlyph, TColor, TKey>>())
+					foreach (var control in e.OldItems.Cast<Control<TGlyph, TColor, TInput>>())
 					{
 						// ReSharper disable once DelegateSubtraction
 						control.OnFocusChanged -= OnControlFocusChanged;
@@ -45,7 +45,7 @@ namespace MazesAndMinotaurs.Ui.Controls
 			}
 		}
 
-		private void OnControlFocusChanged(Control<TGlyph, TColor, TKey> control, PropertyChangedExtendedEventArgs<bool> e)
+		private void OnControlFocusChanged(Control<TGlyph, TColor, TInput> control, PropertyChangedExtendedEventArgs<bool> e)
 		{
 			if (e.NewValue)
 			{
@@ -53,7 +53,7 @@ namespace MazesAndMinotaurs.Ui.Controls
 			}
 		}
 
-		public ControlsCollection<TGlyph, TColor, TKey> Controls { get; }
+		public ControlsCollection<TGlyph, TColor, TInput> Controls { get; }
 
 		protected override void FocusChanged(PropertyChangedExtendedEventArgs<bool> args)
 		{
@@ -71,9 +71,17 @@ namespace MazesAndMinotaurs.Ui.Controls
 			}
 		}
 
-		protected override void KeyPressed(KeyPressedEventArgs<TKey> args)
+		protected override void KeyboardInput(InputEventArgs<TInput> args)
 		{
-			Focused?.NotifyKeyPressed(args.Key);
+			Focused?.NotifyKeyboardInput(args.Input);
+		}
+
+		protected override void MouseInput(InputEventArgs<TInput> args)
+		{
+			foreach (var control in Controls)
+			{
+				control.NotifyMouseInput(args.Input);
+			}
 		}
 	}
 }

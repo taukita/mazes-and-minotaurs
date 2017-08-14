@@ -22,7 +22,7 @@ namespace Sokoban.ConsoleTarget
 				root.Draw(terminal);
 				terminal.Flush();
 				Console.SetCursorPosition(0, 0);
-				root.NotifyKeyPressed(Console.ReadKey(true).Key);
+				root.NotifyKeyboardInput(Console.ReadKey(true).Key);
 			}
 		}
 	}

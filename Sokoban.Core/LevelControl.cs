@@ -48,17 +48,17 @@ namespace Sokoban.Core
 				_colorProvider.PlayerBackground);
 		}
 
-		protected override void KeyPressed(KeyPressedEventArgs<TKey> args)
+		protected override void KeyboardInput(InputEventArgs<TKey> args)
 		{
 			var moved = false;
 
-			if (KeyboardAdapter.IsUp(args.Key))
+			if (KeyboardAdapter.IsUp(args.Input))
 				moved = Level.TryMoveUp();
-			else if (KeyboardAdapter.IsLeft(args.Key))
+			else if (KeyboardAdapter.IsLeft(args.Input))
 				moved = Level.TryMoveLeft();
-			else if (KeyboardAdapter.IsDown(args.Key))
+			else if (KeyboardAdapter.IsDown(args.Input))
 				moved = Level.TryMoveDown();
-			else if (KeyboardAdapter.IsRight(args.Key))
+			else if (KeyboardAdapter.IsRight(args.Input))
 				moved = Level.TryMoveRight();
 
 			if (moved && Level.IsCompleted)

@@ -36,7 +36,7 @@ namespace Sokoban.SfmlTarget
 			var root = CreateRoot();
 			root.IsFocused = true;
 
-			renderWindow.KeyPressed += (s, e) => root.NotifyKeyPressed(e.Code);
+			renderWindow.KeyPressed += (s, e) => root.NotifyKeyboardInput(e.Code);
 
 			while (renderWindow.IsOpen && root.IsFocused)
 			{

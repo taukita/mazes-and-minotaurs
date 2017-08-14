@@ -87,7 +87,7 @@ namespace MazesAndMinotaurs.Ui.Tests
 				{
 					Assert.IsFalse(control.IsFocused);
 				}
-				container.NotifyKeyPressed(TestKey.Tab);
+				container.NotifyKeyboardInput(TestKey.Tab);
 			}
 		}
 

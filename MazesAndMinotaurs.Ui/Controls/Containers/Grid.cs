@@ -6,7 +6,7 @@ using MazesAndMinotaurs.Ui.Events;
 
 namespace MazesAndMinotaurs.Ui.Controls.Containers
 {
-	public class Grid<TGlyph, TColor, TKey> : Container<TGlyph, TColor, TKey>
+	public class Grid<TGlyph, TColor, TInput> : Container<TGlyph, TColor, TInput>
 	{
 		public List<int> Columns { get; } = new List<int>();
 		public List<int> Rows { get; } = new List<int>();
@@ -38,9 +38,9 @@ namespace MazesAndMinotaurs.Ui.Controls.Containers
 			}
 		}
 
-		protected override void KeyPressed(KeyPressedEventArgs<TKey> args)
+		protected override void KeyboardInput(InputEventArgs<TInput> args)
 		{
-			if (KeyboardAdapter.IsTab(args.Key))
+			if (KeyboardAdapter.IsTab(args.Input))
 			{
 				var index = Controls.IndexOf(Focused);
 				index++;
@@ -54,7 +54,7 @@ namespace MazesAndMinotaurs.Ui.Controls.Containers
 			}
 			else
 			{
-				Focused.NotifyKeyPressed(args.Key);
+				Focused.NotifyKeyboardInput(args.Input);
 			}
 		}
 	}

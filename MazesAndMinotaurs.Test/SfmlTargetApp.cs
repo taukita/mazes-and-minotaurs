@@ -37,7 +37,7 @@ namespace MazesAndMinotaurs.Test
 			control.IsFocused = true;
 			control.KeyboardAdapter = SfmlKeyboardAdapter.Instance;
 
-			renderWindow.KeyPressed += (s, e) => control.NotifyKeyPressed(e.Code);
+			renderWindow.KeyPressed += (s, e) => control.NotifyKeyboardInput(e.Code);
 
 			while (renderWindow.IsOpen)
 			{
@@ -143,9 +143,9 @@ namespace MazesAndMinotaurs.Test
 					Text = @"This is just Label.
 Press escape to return to page #1."
 				};
-			label.OnKeyPressed += (control, args) =>
+			label.OnKeyboardInput += (control, args) =>
 				{
-					if (args.Key == Keyboard.Key.Escape)
+					if (args.Input == Keyboard.Key.Escape)
 					{
 						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(control).Page = 0;
 					}
@@ -183,9 +183,9 @@ Press escape to return to page #1."
 			grid.Columns.Add(2);
 			grid.Rows.Add(1);
 			grid.Rows.Add(1);
-			grid.OnKeyPressed += (control, args) =>
+			grid.OnKeyboardInput += (control, args) =>
 				{
-					if (args.Key == Keyboard.Key.Escape)
+					if (args.Input == Keyboard.Key.Escape)
 					{
 						ControlUtils<char, Color, Keyboard.Key>.FindParent<Pages<char, Color, Keyboard.Key>>(control).Page = 0;
 					}

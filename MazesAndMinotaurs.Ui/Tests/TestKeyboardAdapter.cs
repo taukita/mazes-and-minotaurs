@@ -9,44 +9,44 @@ namespace MazesAndMinotaurs.Ui.Tests
 {
 	internal class TestKeyboardAdapter : IKeyboardAdapter<TestKey>
 	{
-		public bool IsDown(TestKey key)
+		public bool IsDown(TestKey input)
 		{
-			return key == TestKey.Down;
+			return input == TestKey.Down;
 		}
 
-		public bool IsEnter(TestKey key)
+		public bool IsEnter(TestKey input)
 		{
-			return key == TestKey.Enter;
+			return input == TestKey.Enter;
 		}
 
-		public bool IsTab(TestKey key)
+		public bool IsTab(TestKey input)
 		{
-			return key == TestKey.Tab;
+			return input == TestKey.Tab;
 		}
 
-		public bool IsEscape(TestKey key)
+		public bool IsEscape(TestKey input)
 		{
-			return key == TestKey.Escape;
+			return input == TestKey.Escape;
 		}
 
-		public bool IsBackspace(TestKey key)
+		public bool IsBackspace(TestKey input)
 		{
-			return key == TestKey.Backspace;
+			return input == TestKey.Backspace;
 		}
 
-		public bool IsLeft(TestKey key)
+		public bool IsLeft(TestKey input)
 		{
-			return key == TestKey.Left;
+			return input == TestKey.Left;
 		}
 
-		public bool IsRight(TestKey key)
+		public bool IsRight(TestKey input)
 		{
-			return key == TestKey.Right;
+			return input == TestKey.Right;
 		}
 
-		public bool IsUp(TestKey key)
+		public bool IsUp(TestKey input)
 		{
-			return key == TestKey.Up;
+			return input == TestKey.Up;
 		}
 	}
 }
