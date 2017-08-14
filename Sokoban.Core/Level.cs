@@ -17,6 +17,7 @@ namespace Sokoban.Core
 		public int PlayerY { get; set; }
 		public int Index { get; set; }
 		public Type ProviderType { get; set; }
+		private readonly Stack<Step> _steps = new Stack<Step>();
 
 		public bool IsCompleted
 		{
@@ -49,6 +50,23 @@ namespace Sokoban.Core
 			return TryMove(1, 0);
 		}
 
+		public bool Undo()
+		{
+			if (_steps.Any())
+			{
+				var step = _steps.Pop();
+				PlayerX = step.OldPlayerX;
+				PlayerY = step.OldPlayerY;
+				if (step.Crate != null)
+				{
+					step.Crate.X = step.OldCrateX;
+					step.Crate.Y = step.OldCrateY;
+				}
+				return true;
+			}
+			return false;
+		}
+
 		private bool TryMove(int dx, int dy)
 		{
 			//preconditions
@@ -61,6 +79,7 @@ namespace Sokoban.Core
 
 			var x = PlayerX + dx;
 			var y = PlayerY + dy;
+			var step = new Step();
 
 			//Wall
 			if (Walls.Any(wall => wall.Item1 == x && wall.Item2 == y))
@@ -74,10 +93,18 @@ namespace Sokoban.Core
 				var y0 = y + dy;
 				if (Walls.Any(wall => wall.Item1 == x0 && wall.Item2 == y0) || Crates.Any(c => c.X == x0 && c.Y == y0))
 					return false;
+
+				step.Crate = crate;
+				step.OldCrateX = crate.X;
+				step.OldCrateY = crate.Y;
+
 				crate.X += dx;
 				crate.Y += dy;
 			}
 
+			step.OldPlayerX = PlayerX;
+			step.OldPlayerY = PlayerY;
+			_steps.Push(step);
 			PlayerX += dx;
 			PlayerY += dy;
 			return true;
@@ -135,6 +162,15 @@ namespace Sokoban.Core
 			public int PlayerX { get; set; }
 			public int PlayerY { get; set; }
 			public Type ProviderType { get; set; }
+		}
+
+		private class Step
+		{
+			public int OldPlayerX;
+			public int OldPlayerY;
+			public Crate Crate;
+			public int OldCrateX;
+			public int OldCrateY;
 		}
 	}
 }

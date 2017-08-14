@@ -27,6 +27,11 @@ namespace MazesAndMinotaurs.SfmlTarget
 			return key == Keyboard.Key.Escape;
 		}
 
+		public bool IsBackspace(Keyboard.Key key)
+		{
+			return key == Keyboard.Key.BackSpace;
+		}
+
 		public bool IsLeft(Keyboard.Key key)
 		{
 			return key == Keyboard.Key.Left;

@@ -1,3 +1,4 @@
-﻿1. save/load+
+﻿+1. save/load
 	1.1. menu items: context dependent text
-2. undo move
++2. undo move
+3. tests

@@ -100,10 +100,15 @@ namespace Sokoban.Core
 						else
 							StartLevel(index);
 					}
-					if (KeyboardAdapter.IsEscape(e.Key))
+					else if (KeyboardAdapter.IsEscape(e.Key))
 					{
 						e.Handled = true;
 						Page = LocalMenuPage;
+					}
+					else if (KeyboardAdapter.IsBackspace(e.Key))
+					{
+						e.Handled = true;
+						_levelControl.Level.Undo();
 					}
 				};
 			_levelControl.OnLevelCompleted += s =>

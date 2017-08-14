@@ -43,5 +43,10 @@ namespace MazesAndMinotaurs.ConsoleTarget
 		{
 			return key == ConsoleKey.Escape;
 		}
+
+		public bool IsBackspace(ConsoleKey key)
+		{
+			return key == ConsoleKey.Backspace;
+		}
 	}
 }

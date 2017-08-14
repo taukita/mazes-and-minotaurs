@@ -29,6 +29,11 @@ namespace MazesAndMinotaurs.Ui.Tests
 			return key == TestKey.Escape;
 		}
 
+		public bool IsBackspace(TestKey key)
+		{
+			return key == TestKey.Backspace;
+		}
+
 		public bool IsLeft(TestKey key)
 		{
 			return key == TestKey.Left;
