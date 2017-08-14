@@ -49,6 +49,7 @@
     <Compile Include="GameControl.cs" />
     <Compile Include="IColorProvider.cs" />
     <Compile Include="IGlyphProvider.cs" />
+    <Compile Include="ILevelProvider.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="LevelControl.cs" />
     <Compile Include="LevelProvider.cs" />

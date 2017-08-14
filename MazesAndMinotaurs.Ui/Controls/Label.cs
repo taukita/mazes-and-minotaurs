@@ -12,6 +12,8 @@ namespace MazesAndMinotaurs.Ui.Controls
 
 		protected override void Drawing(ITerminal<TGlyph, TColor> terminal)
 		{
+			if (Text == null)
+				return;
 			var y = 0;
 			var lines = Text.Split(Delimiter.ToArray());
 			foreach (var line in lines)

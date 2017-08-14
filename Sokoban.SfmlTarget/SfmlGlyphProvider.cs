@@ -53,6 +53,8 @@ namespace Sokoban.SfmlTarget
 				return 1 + @char - 'a';
 			if (@char >= 'p' && @char <= 'z')
 				return @char - 'p';
+			if (@char >= '0' && @char <= '9')
+				return @char - '0';
 			throw new ArgumentOutOfRangeException(nameof(@char));
 		}
 
@@ -70,6 +72,8 @@ namespace Sokoban.SfmlTarget
 				return 6;
 			if (@char >= 'p' && @char <= 'z')
 				return 7;
+			if (@char >= '0' && @char <= '9')
+				return 3;
 			throw new ArgumentOutOfRangeException(nameof(@char));
 		}
 	}

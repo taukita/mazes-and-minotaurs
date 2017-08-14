@@ -7,7 +7,7 @@ using Sokoban.Core.Properties;
 
 namespace Sokoban.Core
 {
-	internal class LevelProvider
+	internal class LevelProvider : ILevelProvider
 	{
 		private readonly XDocument _data;
 
@@ -23,7 +23,9 @@ namespace Sokoban.Core
 #-#-#-#
 #.-$--#
 #######";
-				return GetLevel(data.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries));
+				var level = GetLevel(data.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries));
+				level.Index = -1;
+				return level;
 			}
 		}
 
@@ -37,6 +39,8 @@ namespace Sokoban.Core
 
 		public Level GetLevel(int index)
 		{
+			if (index == -1)
+				return TestLevel;
 			var levelData = _data.Root?.Element("LevelCollection")?.Elements("Level").ElementAt(index);
 			if (levelData == null)
 				throw new ArgumentNullException(nameof(levelData));
@@ -47,7 +51,7 @@ namespace Sokoban.Core
 
 		internal static Level GetLevel(IEnumerable<string> lines)
 		{
-			var level = new Level();
+			var level = new Level {ProviderType = typeof(LevelProvider)};
 
 			var width = 0;
 			var height = 0;

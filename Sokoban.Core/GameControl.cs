@@ -1,4 +1,6 @@
-﻿using MazesAndMinotaurs.Ui;
+﻿using System.Collections.Generic;
+using System.IO;
+using MazesAndMinotaurs.Ui;
 using MazesAndMinotaurs.Ui.Controls;
 using MazesAndMinotaurs.Ui.Controls.Containers;
 
@@ -9,6 +11,8 @@ namespace Sokoban.Core
 		private const int MainMenuPage = 0;
 		private const int NewGamePage = 1;
 		private const int LocalMenuPage = 2;
+		private const int SaveMenuPage = 3;
+		private const int LoadMenuPage = 4;
 
 		private readonly IColorProvider<TColor> _colorProvider;
 		private readonly IGlyphProvider<TGlyph> _glyphProvider;
@@ -17,6 +21,7 @@ namespace Sokoban.Core
 		private LevelControl<TGlyph, TColor, TKey> _levelControl;
 		private Label<TGlyph, TColor, TKey> _levelCompleteMessageLabel;
 		private readonly LevelProvider _levelProvider = new LevelProvider();
+		private int _previousPage;
 
 		public GameControl(IGlyphProvider<TGlyph> glyphProvider, IColorProvider<TColor> colorProvider, int heightInGlyphs,
 			int widthInGlyphs)
@@ -29,35 +34,32 @@ namespace Sokoban.Core
 			Controls.Add(CreateMainMenu());
 			Controls.Add(CreateGame());
 			Controls.Add(CreateLocalMenu());
+			Controls.Add(CreateSaveMenu());
+			Controls.Add(CreateLoadMenu());
+
+			OnPageChanged += (pages, args) =>
+			{
+				_previousPage = args.OldValue;
+			};
 		}
 
 		private Control<TGlyph, TColor, TKey> CreateMainMenu()
 		{
-			var menu = new Menu<TGlyph, TColor, TKey>
-				{
-					EllipsisGlyph = _glyphProvider.EllipsisGlyph,
-					SelectionGlyph = _glyphProvider.SelectionGlyph
-				};
+			var menu = Menu();
 			var newGameItem = menu.AddItem(_glyphProvider.FromString("New game"));
-			menu.AddItem(_glyphProvider.FromString("Load game"));
+			var loadGameItem = menu.AddItem(_glyphProvider.FromString("Load game"));
 			var exitItem = menu.AddItem(_glyphProvider.FromString("Exit game"));
 			menu.OnSelect += (s, item) =>
 			{
 				if (item == newGameItem)
 					NewGame();
+				else if (item == loadGameItem)
+					Page = LoadMenuPage;
 				else if (item == exitItem)
 					IsFocused = false;
 			};
 
-			var border = new Border<TGlyph, TColor, TKey>();
-			border.Controls.Add(menu);
-			border.BorderTheme = _glyphProvider.MainMenuBorderTheme;
-			border.ColorTheme = _colorProvider.MainMenuColorTheme;
-			border.Left = 1;
-			border.Top = 1;
-			border.Width = 20;
-			border.Height = 10;
-			border.Title = _glyphProvider.FromString("Main menu");
+			var border = Boder(20, 10, "Main menu", menu);
 
 			var label = new Label<TGlyph, TColor, TKey>
 			{
@@ -68,12 +70,7 @@ namespace Sokoban.Core
 				Width = 7
 			};
 
-			var panel = new Panel<TGlyph, TColor, TKey>
-			{
-				Height = _heightInGlyphs,
-				Vertical = true,
-				Width = _widthInGlyphs
-			};
+			var panel = Panel(label, border);
 			panel.OnFocusChanged += (s, e) =>
 			{
 				if (e.NewValue)
@@ -82,9 +79,6 @@ namespace Sokoban.Core
 					e.Handled = true;
 				}
 			};
-			panel.Controls.Add(label);
-			panel.Controls.Add(border);
-
 			return panel;
 		}
 
@@ -123,30 +117,16 @@ namespace Sokoban.Core
 					Height = 1,
 					Width = 46
 				};
-
-			var panel = new Panel<TGlyph, TColor, TKey>
-			{
-				Height = _heightInGlyphs,
-				Vertical = true,
-				Width = _widthInGlyphs
-			};
-			panel.Controls.Add(_levelControl);
-			panel.Controls.Add(_levelCompleteMessageLabel);
-
-			return panel;
+			return Panel(_levelControl, _levelCompleteMessageLabel);
 		}
 
 		private Control<TGlyph, TColor, TKey> CreateLocalMenu()
 		{
-			var menu = new Menu<TGlyph, TColor, TKey>
-				{
-					EllipsisGlyph = _glyphProvider.EllipsisGlyph,
-					SelectionGlyph = _glyphProvider.SelectionGlyph
-				};
+			var menu = Menu();
 			var continueItem = menu.AddItem(_glyphProvider.FromString("Continue"));
 			var restartItem = menu.AddItem(_glyphProvider.FromString("Restart"));
-			menu.AddItem(_glyphProvider.FromString("Save game"));
-			menu.AddItem(_glyphProvider.FromString("Load game"));
+			var saveGameItem = menu.AddItem(_glyphProvider.FromString("Save game"));
+			var loadGameItem = menu.AddItem(_glyphProvider.FromString("Load game"));
 			var mainMenuItem = menu.AddItem(_glyphProvider.FromString("Main menu"));
 			menu.OnSelect += (s, item) =>
 				{
@@ -154,19 +134,15 @@ namespace Sokoban.Core
 						Page = NewGamePage;
 					else if (item == restartItem)
 						StartLevel(_levelControl.Level.Index);
+					else if (item == saveGameItem)
+						Page = SaveMenuPage;
+					else if (item == loadGameItem)
+						Page = LoadMenuPage;
 					else if (item == mainMenuItem)
 						Page = MainMenuPage;
 				};
 
-			var border = new Border<TGlyph, TColor, TKey>();
-			border.Controls.Add(menu);
-			border.BorderTheme = _glyphProvider.MainMenuBorderTheme;
-			border.ColorTheme = _colorProvider.MainMenuColorTheme;
-			border.Left = 1;
-			border.Top = 1;
-			border.Width = 20;
-			border.Height = 10;
-			border.Title = _glyphProvider.FromString("Local menu");
+			var border = Boder(20, 10, "Local menu", menu);
 
 			var label = new Label<TGlyph, TColor, TKey>
 			{
@@ -177,12 +153,7 @@ namespace Sokoban.Core
 				Width = 7
 			};
 
-			var panel = new Panel<TGlyph, TColor, TKey>
-			{
-				Height = _heightInGlyphs,
-				Vertical = true,
-				Width = _widthInGlyphs
-			};
+			var panel = Panel(label, border);
 			panel.OnFocusChanged += (s, e) =>
 			{
 				if (e.NewValue)
@@ -191,9 +162,101 @@ namespace Sokoban.Core
 					e.Handled = true;
 				}
 			};
-			panel.Controls.Add(label);
-			panel.Controls.Add(border);
+			return panel;
+		}
 
+		private Control<TGlyph, TColor, TKey> CreateSaveMenu()
+		{
+			var menu = Menu();
+			var items = new List<object>(10);
+			for (var i = 0; i < items.Capacity; i++)
+			{
+				items.Add(menu.AddItem(_glyphProvider.FromString($"Slot {i}")));
+			}
+			menu.OnSelect += (m, item) =>
+			{
+				var index = items.IndexOf(item);
+				_levelControl.Level.Save($"save{index}.sav");
+				Page = LocalMenuPage;
+			};
+			menu.OnKeyPressed += (control, args) =>
+			{
+				if (KeyboardAdapter.IsEscape(args.Key))
+				{
+					Page = LocalMenuPage;
+				}
+			};
+
+			return Panel(Boder(20, 12, "Save menu", menu));
+		}
+
+		private Control<TGlyph, TColor, TKey> CreateLoadMenu()
+		{
+			var menu = Menu();
+			var items = new List<object>(10);
+			for (var i = 0; i < items.Capacity; i++)
+			{
+				items.Add(menu.AddItem(_glyphProvider.FromString($"Slot {i}")));
+			}
+			menu.OnSelect += (m, item) =>
+			{
+				var index = items.IndexOf(item);
+				if (File.Exists($"save{index}.sav"))
+				{
+					_levelControl.Level = Level.Load($"save{index}.sav");
+					Page = NewGamePage;
+				}
+			};
+			menu.OnKeyPressed += (control, args) =>
+			{
+				if (KeyboardAdapter.IsEscape(args.Key))
+				{
+					Page = _previousPage;
+				}
+			};
+
+			return Panel(Boder(20, 12, "Load menu", menu));
+		}
+
+		private Menu<TGlyph, TColor, TKey> Menu()
+		{
+			return new Menu<TGlyph, TColor, TKey>
+			{
+				EllipsisGlyph = _glyphProvider.EllipsisGlyph,
+				SelectionGlyph = _glyphProvider.SelectionGlyph
+			};
+		}
+
+		private Border<TGlyph, TColor, TKey> Boder(int width, int height, string title, params Control<TGlyph, TColor, TKey>[] controls)
+		{
+			var border = new Border<TGlyph, TColor, TKey>
+			{
+				BorderTheme = _glyphProvider.MainMenuBorderTheme,
+				ColorTheme = _colorProvider.MainMenuColorTheme,
+				Width = width,
+				Height = height,
+				Title = _glyphProvider.FromString(title),
+				Ellipsis = _glyphProvider.EllipsisGlyph
+			};
+			foreach (var control in controls)
+			{
+				border.Controls.Add(control);
+			}
+			return border;
+		}
+
+		private Panel<TGlyph, TColor, TKey> Panel(params Control<TGlyph, TColor, TKey>[] controls)
+		{
+			var panel = new Panel<TGlyph, TColor, TKey>
+			{
+				Height = _heightInGlyphs,
+				Vertical = true,
+				Width = _widthInGlyphs
+			};
+			foreach (var control in controls)
+			{
+				panel.Controls.Add(control);
+			}
 			return panel;
 		}
 

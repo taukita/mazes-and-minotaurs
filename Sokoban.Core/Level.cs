@@ -16,6 +16,7 @@ namespace Sokoban.Core
 		public int PlayerX { get; set; }
 		public int PlayerY { get; set; }
 		public int Index { get; set; }
+		public Type ProviderType { get; set; }
 
 		public bool IsCompleted
 		{
@@ -92,9 +93,30 @@ namespace Sokoban.Core
 						Crates = Crates,
 						Index = Index,
 						PlayerX = PlayerX,
-						PlayerY = PlayerY
+						PlayerY = PlayerY,
+						ProviderType = ProviderType
 					};
 				formatter.Serialize(stream, data);
+			}
+		}
+
+		private Level Load(LevelData data)
+		{
+			Crates.Clear();
+			Crates.AddRange(data.Crates);
+			PlayerX = data.PlayerX;
+			PlayerY = data.PlayerY;
+			return this;
+		}
+
+		public static Level Load(string filename)
+		{
+			using (var stream = File.Open(filename, FileMode.Open))
+			{
+				var formatter = new BinaryFormatter();
+				var data = (LevelData) formatter.Deserialize(stream);
+				var levelProvider = (ILevelProvider)Activator.CreateInstance(data.ProviderType);
+				return levelProvider.GetLevel(data.Index).Load(data);
 			}
 		}
 
@@ -108,10 +130,11 @@ namespace Sokoban.Core
 		[Serializable]
 		private class LevelData
 		{
+			public List<Crate> Crates { get; set; }
 			public int Index { get; set; }
 			public int PlayerX { get; set; }
 			public int PlayerY { get; set; }
-			public List<Crate> Crates { get; set; }
+			public Type ProviderType { get; set; }
 		}
 	}
 }
