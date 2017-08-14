@@ -8,6 +8,8 @@ namespace Sokoban.Core
 {
 	public class GameControl<TGlyph, TColor, TKey> : Pages<TGlyph, TColor, TKey>
 	{
+		private const bool EnableTestLevel = true;
+
 		private const int MainMenuPage = 0;
 		private const int NewGamePage = 1;
 		private const int LocalMenuPage = 2;
@@ -52,7 +54,7 @@ namespace Sokoban.Core
 			menu.OnSelect += (s, item) =>
 			{
 				if (item == newGameItem)
-					NewGame();
+					StartLevel(EnableTestLevel ? -1 : 0);
 				else if (item == loadGameItem)
 					Page = LoadMenuPage;
 				else if (item == exitItem)
@@ -268,14 +270,6 @@ namespace Sokoban.Core
 		private void StartLevel(int index)
 		{
 			_levelControl.Level = _levelProvider.GetLevel(index);
-			_levelCompleteMessageLabel.Text = _glyphProvider.FromString("");
-			Page = NewGamePage;
-		}
-
-		private void NewGame()
-		{
-			//_levelControl.Level = _levelProvider.GetLevel(0);
-			_levelControl.Level = LevelProvider.TestLevel;
 			_levelCompleteMessageLabel.Text = _glyphProvider.FromString("");
 			Page = NewGamePage;
 		}
