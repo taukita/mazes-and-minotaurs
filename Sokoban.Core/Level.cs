@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Sokoban.Core
 {
@@ -24,54 +26,6 @@ namespace Sokoban.Core
 					matrix[target.Item1, target.Item2] = true;
 				return Crates.All(crate => matrix[crate.X, crate.Y]);
 			}
-		}
-
-		public static Level FromString(string @string)
-		{
-			var level = new Level();
-			int? width = null;
-			var playerSet = false;
-			var y = 0;
-			var lines = @string.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
-			foreach (var line in lines)
-			{
-				var x = 0;
-				foreach (var @char in line)
-				{
-					switch (@char)
-					{
-						case '#':
-							level.Walls.Add(Tuple.Create(x, y));
-							break;
-						case 't':
-						case 'T':
-							level.Targets.Add(Tuple.Create(x, y));
-							break;
-						case 'c':
-						case 'C':
-							level.Crates.Add(new Crate {X = x, Y = y});
-							break;
-						case '@':
-							if (playerSet)
-								throw new Exception("Only one player allowed.");
-							level.PlayerX = x;
-							level.PlayerY = y;
-							playerSet = true;
-							break;
-					}
-					x++;
-				}
-				if (width.HasValue && width.Value != x)
-					throw new Exception("All lines must be of same width.");
-				width = x;
-				y++;
-			}
-			if (!width.HasValue)
-				throw new Exception("Source string cannot be empty.");
-			level.Width = width.Value;
-			level.Height = y;
-			level.Validate();
-			return level;
 		}
 
 		public bool TryMoveUp()
@@ -128,16 +82,36 @@ namespace Sokoban.Core
 			return true;
 		}
 
-		private void Validate()
+		public void Save(string filename)
 		{
-			if (Targets.Count < Crates.Count)
-				throw new InvalidOperationException("There must be target for every crate.");
+			using (var stream = File.Open(filename, FileMode.Create))
+			{
+				var formatter = new BinaryFormatter();
+				var data = new LevelData
+					{
+						Crates = Crates,
+						Index = Index,
+						PlayerX = PlayerX,
+						PlayerY = PlayerY
+					};
+				formatter.Serialize(stream, data);
+			}
 		}
 
+		[Serializable]
 		public class Crate
 		{
 			public int X { get; set; }
 			public int Y { get; set; }
+		}
+
+		[Serializable]
+		private class LevelData
+		{
+			public int Index { get; set; }
+			public int PlayerX { get; set; }
+			public int PlayerY { get; set; }
+			public List<Crate> Crates { get; set; }
 		}
 	}
 }
