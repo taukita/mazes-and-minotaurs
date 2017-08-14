@@ -44,6 +44,11 @@ namespace MazesAndMinotaurs.Ui.Tests
 			return input == TestKey.Right;
 		}
 
+		public bool IsKeyboardInput(TestKey input)
+		{
+			return true;
+		}
+
 		public bool IsUp(TestKey input)
 		{
 			return input == TestKey.Up;
