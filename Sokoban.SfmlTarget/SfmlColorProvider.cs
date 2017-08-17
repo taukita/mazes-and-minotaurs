@@ -8,7 +8,8 @@ namespace Sokoban.SfmlTarget
 	{
 		public SfmlColorProvider()
 		{
-			MainMenuColorTheme = new ColorTheme<Color>(Color.White, new Color(128, 102, 64));
+			MainMenuBorderColorTheme = new ColorTheme<Color>(Color.White, new Color(128, 102, 64));
+			MainMenuColorTheme = new ColorTheme<Color>(Color.White, Color.Transparent);
 			SokobanLabelColorTheme = new ColorTheme<Color>(Color.Red, Color.Transparent);
 
 			CrateForeground = new Color(158, 134, 100);
@@ -24,6 +25,7 @@ namespace Sokoban.SfmlTarget
 			PlayerBackground = Color.Black;
 		}
 
+		public ColorTheme<Color> MainMenuBorderColorTheme { get; }
 		public ColorTheme<Color> MainMenuColorTheme { get; }
 		public ColorTheme<Color> SokobanLabelColorTheme { get; }
 		public Color CrateForeground { get; }
