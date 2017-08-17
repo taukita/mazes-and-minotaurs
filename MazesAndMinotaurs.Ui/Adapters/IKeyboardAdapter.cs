@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace MazesAndMinotaurs.Ui.Adapters
 {
-	public interface IKeyboardAdapter<in TKey>
+	public interface IKeyboardAdapter<in TInput>
 	{
-		bool IsUp(TKey key);
-		bool IsLeft(TKey key);
-		bool IsDown(TKey key);
-		bool IsRight(TKey key);
-		bool IsEnter(TKey key);
-		bool IsTab(TKey key);
-		bool IsEscape(TKey key);
-		bool IsBackspace(TKey key);
+		bool IsKeyboardInput(TInput input);
+
+		bool IsUp(TInput input);
+		bool IsLeft(TInput input);
+		bool IsDown(TInput input);
+		bool IsRight(TInput input);
+		bool IsEnter(TInput input);
+		bool IsTab(TInput input);
+		bool IsEscape(TInput input);
+		bool IsBackspace(TInput input);
 	}
 }

@@ -91,7 +91,7 @@ namespace Sokoban.Core
 				Left = 1,
 				Top = 1
 			};
-			_levelControl.OnKeyPressed += (s, e) =>
+			_levelControl.OnKeyboardInput += (s, e) =>
 				{
 					if (_levelControl.Level.IsCompleted)
 					{
@@ -102,12 +102,12 @@ namespace Sokoban.Core
 						else
 							StartLevel(index);
 					}
-					else if (KeyboardAdapter.IsEscape(e.Key))
+					else if (KeyboardAdapter.IsEscape(e.Input))
 					{
 						e.Handled = true;
 						Page = LocalMenuPage;
 					}
-					else if (KeyboardAdapter.IsBackspace(e.Key))
+					else if (KeyboardAdapter.IsBackspace(e.Input))
 					{
 						e.Handled = true;
 						_levelControl.Level.Undo();
@@ -186,9 +186,9 @@ namespace Sokoban.Core
 				_levelControl.Level.Save($"save{index}.sav");
 				Page = LocalMenuPage;
 			};
-			menu.OnKeyPressed += (control, args) =>
+			menu.OnKeyboardInput += (control, args) =>
 			{
-				if (KeyboardAdapter.IsEscape(args.Key))
+				if (KeyboardAdapter.IsEscape(args.Input))
 				{
 					Page = LocalMenuPage;
 				}
@@ -214,9 +214,9 @@ namespace Sokoban.Core
 					Page = NewGamePage;
 				}
 			};
-			menu.OnKeyPressed += (control, args) =>
+			menu.OnKeyboardInput += (control, args) =>
 			{
-				if (KeyboardAdapter.IsEscape(args.Key))
+				if (KeyboardAdapter.IsEscape(args.Input))
 				{
 					Page = _previousPage;
 				}

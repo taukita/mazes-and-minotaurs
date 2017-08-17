@@ -8,7 +8,7 @@ using MazesAndMinotaurs.Ui.Events;
 
 namespace MazesAndMinotaurs.Ui.Controls.Containers
 {
-	public class Canvas<TGlyph, TColor, TKey> : Container<TGlyph, TColor, TKey>
+	public class Canvas<TGlyph, TColor, TInput> : Container<TGlyph, TColor, TInput>
 	{
 		protected override void Drawing(ITerminal<TGlyph, TColor> terminal)
 		{
@@ -18,9 +18,9 @@ namespace MazesAndMinotaurs.Ui.Controls.Containers
 			}
 		}
 
-		protected override void KeyPressed(KeyPressedEventArgs<TKey> args)
+		protected override void KeyboardInput(InputEventArgs<TInput> args)
 		{
-			if (KeyboardAdapter.IsTab(args.Key))
+			if (KeyboardAdapter.IsTab(args.Input))
 			{
 				var index = Controls.IndexOf(Focused) + 1;
 				Focused = Controls[index % Controls.Count];
@@ -28,7 +28,7 @@ namespace MazesAndMinotaurs.Ui.Controls.Containers
 			}
 			else
 			{
-				Focused.NotifyKeyPressed(args.Key);
+				Focused.NotifyKeyboardInput(args.Input);
 			}
 		}
 	}

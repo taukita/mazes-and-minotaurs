@@ -9,44 +9,44 @@ namespace MazesAndMinotaurs.ConsoleTarget
 {
 	public class KeyboardAdapter : IKeyboardAdapter<ConsoleKey>
 	{
-		public bool IsUp(ConsoleKey key)
+		public bool IsUp(ConsoleKey input)
 		{
-			return key == ConsoleKey.UpArrow;
+			return input == ConsoleKey.UpArrow;
 		}
 
-		public bool IsLeft(ConsoleKey key)
+		public bool IsLeft(ConsoleKey input)
 		{
-			return key == ConsoleKey.LeftArrow;
+			return input == ConsoleKey.LeftArrow;
 		}
 
-		public bool IsDown(ConsoleKey key)
+		public bool IsDown(ConsoleKey input)
 		{
-			return key == ConsoleKey.DownArrow;
+			return input == ConsoleKey.DownArrow;
 		}
 
-		public bool IsRight(ConsoleKey key)
+		public bool IsRight(ConsoleKey input)
 		{
-			return key == ConsoleKey.RightArrow;
+			return input == ConsoleKey.RightArrow;
 		}
 
-		public bool IsEnter(ConsoleKey key)
+		public bool IsEnter(ConsoleKey input)
 		{
-			return key == ConsoleKey.Enter;
+			return input == ConsoleKey.Enter;
 		}
 
-		public bool IsTab(ConsoleKey key)
+		public bool IsTab(ConsoleKey input)
 		{
-			return key == ConsoleKey.Tab;
+			return input == ConsoleKey.Tab;
 		}
 
-		public bool IsEscape(ConsoleKey key)
+		public bool IsEscape(ConsoleKey input)
 		{
-			return key == ConsoleKey.Escape;
+			return input == ConsoleKey.Escape;
 		}
 
-		public bool IsBackspace(ConsoleKey key)
+		public bool IsBackspace(ConsoleKey input)
 		{
-			return key == ConsoleKey.Backspace;
+			return input == ConsoleKey.Backspace;
 		}
 	}
 }

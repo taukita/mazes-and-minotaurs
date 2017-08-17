@@ -5,7 +5,7 @@ using MazesAndMinotaurs.Ui.Events;
 
 namespace MazesAndMinotaurs.Ui.Controls.Containers
 {
-	public class Border<TGlyph, TColor, TKey> : Container<TGlyph, TColor, TKey>
+	public class Border<TGlyph, TColor, TInput> : Container<TGlyph, TColor, TInput>
 	{
 		public BorderTheme<TGlyph> BorderTheme { get; set; }
 		public TGlyph Ellipsis { get; set; }

@@ -5,7 +5,7 @@ using MazesAndMinotaurs.Ui.Adapters;
 
 namespace MazesAndMinotaurs.Ui.Controls
 {
-	public class Label<TGlyph, TColor, TKey> : Control<TGlyph, TColor, TKey>
+	public class Label<TGlyph, TColor, TInput> : Control<TGlyph, TColor, TInput>
 	{
 		public IEnumerable<TGlyph> Delimiter { get; set; }
 		public IEnumerable<TGlyph> Text { get; set; }

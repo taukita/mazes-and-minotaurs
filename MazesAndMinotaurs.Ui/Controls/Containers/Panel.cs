@@ -7,7 +7,7 @@ using MazesAndMinotaurs.Core;
 
 namespace MazesAndMinotaurs.Ui.Controls.Containers
 {
-	public class Panel<TGlyph, TColor, TKey> : Container<TGlyph, TColor, TKey>
+	public class Panel<TGlyph, TColor, TInput> : Container<TGlyph, TColor, TInput>
 	{
 		public bool Vertical { get; set; }
 

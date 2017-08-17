@@ -3,48 +3,53 @@ using SFML.Window;
 
 namespace MazesAndMinotaurs.SfmlTarget
 {
-	public class SfmlKeyboardAdapter : IKeyboardAdapter<Keyboard.Key>
+	public class SfmlKeyboardAdapter : IKeyboardAdapter<SfmlInput>
 	{
 		public static readonly SfmlKeyboardAdapter Instance = new SfmlKeyboardAdapter();
 
-		public bool IsDown(Keyboard.Key key)
+		public bool IsKeyboardInput(SfmlInput input)
 		{
-			return key == Keyboard.Key.Down;
+			return input.KeyEventArgs != null;
 		}
 
-		public bool IsEnter(Keyboard.Key key)
+		public bool IsUp(SfmlInput input)
 		{
-			return key == Keyboard.Key.Return;
+			return input.KeyEventArgs.Code == Keyboard.Key.Up;
 		}
 
-		public bool IsTab(Keyboard.Key key)
+		public bool IsLeft(SfmlInput input)
 		{
-			return key == Keyboard.Key.Tab;
+			return input.KeyEventArgs.Code == Keyboard.Key.Left;
 		}
 
-		public bool IsEscape(Keyboard.Key key)
+		public bool IsDown(SfmlInput input)
 		{
-			return key == Keyboard.Key.Escape;
+			return input.KeyEventArgs.Code == Keyboard.Key.Down;
 		}
 
-		public bool IsBackspace(Keyboard.Key key)
+		public bool IsRight(SfmlInput input)
 		{
-			return key == Keyboard.Key.BackSpace;
+			return input.KeyEventArgs.Code == Keyboard.Key.Right;
 		}
 
-		public bool IsLeft(Keyboard.Key key)
+		public bool IsEnter(SfmlInput input)
 		{
-			return key == Keyboard.Key.Left;
+			return input.KeyEventArgs.Code == Keyboard.Key.Return;
 		}
 
-		public bool IsRight(Keyboard.Key key)
+		public bool IsTab(SfmlInput input)
 		{
-			return key == Keyboard.Key.Right;
+			return input.KeyEventArgs.Code == Keyboard.Key.Tab;
 		}
 
-		public bool IsUp(Keyboard.Key key)
+		public bool IsEscape(SfmlInput input)
 		{
-			return key == Keyboard.Key.Up;
+			return input.KeyEventArgs.Code == Keyboard.Key.Escape;
+		}
+
+		public bool IsBackspace(SfmlInput input)
+		{
+			return input.KeyEventArgs.Code == Keyboard.Key.BackSpace;
 		}
 	}
 }

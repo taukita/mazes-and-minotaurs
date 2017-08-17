@@ -5,14 +5,14 @@ using MazesAndMinotaurs.Ui.Events;
 
 namespace MazesAndMinotaurs.Ui.Controls
 {
-	public class Menu<TGlyph, TColor, TKey> : Control<TGlyph, TColor, TKey>
+	public class Menu<TGlyph, TColor, TInput> : Control<TGlyph, TColor, TInput>
 	{
 		private readonly List<MenuItem> _items = new List<MenuItem>();
 		private int _selectedItemIndex;
 		private int? _unselectedItemIndex;
 
-		public event Action<Menu<TGlyph, TColor, TKey>, MenuItem> OnSelect;
-		public event Action<Menu<TGlyph, TColor, TKey>, MenuItem, MenuItem> OnSelectionChanged;
+		public event Action<Menu<TGlyph, TColor, TInput>, MenuItem> OnSelect;
+		public event Action<Menu<TGlyph, TColor, TInput>, MenuItem, MenuItem> OnSelectionChanged;
 
 		public TGlyph EllipsisGlyph { get; set; }
 		public TGlyph SelectionGlyph { get; set; }
@@ -57,9 +57,9 @@ namespace MazesAndMinotaurs.Ui.Controls
 			}
 		}
 
-		protected override void KeyPressed(KeyPressedEventArgs<TKey> args)
+		protected override void KeyboardInput(InputEventArgs<TInput> args)
 		{
-			var key = args.Key;
+			var key = args.Input;
 
 			if (KeyboardAdapter.IsUp(key))
 			{
@@ -84,6 +84,23 @@ namespace MazesAndMinotaurs.Ui.Controls
 			else if (KeyboardAdapter.IsEnter(key))
 			{
 				OnSelect?.Invoke(this, _items[_selectedItemIndex]);
+			}
+		}
+
+		protected override void MouseInput(InputEventArgs<TInput> args)
+		{
+			if (MouseAdapter != null)
+			{
+				var x = MouseAdapter.GetX(args.Input);
+				var y = MouseAdapter.GetY(args.Input);
+				if (x >= Left && x < Left + Width && y >= Top && y < Top + Width)
+				{
+					if (y - Top != _selectedItemIndex)
+					{
+						_unselectedItemIndex = _selectedItemIndex;
+						_selectedItemIndex = y - Top;
+					}
+				}
 			}
 		}
 
