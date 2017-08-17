@@ -69,6 +69,7 @@
     <Compile Include="TerminalWithOffset.cs" />
     <Compile Include="Tests\LevelCreatorTests.cs" />
     <Compile Include="Tests\LevelToStringTests.cs" />
+    <Compile Include="Tests\MovementTests.cs" />
     <Compile Include="Tests\TestExtendedLevelFormat.cs" />
     <Compile Include="Tests\TestLevelFormat.cs" />
   </ItemGroup>
