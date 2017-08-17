@@ -58,7 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KeyboardAdapter.cs" />
+    <Compile Include="SfmlKeyboardAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SfmlInput.cs" />
     <Compile Include="SfmlTerminal.cs" />

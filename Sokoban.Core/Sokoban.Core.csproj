@@ -49,8 +49,10 @@
     <Compile Include="GameControl.cs" />
     <Compile Include="IColorProvider.cs" />
     <Compile Include="IGlyphProvider.cs" />
+    <Compile Include="ILevelFormat.cs" />
     <Compile Include="ILevelProvider.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="LevelCreator.cs" />
     <Compile Include="LevelControl.cs" />
     <Compile Include="LevelProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,6 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="roadmap.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

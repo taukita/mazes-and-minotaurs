@@ -1,6 +1,7 @@
 ﻿using System;
 using MazesAndMinotaurs.SfmlTarget;
 using MazesAndMinotaurs.Ui;
+using MazesAndMinotaurs.Ui.Adapters;
 using MazesAndMinotaurs.Ui.Controls;
 using MazesAndMinotaurs.Ui.Controls.Containers;
 using SFML.Graphics;
@@ -35,7 +36,7 @@ namespace MazesAndMinotaurs.Test
 			var terminal = new SfmlTerminal(renderWindow, font, CharacterSize, glyphWidth, glyphHeight);
 			var control = CreateRootControl(renderWindow);
 			control.IsFocused = true;
-			control.KeyboardAdapter = SfmlKeyboardAdapter.Instance;
+			control.KeyboardAdapter = new KeyboardAdapter();
 
 			renderWindow.KeyPressed += (s, e) => control.NotifyKeyboardInput(e.Code);
 
@@ -227,6 +228,54 @@ Press escape to return to page #1."
 			pages.Controls.Add(CreatePage4(renderWindow));
 
 			return pages;
+		}
+
+		private class KeyboardAdapter : IKeyboardAdapter<Keyboard.Key>
+		{
+			public bool IsKeyboardInput(Keyboard.Key input)
+			{
+				return true;
+			}
+
+			public bool IsUp(Keyboard.Key input)
+			{
+				return input == Keyboard.Key.Up;
+			}
+
+			public bool IsLeft(Keyboard.Key input)
+			{
+				return input == Keyboard.Key.Left;
+			}
+
+			public bool IsDown(Keyboard.Key input)
+			{
+				return input == Keyboard.Key.Down;
+			}
+
+			public bool IsRight(Keyboard.Key input)
+			{
+				return input == Keyboard.Key.Right;
+			}
+
+			public bool IsEnter(Keyboard.Key input)
+			{
+				return input == Keyboard.Key.Return;
+			}
+
+			public bool IsTab(Keyboard.Key input)
+			{
+				return input == Keyboard.Key.Tab;
+			}
+
+			public bool IsEscape(Keyboard.Key input)
+			{
+				return input == Keyboard.Key.Escape;
+			}
+
+			public bool IsBackspace(Keyboard.Key input)
+			{
+				return input == Keyboard.Key.BackSpace;
+			}
 		}
 	}
 }
