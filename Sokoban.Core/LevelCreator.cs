@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sokoban.Core
 {
@@ -33,22 +30,25 @@ namespace Sokoban.Core
 				foreach (var @char in line)
 				{
 					if (@char == _levelFormat.Wall)
-					{
 						level.Walls.Add(Tuple.Create(x, height));
-					}
 					else if (@char == _levelFormat.Target)
-					{
-						level.Targets.Add(Tuple.Create(x, height));
-					}
+						PlaceTarget(level, x, height);
 					else if (@char == _levelFormat.Crate)
-					{
-						level.Crates.Add(new Level.Crate { X = x, Y = height });
-					}
+						PlaceCrate(level, x, height);
 					else if (@char == _levelFormat.Player)
-					{
-						level.PlayerX = x;
-						level.PlayerY = height;
-					}
+						PlacePlayer(level, x, height);
+					var extendedLevelFormat = _levelFormat as IExtendedLevelFormat;
+					if (extendedLevelFormat != null)
+						if (@char == extendedLevelFormat.CrateOverTarget)
+						{
+							PlaceCrate(level, x, height);
+							PlaceTarget(level, x, height);
+						}
+						else if (@char == extendedLevelFormat.PlayerOverTarget)
+						{
+							PlacePlayer(level, x, height);
+							PlaceTarget(level, x, height);
+						}
 					x++;
 				}
 				height++;
@@ -61,7 +61,23 @@ namespace Sokoban.Core
 			return level;
 		}
 
-		private class LevelFormat : ILevelFormat
+		private static void PlaceCrate(Level level, int x, int y)
+		{
+			level.Crates.Add(new Level.Crate {X = x, Y = y});
+		}
+
+		private static void PlacePlayer(Level level, int x, int y)
+		{
+			level.PlayerX = x;
+			level.PlayerY = y;
+		}
+
+		private static void PlaceTarget(Level level, int x, int y)
+		{
+			level.Targets.Add(Tuple.Create(x, y));
+		}
+
+		internal class LevelFormat : ILevelFormat
 		{
 			public char Crate { get; } = '$';
 			public char Player { get; } = '@';
