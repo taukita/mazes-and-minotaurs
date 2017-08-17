@@ -80,6 +80,7 @@ namespace Sokoban.Core
 		internal class LevelFormat : ILevelFormat
 		{
 			public char Crate { get; } = '$';
+			public char Empty { get; } = '-';
 			public char Player { get; } = '@';
 			public char Target { get; } = '.';
 			public char Wall { get; } = '#';

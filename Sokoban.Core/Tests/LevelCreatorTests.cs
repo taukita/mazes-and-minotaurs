@@ -89,19 +89,5 @@ wwwww";
 			Assert.AreEqual(6, level.Width);
 			Assert.AreEqual(3, level.Height);
 		}
-
-		private class TestLevelFormat : ILevelFormat
-		{
-			public char Crate { get; } = 'c';
-			public char Player { get; } = 'p';
-			public char Target { get; } = 't';
-			public char Wall { get; } = 'w';
-		}
-
-		private class TestExtendedLevelFormat : TestLevelFormat, IExtendedLevelFormat
-		{
-			public char CrateOverTarget { get; } = 'C';
-			public char PlayerOverTarget { get; } = 'P';
-		}
 	}
 }

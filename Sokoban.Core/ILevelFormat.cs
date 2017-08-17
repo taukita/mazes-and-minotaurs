@@ -9,6 +9,7 @@ namespace Sokoban.Core
 	internal interface ILevelFormat
 	{
 		char Crate { get; }
+		char Empty { get; }
 		char Player { get; }
 		char Target { get; }
 		char Wall { get; }

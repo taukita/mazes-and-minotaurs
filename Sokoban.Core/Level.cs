@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 
 namespace Sokoban.Core
 {
@@ -145,6 +146,64 @@ namespace Sokoban.Core
 				var levelProvider = (ILevelProvider)Activator.CreateInstance(data.ProviderType);
 				return levelProvider.GetLevel(data.Index).Load(data);
 			}
+		}
+
+		public override string ToString()
+		{
+			return ToString(new LevelCreator.LevelFormat());
+		}
+
+		public string ToString(ILevelFormat format)
+		{
+			var data = new char[Height][];
+			for (var y = 0; y < Height; y++)
+			{
+				data[y] = new char[Width];
+			}
+
+			foreach (var target in Targets)
+			{
+				data[target.Item2][target.Item1] = format.Target;
+			}
+
+			foreach (var wall in Walls)
+			{
+				data[wall.Item2][wall.Item1] = format.Wall;
+			}
+
+			foreach (var crate in Crates)
+			{
+				if (data[crate.Y][crate.X] == format.Target)
+				{
+					var extendedFormat = format as IExtendedLevelFormat;
+					if (extendedFormat == null)
+						throw new InvalidOperationException("Cannot transform Level to string without extended format.");
+					data[crate.Y][crate.X] = extendedFormat.CrateOverTarget;
+				}
+				else
+				{
+					data[crate.Y][crate.X] = format.Crate;
+				}
+			}
+
+			if (data[PlayerY][PlayerX] == format.Target)
+			{
+				var extendedFormat = format as IExtendedLevelFormat;
+				if (extendedFormat == null)
+					throw new InvalidOperationException("Cannot transform Level to string without extended format.");
+				data[PlayerY][PlayerX] = extendedFormat.PlayerOverTarget;
+			}
+			else
+			{
+				data[PlayerY][PlayerX] = format.Player;
+			}
+
+			var sb = new StringBuilder((Width + Environment.NewLine.Length) * Height);
+			for (var y = 0; y < Height; y++)
+			{
+				sb.AppendLine(new string(data[y].Select(@char => @char == '\0' ? format.Empty : @char).ToArray()));
+			}
+			return sb.ToString().Trim();
 		}
 
 		[Serializable]
