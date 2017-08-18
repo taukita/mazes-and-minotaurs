@@ -52,5 +52,20 @@ wwwww-";
 			var level = new LevelCreator(new TestExtendedLevelFormat()).Create(input);
 			Assert.AreEqual(output, level.ToString(new TestExtendedLevelFormat()));
 		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void ExceptionTest()
+		{
+			const string input = @"
+######
+#.$@.#
+######";
+			var level = new LevelCreator().Create(input);
+			var moved = level.TryMoveLeft() && level.TryMoveRight() && level.TryMoveRight();
+			Assert.IsTrue(moved);
+			// ReSharper disable once UnusedVariable
+			var @string = level.ToString();
+		}
 	}
 }

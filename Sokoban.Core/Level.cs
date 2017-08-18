@@ -9,16 +9,10 @@ namespace Sokoban.Core
 {
 	internal class Level
 	{
-		public int Height { get; set; }
-		public int Width { get; set; }
-		public HashSet<Tuple<int, int>> Targets { get; } = new HashSet<Tuple<int, int>>();
-		public HashSet<Tuple<int, int>> Walls { get; } = new HashSet<Tuple<int, int>>();
-		public List<Crate> Crates { get; } = new List<Crate>();
-		public int PlayerX { get; set; }
-		public int PlayerY { get; set; }
-		public int Index { get; set; }
-		public Type ProviderType { get; set; }
 		private readonly Stack<Step> _steps = new Stack<Step>();
+		public List<Crate> Crates { get; } = new List<Crate>();
+		public int Height { get; set; }
+		public int Index { get; set; }
 
 		public bool IsCompleted
 		{
@@ -31,14 +25,87 @@ namespace Sokoban.Core
 			}
 		}
 
-		public bool TryMoveUp()
+		public int PlayerX { get; set; }
+		public int PlayerY { get; set; }
+		public Type ProviderType { get; set; }
+		public HashSet<Tuple<int, int>> Targets { get; } = new HashSet<Tuple<int, int>>();
+		public HashSet<Tuple<int, int>> Walls { get; } = new HashSet<Tuple<int, int>>();
+		public int Width { get; set; }
+
+		public static Level Load(string filename)
 		{
-			return TryMove(0, -1);
+			using (var stream = File.Open(filename, FileMode.Open))
+			{
+				var formatter = new BinaryFormatter();
+				var data = (LevelData) formatter.Deserialize(stream);
+				var levelProvider = (ILevelProvider) Activator.CreateInstance(data.ProviderType);
+				return levelProvider.GetLevel(data.Index).Load(data);
+			}
 		}
 
-		public bool TryMoveLeft()
+		public void Save(string filename)
 		{
-			return TryMove(-1, 0);
+			using (var stream = File.Open(filename, FileMode.Create))
+			{
+				var formatter = new BinaryFormatter();
+				var data = new LevelData
+				{
+					Crates = Crates,
+					Index = Index,
+					PlayerX = PlayerX,
+					PlayerY = PlayerY,
+					ProviderType = ProviderType
+				};
+				formatter.Serialize(stream, data);
+			}
+		}
+
+		public override string ToString()
+		{
+			return ToString(new LevelCreator.LevelFormat());
+		}
+
+		public string ToString(ILevelFormat format)
+		{
+			var data = new char[Height][];
+			for (var y = 0; y < Height; y++)
+				data[y] = new char[Width];
+
+			foreach (var target in Targets)
+				data[target.Item2][target.Item1] = format.Target;
+
+			foreach (var wall in Walls)
+				data[wall.Item2][wall.Item1] = format.Wall;
+
+			foreach (var crate in Crates)
+				if (data[crate.Y][crate.X] == format.Target)
+				{
+					var extendedFormat = format as IExtendedLevelFormat;
+					if (extendedFormat == null)
+						throw new InvalidOperationException("Cannot transform Level to string without extended format.");
+					data[crate.Y][crate.X] = extendedFormat.CrateOverTarget;
+				}
+				else
+				{
+					data[crate.Y][crate.X] = format.Crate;
+				}
+
+			if (data[PlayerY][PlayerX] == format.Target)
+			{
+				var extendedFormat = format as IExtendedLevelFormat;
+				if (extendedFormat == null)
+					throw new InvalidOperationException("Cannot transform Level to string without extended format.");
+				data[PlayerY][PlayerX] = extendedFormat.PlayerOverTarget;
+			}
+			else
+			{
+				data[PlayerY][PlayerX] = format.Player;
+			}
+
+			var sb = new StringBuilder((Width + Environment.NewLine.Length) * Height);
+			for (var y = 0; y < Height; y++)
+				sb.AppendLine(new string(data[y].Select(@char => @char == '\0' ? format.Empty : @char).ToArray()));
+			return sb.ToString().Trim();
 		}
 
 		public bool TryMoveDown()
@@ -46,9 +113,19 @@ namespace Sokoban.Core
 			return TryMove(0, 1);
 		}
 
+		public bool TryMoveLeft()
+		{
+			return TryMove(-1, 0);
+		}
+
 		public bool TryMoveRight()
 		{
 			return TryMove(1, 0);
+		}
+
+		public bool TryMoveUp()
+		{
+			return TryMove(0, -1);
 		}
 
 		public bool Undo()
@@ -68,6 +145,15 @@ namespace Sokoban.Core
 			return false;
 		}
 
+		private Level Load(LevelData data)
+		{
+			Crates.Clear();
+			Crates.AddRange(data.Crates);
+			PlayerX = data.PlayerX;
+			PlayerY = data.PlayerY;
+			return this;
+		}
+
 		private bool TryMove(int dx, int dy)
 		{
 			//preconditions
@@ -80,11 +166,15 @@ namespace Sokoban.Core
 
 			var x = PlayerX + dx;
 			var y = PlayerY + dy;
-			var step = new Step();
+
+			if (x < 0 || x >= Width || y < 0 || y >= Height)
+				return false;
 
 			//Wall
 			if (Walls.Any(wall => wall.Item1 == x && wall.Item2 == y))
 				return false;
+
+			var step = new Step();
 
 			//Crate
 			var crate = Crates.FirstOrDefault(c => c.X == x && c.Y == y);
@@ -111,101 +201,6 @@ namespace Sokoban.Core
 			return true;
 		}
 
-		public void Save(string filename)
-		{
-			using (var stream = File.Open(filename, FileMode.Create))
-			{
-				var formatter = new BinaryFormatter();
-				var data = new LevelData
-					{
-						Crates = Crates,
-						Index = Index,
-						PlayerX = PlayerX,
-						PlayerY = PlayerY,
-						ProviderType = ProviderType
-					};
-				formatter.Serialize(stream, data);
-			}
-		}
-
-		private Level Load(LevelData data)
-		{
-			Crates.Clear();
-			Crates.AddRange(data.Crates);
-			PlayerX = data.PlayerX;
-			PlayerY = data.PlayerY;
-			return this;
-		}
-
-		public static Level Load(string filename)
-		{
-			using (var stream = File.Open(filename, FileMode.Open))
-			{
-				var formatter = new BinaryFormatter();
-				var data = (LevelData) formatter.Deserialize(stream);
-				var levelProvider = (ILevelProvider)Activator.CreateInstance(data.ProviderType);
-				return levelProvider.GetLevel(data.Index).Load(data);
-			}
-		}
-
-		public override string ToString()
-		{
-			return ToString(new LevelCreator.LevelFormat());
-		}
-
-		public string ToString(ILevelFormat format)
-		{
-			var data = new char[Height][];
-			for (var y = 0; y < Height; y++)
-			{
-				data[y] = new char[Width];
-			}
-
-			foreach (var target in Targets)
-			{
-				data[target.Item2][target.Item1] = format.Target;
-			}
-
-			foreach (var wall in Walls)
-			{
-				data[wall.Item2][wall.Item1] = format.Wall;
-			}
-
-			foreach (var crate in Crates)
-			{
-				if (data[crate.Y][crate.X] == format.Target)
-				{
-					var extendedFormat = format as IExtendedLevelFormat;
-					if (extendedFormat == null)
-						throw new InvalidOperationException("Cannot transform Level to string without extended format.");
-					data[crate.Y][crate.X] = extendedFormat.CrateOverTarget;
-				}
-				else
-				{
-					data[crate.Y][crate.X] = format.Crate;
-				}
-			}
-
-			if (data[PlayerY][PlayerX] == format.Target)
-			{
-				var extendedFormat = format as IExtendedLevelFormat;
-				if (extendedFormat == null)
-					throw new InvalidOperationException("Cannot transform Level to string without extended format.");
-				data[PlayerY][PlayerX] = extendedFormat.PlayerOverTarget;
-			}
-			else
-			{
-				data[PlayerY][PlayerX] = format.Player;
-			}
-
-			var sb = new StringBuilder((Width + Environment.NewLine.Length) * Height);
-			for (var y = 0; y < Height; y++)
-			{
-				sb.AppendLine(new string(data[y].Select(@char => @char == '\0' ? format.Empty : @char).ToArray()));
-			}
-			return sb.ToString().Trim();
-		}
-
 		[Serializable]
 		public class Crate
 		{
@@ -225,11 +220,11 @@ namespace Sokoban.Core
 
 		private class Step
 		{
-			public int OldPlayerX;
-			public int OldPlayerY;
 			public Crate Crate;
 			public int OldCrateX;
 			public int OldCrateY;
+			public int OldPlayerX;
+			public int OldPlayerY;
 		}
 	}
 }

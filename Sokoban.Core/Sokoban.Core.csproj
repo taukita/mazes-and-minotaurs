@@ -67,6 +67,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="TerminalWithOffset.cs" />
+    <Compile Include="Tests\CompleteTests.cs" />
     <Compile Include="Tests\LevelCreatorTests.cs" />
     <Compile Include="Tests\LevelToStringTests.cs" />
     <Compile Include="Tests\MovementTests.cs" />

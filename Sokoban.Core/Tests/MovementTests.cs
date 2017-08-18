@@ -56,6 +56,7 @@ namespace Sokoban.Core.Tests
 			NoMovement(levelData);
 		}
 
+		[Test]
 		public void CratesShouldBeMovable()
 		{
 			const string step0 = @"-###-
@@ -76,6 +77,17 @@ namespace Sokoban.Core.Tests
 			var level = new LevelCreator().Create(step0);
 			TestStep(level, level.TryMoveLeft, step1);
 			TestStep(level, level.TryMoveUp, step2);
+		}
+
+		[Test]
+		public void LevelBordersShouldBeImpassable()
+		{
+			const string input = "@";
+			var level = new LevelCreator().Create(input);
+			Assert.AreEqual(1, level.Width);
+			Assert.AreEqual(1, level.Height);
+			var moved = level.TryMoveLeft() || level.TryMoveDown() || level.TryMoveRight() || level.TryMoveUp();
+			Assert.IsFalse(moved);
 		}
 
 		private static void NoMovement(string levelData)
