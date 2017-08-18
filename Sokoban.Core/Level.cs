@@ -108,6 +108,11 @@ namespace Sokoban.Core
 			return sb.ToString().Trim();
 		}
 
+		public bool TryLurd(string lurd)
+		{
+			return new Lurd(lurd).TryOn(this);
+		}
+
 		public bool TryMoveDown()
 		{
 			return TryMove(0, 1);
