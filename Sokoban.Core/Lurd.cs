@@ -19,6 +19,25 @@ namespace Sokoban.Core
 			_lurd = lurd;
 		}
 
+		public static IEnumerable<Lurd> All(int length)
+		{
+			var count = (int) Math.Pow(4, length);
+			for (var y = 0; y < count; y++)
+			{
+				var sb = new StringBuilder(length);
+				for (var x = 0; x < length; x++)
+				{
+					sb.Append(F(x, y, length - 1));
+				}
+				yield return new Lurd(sb.ToString());
+			}
+		}
+
+		public override string ToString()
+		{
+			return _lurd;
+		}
+
 		public bool TryOn(Level level)
 		{
 			var steps = 0;
@@ -58,6 +77,12 @@ namespace Sokoban.Core
 			}
 
 			return moved;
+		}
+
+		internal static char F(int x, int y, int mx)
+		{
+			var d = (int) Math.Pow(4, mx - x);
+			return "lurd"[y/d%4];
 		}
 	}
 }

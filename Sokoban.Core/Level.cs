@@ -43,6 +43,31 @@ namespace Sokoban.Core
 			}
 		}
 
+		public string GetLurd()
+		{
+			var sb = new StringBuilder(_steps.Count);
+			var x = PlayerX;
+			var y = PlayerY;
+			foreach (var step in _steps)
+			{
+				var dx = x - step.OldPlayerX;
+				var dy = y - step.OldPlayerY;
+
+				if (dx == 1)
+					sb.Insert(0, 'r');
+				else if (dx == -1)
+					sb.Insert(0, 'l');
+				else if (dy == 1)
+					sb.Insert(0, 'd');
+				else if (dy == -1)
+					sb.Insert(0, 'u');
+
+				x = step.OldPlayerX;
+				y = step.OldPlayerY;
+			}
+			return sb.ToString();
+		}
+
 		public void Save(string filename)
 		{
 			using (var stream = File.Open(filename, FileMode.Create))
