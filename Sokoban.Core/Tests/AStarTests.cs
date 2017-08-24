@@ -36,10 +36,44 @@ namespace Sokoban.Core.Tests
 #---*****#
 ##########";
 			var level = new LevelCreator().Create(levelData);
-			var aStar = new AStar<Tuple<int, int>>(
-				new TestNeighborsProvider(level),
-				new TestDistanceBetweenProvider(),
-				new TestHeuristicCostEstimateProvider());
+			var aStar = new AStarBuilder<Tuple<int, int>>().Neighbors(new TestNeighborsProvider(level)).Build();
+			var path = aStar.Search(Tuple.Create(level.PlayerX, level.PlayerY), level.Targets.Single());
+			Assert.NotNull(path);
+			var result = Draw(level, path);
+			Assert.AreEqual(pathData.Trim(), result);
+		}
+
+		[Test]
+		public void ShouldPreferHorizontalMovement()
+		{
+			const string levelData = @"
+##########
+#-------.#
+#-######-#
+#------#-#
+#------#-#
+#---@--#-#
+#------#-#
+#------#-#
+#--------#
+##########";
+
+			const string pathData = @"
+##########
+#********#
+#*######-#
+#*-----#-#
+#****--#-#
+#---*--#-#
+#------#-#
+#------#-#
+#--------#
+##########";
+			var level = new LevelCreator().Create(levelData);
+			var aStar = new AStarBuilder<Tuple<int, int>>()
+				.Distance((f, s) => f.Item1 != s.Item1 ? 1 : 1.1)
+				.Neighbors(new TestNeighborsProvider(level))
+				.Build();
 			var path = aStar.Search(Tuple.Create(level.PlayerX, level.PlayerY), level.Targets.Single());
 			Assert.NotNull(path);
 			var result = Draw(level, path);
@@ -57,24 +91,6 @@ namespace Sokoban.Core.Tests
 			foreach (var step in path)
 				terminal.Draw(step.Item1, step.Item2, '*');
 			return terminal.ToString();
-		}
-
-		private class TestHeuristicCostEstimateProvider : IDistanceProvider<Tuple<int, int>>
-		{
-			public double Get(Tuple<int, int> first, Tuple<int, int> second)
-			{
-				var dx = first.Item1 - second.Item1;
-				var dy = first.Item2 - second.Item2;
-				return Math.Sqrt(dx * dx + dy * dy);
-			}
-		}
-
-		private class TestDistanceBetweenProvider : IDistanceProvider<Tuple<int, int>>
-		{
-			public double Get(Tuple<int, int> first, Tuple<int, int> second)
-			{
-				return 1;
-			}
 		}
 
 		private class TestNeighborsProvider : INeighborsProvider<Tuple<int, int>>

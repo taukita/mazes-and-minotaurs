@@ -10,7 +10,7 @@ namespace MazesAndMinotaurs.Core.Pathfinding
 		private readonly IDistanceProvider<T> _heuristicCostEstimateProvider;
 		private readonly INeighborsProvider<T> _neighborsProvider;
 
-		public AStar(INeighborsProvider<T> neighborsProvider, IDistanceProvider<T> distanceBetweenProvider,
+		internal AStar(INeighborsProvider<T> neighborsProvider, IDistanceProvider<T> distanceBetweenProvider,
 			IDistanceProvider<T> heuristicCostEstimateProvider)
 		{
 			_heuristicCostEstimateProvider = heuristicCostEstimateProvider;
