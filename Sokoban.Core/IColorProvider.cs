@@ -4,6 +4,7 @@ namespace Sokoban.Core
 {
 	public interface IColorProvider<T>
 	{
+		ColorTheme<T> MainMenuBorderColorTheme { get; }
 		ColorTheme<T> MainMenuColorTheme { get; }
 		ColorTheme<T> SokobanLabelColorTheme { get; }
 

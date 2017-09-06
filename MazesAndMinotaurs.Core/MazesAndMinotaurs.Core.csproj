@@ -53,6 +53,10 @@
     <Compile Include="IGenerator.cs" />
     <Compile Include="INotifyPropertyChangedExtended.cs" />
     <Compile Include="ITerminal.cs" />
+    <Compile Include="Pathfinding\AStar.cs" />
+    <Compile Include="Pathfinding\AStarBuilder.cs" />
+    <Compile Include="Pathfinding\IDistanceProvider.cs" />
+    <Compile Include="Pathfinding\INeighborsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyChangedExtendedEventArgs.cs" />
     <Compile Include="RacketMazeGenerator\Corridor.cs" />

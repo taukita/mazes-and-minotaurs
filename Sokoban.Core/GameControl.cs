@@ -230,7 +230,8 @@ namespace Sokoban.Core
 			return new Menu<TGlyph, TColor, TKey>
 			{
 				EllipsisGlyph = _glyphProvider.EllipsisGlyph,
-				SelectionGlyph = _glyphProvider.SelectionGlyph
+				SelectionGlyph = _glyphProvider.SelectionGlyph,
+				ColorTheme = _colorProvider.MainMenuColorTheme
 			};
 		}
 
@@ -239,11 +240,12 @@ namespace Sokoban.Core
 			var border = new Border<TGlyph, TColor, TKey>
 			{
 				BorderTheme = _glyphProvider.MainMenuBorderTheme,
-				ColorTheme = _colorProvider.MainMenuColorTheme,
+				ColorTheme = _colorProvider.MainMenuBorderColorTheme,
 				Width = width,
 				Height = height,
 				Title = _glyphProvider.FromString(title),
-				Ellipsis = _glyphProvider.EllipsisGlyph
+				Ellipsis = _glyphProvider.EllipsisGlyph,
+				OverrideThemes = false
 			};
 			foreach (var control in controls)
 			{

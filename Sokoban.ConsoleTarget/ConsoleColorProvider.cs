@@ -8,7 +8,8 @@ namespace Sokoban.ConsoleTarget
 	{
 		public ConsoleColorProvider()
 		{
-			MainMenuColorTheme = new ColorTheme<ConsoleColor>(ConsoleColor.White, ConsoleColor.DarkYellow);
+			MainMenuBorderColorTheme = new ColorTheme<ConsoleColor>(ConsoleColor.White, ConsoleColor.DarkYellow);
+			MainMenuColorTheme = new ColorTheme<ConsoleColor>(ConsoleColor.White, ConsoleColor.Black);
 			SokobanLabelColorTheme = new ColorTheme<ConsoleColor>(ConsoleColor.Red, ConsoleColor.Black);
 
 			CrateForeground = ConsoleColor.DarkYellow;
@@ -24,6 +25,7 @@ namespace Sokoban.ConsoleTarget
 			PlayerBackground = ConsoleColor.Black;
 		}
 
+		public ColorTheme<ConsoleColor> MainMenuBorderColorTheme { get; }
 		public ColorTheme<ConsoleColor> MainMenuColorTheme { get; }
 		public ColorTheme<ConsoleColor> SokobanLabelColorTheme { get; }
 		public ConsoleColor CrateForeground { get; }

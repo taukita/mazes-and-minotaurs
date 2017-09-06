@@ -9,6 +9,11 @@ namespace MazesAndMinotaurs.ConsoleTarget
 {
 	public class KeyboardAdapter : IKeyboardAdapter<ConsoleKey>
 	{
+		public bool IsKeyboardInput(ConsoleKey input)
+		{
+			return true;
+		}
+
 		public bool IsUp(ConsoleKey input)
 		{
 			return input == ConsoleKey.UpArrow;
