@@ -59,6 +59,8 @@
     <Compile Include="Pathfinding\INeighborsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyChangedExtendedEventArgs.cs" />
+    <Compile Include="Pseudotime\TimeAwareObject.cs" />
+    <Compile Include="Pseudotime\Speed.cs" />
     <Compile Include="RacketMazeGenerator\Corridor.cs" />
     <Compile Include="RacketMazeGenerator\Generator.cs" />
     <Compile Include="RacketMazeGenerator\Maze.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="TerminalExtensions.cs" />
     <Compile Include="Tests\CoreExtensionsTests.cs" />
     <Compile Include="Tests\SmartCollectionTests.cs" />
+    <Compile Include="Tests\PseudotimeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
